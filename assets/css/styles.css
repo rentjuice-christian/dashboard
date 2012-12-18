@@ -1,0 +1,151 @@
+/* 
+	Description: CSS Styles for the Rentjuice - AD Center
+*/
+
+/* ---------- Global Declarations -------------*/
+
+body{
+	background-color:#EBF3FF;
+	background-image:url(../images/background.gif);
+	background-repeat:repeat;
+	margin:0;
+	font: 12px/1.5 Helvetica,Arial,'Liberation Sans',FreeSans,sans-serif;
+    height: 100%;
+    min-width: 960px;
+}
+a, .link {
+    color: #2B91D9;
+    cursor: pointer;
+    text-decoration: none;
+}
+a img{ border:0; }
+ul {
+	margin:0;
+	padding:0;
+}
+li{ margin-left:0;}
+h3 {
+    background: url("http://d3sws8xa5usqva.cloudfront.net/images/section-title-bg.png") repeat-x scroll center center transparent;
+    font-size: 21px;
+    margin: 10px 0 0;
+    position: relative;
+}
+h3 span {
+    background-color: #F7F5F0;
+    color: #D96C00;
+    padding-right: 5px;
+}
+
+/* --------- Structure Declarations -----------*/
+
+.header_wrapper{ 
+	background-color:#EBF3FF; 
+	border-bottom:1px solid #D2E6FF; 
+	padding: 5px; 
+	position:relative; 
+}
+.centered{ margin:0 auto; width:1002px; }
+.body-wrapper {
+    padding: 30px 0 0;
+    z-index: 0;
+}
+	.main_content_temp{ min-height:400px; z-index:0; }
+	.main_content{ width:710px; z-index:0; }
+	.welcome{ text-align:center; min-height:500px; }
+		.welcome img{ margin-top:80px; }
+	
+	.column480{ width:480px; }
+	
+	#container{ border:1px solid #cccccc; z-index:0; }
+	.content_noavail{
+		min-width: 400px; 
+		height: 250px; 
+		margin: 0 auto; 
+		text-align:center; 
+		padding-top:150px; 
+		font-size:24px; 
+		font-weight:bold; 
+		border:1px solid #cccccc;
+	}
+	.ui-autocomplete{ height:250px; overflow-x:auto; }
+	
+	.sidebar_content{ width:230px; z-index:0; }
+		.sidebar_content h3 { font-size: 1.2em;	margin-top: 13px; }
+		.sidebar_content .colored-box li {
+			clear: both;
+			display: block;
+			list-style: none outside none;
+			position: relative;
+			width: 100%;
+		}
+		.sidebar_content .colored-box li span {
+			color: #999999;
+			display: block;
+			float: right;
+			text-align: right;
+		}
+	.colored-box {
+		background-color: #FEFDF9;
+		border: 4px solid #F0ECE4;
+		border-radius: 12px 12px 12px 12px;
+		margin-bottom: 20px;
+		padding: 10px 16px;
+	}
+	/* Manual Merges Grid */
+	.manualmerges_holder{/*border:1px solid #cccccc;*/ margin:0 auto; width:800px; }
+		.manualmerges_holder a:hover{ color:#333333; text-decoration:underline; }
+		.manualmerges_holder .even, .dataTable .even{  border-bottom:1px solid #e0e0e0;  border-top:1px solid #e0e0e0; background-color:#f1f1f1; }
+		.dataTables_empty{ border-left:1px solid #cccccc;border-right:1px solid #cccccc; }
+		.syncTable .even{ background-color:#e6f5fe; }
+		.dataTable .even:hover{ background-color:#f1f1f1; } 
+		.dataTable .odd:hover{ background-color:#eeeeee; } 
+		
+	.manualmerges_title{   color: #3E576F; font-family: "Lucida Grande","Lucida Sans Unicode",Verdana,Arial,Helvetica,sans-serif; font-size: 16px; margin-bottom:30px; }
+	.title2{ 
+		font-family: "Lucida Grande","Lucida Sans Unicode",Verdana,Arial,Helvetica,sans-serif; 
+		font-size: 14px; 
+		margin-bottom:10px; 
+	}
+	
+	.show_query{ margin-top:10px; }
+	.form_select{ margin-bottom:15px; }
+	
+.highcharts-legend{ z-index:1; }
+
+.report_run{ font-size:10px; text-align:right; color:#999999; padding:5px 0 30px; }
+	
+.footer-wrapper {
+    background-color:#EBF3FF; 
+	border-top:1px solid #D2E6FF;
+	color:#666666;
+    padding: 10px 0;
+    z-index: 1;
+}
+
+.align_center{ text-align:center; }
+.align_left{ text-align:left; }
+.align_right{ text-align:right; }
+
+.font18{ font-size:18px; }
+.font24{ font-size:24px; }
+
+.bold{ font-weight:bold; }
+
+.left{ float:left; }
+.right{ float: right; }
+.clear{ clear:both; }
+
+.group:after { content: "\00A0"; display: block; clear: both; visibility: hidden; line-height: 0; height: 0;}  
+.group{ display: inline-block;}  
+html[xmlns] .group { display: block;}  
+* html .group{ height: 1%;}  
+.group {display: block}  
+
+.align_center{ text-align:center; }
+.align_left{ text-align:left; }
+.align_right{ text-align:right; }
+
+
+
+/* -------- Typography Declarations -----------*/
+
