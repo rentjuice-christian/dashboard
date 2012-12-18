@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Rentjuice - Dashboard</title>
+<title> Rentjuice - Dashboard </title>
 <link type="text/css" href="assets/css/mega_menu.css" rel="stylesheet" />
 <link type="text/css" href="assets/css/styles.css" rel="stylesheet" />
 <link type="text/css" href="assets/css/colorbox.css" rel="stylesheet" />
@@ -18,8 +18,6 @@
 <script type="text/javascript" src="assets/js/jquery.qtip-1.0.0-rc3.min.js"></script>
 <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
 <script>
-
-
 	jQuery(document).ready(function(){
 	
 		jQuery(".inline").colorbox({inline:true, width:"80%", height:"80%"});
@@ -65,7 +63,6 @@
 	  }
 	  return x1 + x2;
 	}
-
 </script>
 <style>
 	.spinner {
