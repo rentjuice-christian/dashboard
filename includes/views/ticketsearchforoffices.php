@@ -29,21 +29,17 @@ else{
 	$date2 = "alltime"; 
 }
 
-if($date != "alltime"){ 
-	$strQuery = "AND DATE_ADD(ca.created_at, INTERVAL ".$date.") >= SYSDATE()"; 
-}
-else{ 
-	$strQuery =""; 
-}
-
+?>
+<?php
+	/*echo"<pre>";
+		print_r($sub_barcontent);
+	echo"</pre>";*/
+	
 ?>
 
 <div class="body-wrapper">
 		<div class="centered">
-			<div class="main_content_temp">
-
-
-<div>
+			
 	<div class="align_center">
 		<div class="manualmerges_title">Ticket Search for Offices</div>
 	</div>
@@ -169,9 +165,12 @@ else{
 <table cellpadding="0" cellspacing="0" border="0" class="display" id="example" width="100%">
 	<thead>
 		<tr>
-			<th><div class="bold">Days</div></th>
-			<th><div class="bold">User Name</div></th>
-			<th><div class="bold">Subject</div></th>
+			<th style="width:11%;"><div class="bold">Days</div></th>
+			<th style="width:8%;"><div class="bold">Channel</div></th>
+			<th style="width:14%;"><div class="bold">Super Tag</div></th>
+			<th style="width:17%;"><div class="bold">User Name</div></th>
+			<th style="width:39%;"><div class="bold">Subject</div></th>
+			<th style="width:14%;"><div class="bold">Handle Time</div></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -188,23 +187,35 @@ else{
 
 				?>
 					<tr class="<?php echo $class; ?>">
-						<td class="center" style="border-left:1px solid #cccccc; width:20%;">
+						<td  style="border-left:1px solid #cccccc;">
 							<?php echo $value->days_since; ?> Days ago
 						</td>
-						<td  class="center" style="border-left:1px solid #cccccc;border-right:1px solid #cccccc;width:20%; ">
+						<td  style="border-left:1px solid #cccccc;border-right:1px solid #cccccc;">
+							<?php 
+								if(!empty($value->channel)){
+									echo $value->channel; 
+								}
+							?>
+						</td>
+						<td  style="border-left:1px solid #cccccc;border-right:1px solid #cccccc;">
+							<?php 
+								if(!empty($value->super_tag)){
+									echo $value->super_tag; 
+								}
+							?>
+						</td>
+						<td  style="border-left:1px solid #cccccc;border-right:1px solid #cccccc;">
 							<?php 
 								if(!empty($value->username)){
 									?>
 									<a href="http://radmin.rentjuice.com/user:<?php echo $value->user_id;  ?>" target="_blank">
-										<?php
-											echo $value->username; 
-										?>
+										<?php echo $value->username; ?>
 									</a>
 									<?php
 								}
 							?>
 						</td>
-						<td class="center" style="border-left:1px solid #cccccc;border-right:1px solid #cccccc;width:60%; ">
+						<td style="border-left:1px solid #cccccc;border-right:1px solid #cccccc; ">
 							<?php 
 								if(!empty($value->subject)){
 									?>
@@ -222,6 +233,33 @@ else{
 							?>
 						<?php //echo html_entity_decode($value->preview);  ?>	
 						</td>
+						<td  style="border-left:1px solid #cccccc;border-right:1px solid #cccccc;">
+							<?php 
+								if(!empty($value->handle_time_total)){
+									//echo number_format($value->handle_time_total); 
+									if($value->handle_time_total < 60){
+										echo $value->handle_time_total." minutes"; 
+									}
+									else if($value->handle_time_total < 1440){
+										if(floor($value->handle_time_total/60) == 1){
+											echo floor($value->handle_time_total/60)." hour";
+										}
+										else{
+											echo floor($value->handle_time_total/60)." hours";
+										}
+									}
+									else if($value->handle_time_total > 1440){
+										if(floor($value->handle_time_total/1440) == 1){
+											echo floor($value->handle_time_total/1440)." day";
+										}
+										else{
+											echo floor($value->handle_time_total/1440)." days";
+										}
+									}
+									
+								}
+							?>
+						</td>
 					</tr>
 				<?php
 				}
@@ -230,11 +268,14 @@ else{
 		?>
 
 	</tbody>
-	<tfoot>
+	
 </table>
 <div class="align_right show_query">
 	<a class='inline' href="#inline_content"><img src="assets/images/show_query.png" alt="show query" /></a>
 </div>
+
+
+
 <div style="display:none">
 	<div id='inline_content' style='padding:10px; background:#fff;'>
 <pre>
@@ -244,39 +285,50 @@ Select Query for the Office Ticket Count Drop Down
 
 SELECT o.name, COUNT(*) ticket_count
   FROM janak.assistly_cases ca, janak.assistly_customers cu, rentjuice.users u, rentjuice.offices o
-WHERE ca.customer_id = cu.id
-AND cu.custom_user_id = u.id
-AND u.office_id = o.id
-<?php echo $strQuery; ?>
-GROUP BY 1
-ORDER BY 1
+ WHERE ca.customer_id = cu.id
+   AND cu.custom_user_id = u.id
+   AND u.office_id = o.id
+<?php
+if($date != "alltime"){ 
+?>
+   AND DATE_ADD(ca.created_at, INTERVAL <?php echo $date; ?>) >= SYSDATE()
+<?php
+}
+?>
+ GROUP BY 1
+ ORDER BY 1
 
 -----------------------------------------------------------------------------
 Select Query for the Office Ticket Count
 -----------------------------------------------------------------------------
 
-SELECT o.name, 
-   ca.id ticket_id, 
-   DATEDIFF(SYSDATE(),created_at) days_since, 
-   ca.subject, 
-   u.id user_id,
-   CONCAT(u.first_name,' ',u.last_name) username
-FROM janak.assistly_cases ca, janak.assistly_customers cu, rentjuice.users u, rentjuice.offices o
-WHERE ca.customer_id = cu.id
-AND cu.custom_user_id = u.id
-AND u.office_id = o.id
-AND o.name = '<?php echo $url; ?>'
-<?php echo $strQuery; ?>
-ORDER BY ca.created_at DESC
-
+SELECT o.name,
+       ca.id ticket_id,
+       DATEDIFF(SYSDATE(),created_at) days_since,
+       ca.subject,
+       u.id user_id,
+       CONCAT(u.first_name,' ',u.last_name) username
+       ca.preview,
+       channel,
+       ca.super_tag,
+       TIMESTAMPDIFF(MINUTE,first_opened_at,resolved_at) handle_time_total
+  FROM janak.assistly_cases ca, janak.assistly_customers cu, rentjuice.users u, rentjuice.offices
+ WHERE ca.customer_id = cu.id
+   AND cu.custom_user_id = u.id
+   AND u.office_id = o.id
+   AND o.name = '<?php echo $url; ?>'
+<?php
+if($date != "alltime"){ 
+?>
+    AND DATE_ADD(ca.created_at, INTERVAL <?php echo $date; ?>) >= SYSDATE()
+<?php
+}
+?>
+ ORDER BY ca.created_at DESC
 </pre>
 	</div>
 </div>
-
 		
-</div><!-- manual merges holder -->
-
-			</div>		
 		</div>
 </div>
 <?php 

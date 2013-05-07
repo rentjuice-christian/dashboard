@@ -122,7 +122,7 @@ $(function () {
 					
 							$getValue = $barcontent;
 							$countData = count($getValue);
-							if($getValue != 0){
+							if($countData != 0){
 								$i = 0;
 								foreach($getValue as $value){
 									$i = $i + 1;
@@ -183,7 +183,7 @@ SELECT h AS the_hour,
   FROM
        (SELECT id, DATE_FORMAT(DATE_SUB(NOW(), INTERVAL id HOUR), "%Y-%m-%d %H:00:00") AS h
           FROM dataentry.threads
-         WHERE id <= <= <?php echo $hoursPost; ?> 
+         WHERE id <= <?php echo $hoursPost; ?> 
          ORDER BY id) AS hours
         
         LEFT OUTER JOIN (       
@@ -198,12 +198,13 @@ SELECT h AS the_hour,
                   ON ts2.thread_id = t.id
                   AND ts2.id = (SELECT id FROM dataentry.thread_sessions WHERE thread_id = t.id ORDER BY id ASC LIMIT  1, 1)
          WHERE deleted = 0
-           AND t.created_on > DATE_SUB(NOW(), INTERVAL <= <?php echo $hoursPost; ?> HOUR)
+           AND t.created_on > DATE_SUB(NOW(), INTERVAL <?php echo $hoursPost; ?> HOUR)
          GROUP BY t.id
          ) AS ts
          ON hours.h > ts.de_qa_started AND (hours.h < ts.de_qa_finished OR ts.de_qa_finished IS NULL)
  GROUP BY hours.h
  ORDER BY hours.h DESC
+
 </pre>
 
 </div>

@@ -209,28 +209,49 @@ $(function () {
 	else{ $timeFrame2 = "14"; }
 ?>
 <pre>
-SELECT
-    DATE(t.applied_on) AS day_completed ,
-    r.name AS region_name ,
-    COUNT(l.id) AS total_listings ,
-    AVG(TIMESTAMPDIFF(HOUR , t.created_on , t.applied_on)) AS hour_turn_around
-FROM rentjuice.offices o
-INNER JOIN rentjuice.regions r ON o.region_id = r.id
-INNER JOIN dataentry.threads t ON o.id = t.office_id
-    AND t.completed = 1
-    AND t.deleted = 0
-    AND t.completed_reason IS NULL
-    <?php if($timeFrame2 !="alltime"){ ?>AND DATE(t.applied_on) >= DATE_SUB(CURDATE() , INTERVAL <?php echo $timeFrame2; ?> DAY)<?php } ?> 
-        INNER JOIN(SELECT MAX( id ) AS session_id , thread_id
-        FROM dataentry.thread_sessions ts
-        GROUP BY thread_id) AS max_sessions
-        ON max_sessions.thread_id = t.id INNER JOIN dataentry.updates l
-        ON l.session_id = max_sessions.session_id
-WHERE o.dataentry = 1
-GROUP BY o.region_id , MONTH(t.applied_on), DAY(t.applied_on)
-ORDER BY
-    MONTH( t.applied_on ) DESC ,
-    DAY(t.applied_on) DESC , o.region_id ASC
+ <?php if($timeFrame2 !="alltime"){ ?>
+SELECT DATE(t.applied_on) AS day_completed ,
+       r.name AS region_name ,
+       COUNT(l.id) AS total_listings ,
+       AVG(TIMESTAMPDIFF(HOUR , t.created_on , t.applied_on)) AS hour_turn_around
+  FROM rentjuice.offices o
+       INNER JOIN rentjuice.regions r ON o.region_id = r.id
+       INNER JOIN dataentry.threads t ON o.id = t.office_id
+         AND t.completed = 1
+         AND t.deleted = 0
+         AND t.completed_reason IS NULL
+         AND DATE(t.applied_on) >= DATE_SUB(CURDATE() , INTERVAL <?php echo $timeFrame2; ?> DAY)
+       INNER JOIN(SELECT MAX( id ) AS session_id , thread_id
+                    FROM dataentry.thread_sessions ts
+                   GROUP BY thread_id) AS max_sessions
+          ON max_sessions.thread_id = t.id INNER JOIN dataentry.updates l
+          ON l.session_id = max_sessions.session_id
+ WHERE o.dataentry = 1
+ GROUP BY o.region_id , MONTH(t.applied_on), DAY(t.applied_on)
+ ORDER BY MONTH( t.applied_on ) DESC ,DAY(t.applied_on) DESC , o.region_id ASC
+<?php 
+} 
+else{
+?>
+SELECT DATE(t.applied_on) AS day_completed ,
+       r.name AS region_name ,
+       COUNT(l.id) AS total_listings ,
+       AVG(TIMESTAMPDIFF(HOUR , t.created_on , t.applied_on)) AS hour_turn_around
+  FROM rentjuice.offices o
+       INNER JOIN rentjuice.regions r ON o.region_id = r.id
+       INNER JOIN dataentry.threads t ON o.id = t.office_id
+         AND t.completed = 1
+         AND t.deleted = 0
+         AND t.completed_reason IS NULL
+       INNER JOIN(SELECT MAX( id ) AS session_id , thread_id
+                    FROM dataentry.thread_sessions ts
+                   GROUP BY thread_id) AS max_sessions
+          ON max_sessions.thread_id = t.id INNER JOIN dataentry.updates l
+          ON l.session_id = max_sessions.session_id
+ WHERE o.dataentry = 1
+ GROUP BY o.region_id , MONTH(t.applied_on), DAY(t.applied_on)
+ ORDER BY MONTH( t.applied_on ) DESC ,DAY(t.applied_on) DESC , o.region_id ASC
+<?php } ?>
 </pre>
 </div>
 </div>

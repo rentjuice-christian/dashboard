@@ -96,9 +96,9 @@ $(function () {
 <div id='inline_content' style='padding:10px; background:#fff;'>
 <pre>
 SELECT WEEKDAY(created_at), DAYNAME(created_at), COUNT(*)
-FROM janak.assistly_cases
-GROUP BY 1
-ORDER BY 1
+  FROM janak.assistly_cases
+ GROUP BY 1
+ ORDER BY 1
 </pre>
 </div>
 </div>

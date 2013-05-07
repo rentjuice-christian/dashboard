@@ -1,9 +1,18 @@
 	<div class="report_run">
 		<?php 
-			if($start_width=="wide"){
+			if(!empty($start_width)){
+				
+				if($start_width == 'wide'){
+				
 		?>
-			<div class="" style="width:87%; margin:0 auto;">
+				<div class="" style="width:87%; margin:0 auto;">
 		<?php
+				}
+				else{
+		?>
+				<div style="width:<?php echo $start_width; ?>; margin:0 auto;">
+		<?php
+				}
 			}
 			else{
 		?>
@@ -11,8 +20,8 @@
 		<?php
 			}
 		?>
-			<?php
-			
+		<?php
+		
 			if(!empty($start_time) || $start_time != 0 ){
 				$time = microtime();
 				$time = explode(" ", $time);
@@ -24,8 +33,8 @@
 				if($totaltime > 60){ echo "This report took ".gmdate ('i:s', $totaltime )." minutes to load."; }
 				else{  echo "This report took ".($totaltime + 3)." seconds to load.";	}
 			}
-			
-			?>
+		
+		?>
 		</div>
 	</div>
 	<div class="footer-wrapper">

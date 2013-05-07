@@ -116,9 +116,9 @@ $(function () {
 <div id='inline_content' style='padding:10px; background:#fff;'>
 <pre>
 SELECT YEAR(created_at), MONTH(created_at), MONTHNAME(created_at), COUNT(*)
-FROM janak.assistly_cases
-GROUP BY 1,2
-ORDER BY 1
+  FROM janak.assistly_cases
+ GROUP BY 1,2
+ ORDER BY 1
 </pre>
 </div>
 </div>

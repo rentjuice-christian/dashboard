@@ -224,27 +224,30 @@ class BarGraphs{
 	
 	}
 	
-	public static function tagUsageFilter($value=''){
+	public static function tagUsageFilter($value='',$tickettype=''){
 	
 		global $db;
 
 		if(!empty($value)){
-			if($value != "alltime"){
-				$strQuery = "AND DATE_ADD(created_at, INTERVAL ".$value." DAY) >= SYSDATE()";
-			}
-			else{
-				$strQuery ="";
-			}
+			if($value != "alltime"){$strQuery = "AND DATE_ADD(created_at, INTERVAL ".$value." DAY) >= SYSDATE()"; }
+			else{$strQuery ="";}
 		}
-		else{
-			$strQuery = "AND DATE_ADD(created_at, INTERVAL 7 DAY) >= SYSDATE()";
+		else{$strQuery = "AND DATE_ADD(created_at, INTERVAL 7 DAY) >= SYSDATE()";}
+		
+		if($tickettype != "alltickets"){ 
+			if(!empty($tickettype)){
+				$strTicketType = " AND c.channel = '".$tickettype."'";  
+			}
+			else{ $strTicketType =""; }
 		}
+		else{ $strTicketType =""; }
 					 
 		$sqlQuery = "
 					 SELECT label_name, COUNT(*) as count_tag
 					 FROM janak.assistly_case_labels cl, janak.assistly_cases c
 					 WHERE cl.case_id = c.id
 					 ".$strQuery."
+					 ".$strTicketType."
 					 GROUP BY 1
 					 ORDER BY 1
 					 
@@ -475,23 +478,72 @@ class BarGraphs{
 	
 	}
 	
-	public static function ticketsInboundByUser($value=''){
+	public static function selectSuperTag($date='',$tickettype=''){
 	
 		global $db;
 		
-		if($value != "alltime"){
-			$strQuery = "AND DATE_ADD(ca.created_at, INTERVAL ".$value.") >= SYSDATE()";
+		$strTicketType = "";
+		
+		if($date != "alltime"){ 
+			$strDate = " WHERE DATE_ADD(c.created_at, INTERVAL ".$date." DAY) >= SYSDATE()"; 
 		}
-		else{
-			$strQuery ="";
+		else{ 
+			$strDate =""; 
 		}
+		
+		if($tickettype != "alltickets"){ 
+			if($date == "alltime"){ $strTicketType .= " WHERE "; }
+			else{ $strTicketType .= " AND "; }
+			$strTicketType .= " c.channel = '".$tickettype."'";  
+		}
+		else{ 
+			$strTicketType =""; 
+		}
+		
+	
+		$sqlQuery = "SELECT COUNT(*) super_tag_count, super_tag
+					  FROM janak.assistly_cases c
+					 ".$strDate."
+					 ".$strTicketType."  
+					 GROUP BY super_tag
+					 ORDER BY super_tag
+					 ";
 
-		$sqlQuery = "SELECT cu.custom_user_id, CONCAT(u.first_name,' ',u.last_name) username, o.name officename, o.id office_id, COUNT(*) ticket_count
-					  FROM janak.assistly_cases ca, janak.assistly_customers cu, rentjuice.users u, rentjuice.offices o
+		$st = $db->prepare($sqlQuery);
+		$st->execute();
+	
+		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
+	
+	}
+	
+	public static function ticketsInboundByUser($date='',$tickettype='',$supertag='',$tags=''){
+	
+		global $db;
+		
+		if($date != "alltime"){ $strDate = " AND DATE_ADD(ca.created_at, INTERVAL ".$date." DAY) >= SYSDATE()"; }
+		else{ $strDate =""; }
+		
+		if($tickettype != "alltickets"){ $strTicketType = " AND ca.channel = '".$tickettype."'";  }
+		else{ $strTicketType =""; }
+		
+		if($supertag != "allsupertags"){ $strSuperTag = " AND ca.super_tag = '".$supertag."'"; }
+		else{ $strSuperTag =""; }
+		
+		if($tags != "alltags"){ 
+			$strTag = " AND ca.id = cl.case_id AND cl.label_name = '".$tags."'"; 
+			$strTag2 = " ,janak.assistly_case_labels cl";
+		}
+		else{ $strTag =""; 	}
+		
+		$sqlQuery = "SELECT cu.custom_user_id, CONCAT(u.first_name,' ',u.last_name) username, o.name officename, o.id office_id, COUNT(*) ticket_count, SUM(TIMESTAMPDIFF(MINUTE,first_opened_at,resolved_at)) handle_time_total
+					  FROM janak.assistly_cases ca, janak.assistly_customers cu, rentjuice.users u, rentjuice.offices o ".$strTag2."
 					 WHERE ca.customer_id = cu.id
 					   AND u.id = cu.custom_user_id
 					   AND u.office_id = o.id
-					  ".$strQuery."
+					  ".$strDate."
+					  ".$strTicketType."
+					  ".$strSuperTag."
+					  ".$strTag."
 					 GROUP BY 1
 					 ORDER BY COUNT(*) DESC
 					 LIMIT 100
@@ -508,13 +560,9 @@ class BarGraphs{
 	
 		global $db;
 		
-		if($value != "alltime"){
-			$strQuery = "AND DATE_ADD(ca.created_at, INTERVAL ".$value.") >= SYSDATE()";
-		}
-		else{
-			$strQuery ="";
-		}
-
+		if($value != "alltime"){ $strQuery = "AND DATE_ADD(ca.created_at, INTERVAL ".$value." DAY) >= SYSDATE()"; }
+		else{ $strQuery =""; }
+		
 		$sqlQuery = "SELECT SUM(ticket_count) ticket_count, COUNT(custom_user_id) user_count
 						FROM (
 						SELECT cu.custom_user_id, CONCAT(u.first_name,' ',u.last_name) username, o.name officename, o.id office_id, COUNT(*) ticket_count
@@ -539,13 +587,9 @@ class BarGraphs{
 	
 		global $db;
 		
-		if($value != "alltime"){
-			$strQuery = "AND DATE_ADD(ca.created_at, INTERVAL ".$value.") >= SYSDATE()";
-		}
-		else{
-			$strQuery ="";
-		}
-
+		if($value != "alltime"){ $strQuery = "AND DATE_ADD(ca.created_at, INTERVAL ".$value." DAY) >= SYSDATE()"; }
+		else{ $strQuery =""; }
+		
 		$sqlQuery = "SELECT SUM(ticket_count) ticket_count, COUNT(custom_user_id) user_count
 					FROM (
 					
@@ -568,23 +612,34 @@ class BarGraphs{
 	}
 	
 	
-	public static function ticketsInboundByOffice($value=''){
+	public static function ticketsInboundByOffice($date='',$tickettype='',$supertag='',$tags=''){
 	
 		global $db;
-		
-		if($value != "alltime"){
-			$strQuery = "AND DATE_ADD(ca.created_at, INTERVAL ".$value.") >= SYSDATE()";
-		}
-		else{
-			$strQuery ="";
-		}
 
-		$sqlQuery = "SELECT o.id office_id, o.name as officename, COUNT(*) as ticket_count
-					  FROM janak.assistly_cases ca, janak.assistly_customers cu, rentjuice.users u, rentjuice.offices o
+		if($date != "alltime"){ $strDate = " AND DATE_ADD(ca.created_at, INTERVAL ".$date." DAY) >= SYSDATE()"; }
+		else{ $strDate =""; }
+		
+		if($tickettype != "alltickets"){ $strTicketType = " AND ca.channel = '".$tickettype."'";  }
+		else{ $strTicketType =""; }
+		
+		if($supertag != "allsupertags"){ $strSuperTag = " AND ca.super_tag = '".$supertag."'"; }
+		else{ $strSuperTag =""; }
+		
+		if($tags != "alltags"){ 
+			$strTag = " AND ca.id = cl.case_id AND cl.label_name = '".$tags."'"; 
+			$strTag2 = " ,janak.assistly_case_labels cl";
+		}
+		else{ $strTag =""; 	}
+
+		$sqlQuery = "SELECT o.id office_id, o.name as officename, COUNT(*) as ticket_count, SUM(TIMESTAMPDIFF(MINUTE,first_opened_at,resolved_at)) handle_time_total
+					  FROM janak.assistly_cases ca, janak.assistly_customers cu, rentjuice.users u, rentjuice.offices o ".$strTag2."
 					 WHERE ca.customer_id = cu.id
 					   AND u.id = cu.custom_user_id
 					   AND u.office_id = o.id
-					  ".$strQuery."
+					  ".$strDate."
+					  ".$strTicketType."
+					  ".$strSuperTag."
+					  ".$strTag."
 					 GROUP BY 1
 					 ORDER BY COUNT(*) DESC
 					LIMIT 100
@@ -602,12 +657,8 @@ class BarGraphs{
 		global $db;
 		
 
-		if($value != "alltime"){
-			$strQuery = "AND DATE_ADD(ca.created_at, INTERVAL ".$value.") >= SYSDATE()";
-		}
-		else{
-			$strQuery ="";
-		}
+		if($value != "alltime"){$strQuery = "AND DATE_ADD(ca.created_at, INTERVAL ".$value." DAY) >= SYSDATE()";}
+		else{$strQuery ="";}
 
 
 		$sqlQuery = "SELECT SUM(ticket_count) as ticket_count, COUNT(office_id) office_count
@@ -635,12 +686,8 @@ class BarGraphs{
 	
 		global $db;
 		
-		if($value != "alltime"){
-			$strQuery = "AND DATE_ADD(ca.created_at, INTERVAL ".$value.") >= SYSDATE()";
-		}
-		else{
-			$strQuery ="";
-		}
+		if($value != "alltime"){$strQuery = "AND DATE_ADD(ca.created_at, INTERVAL ".$value." DAY) >= SYSDATE()";}
+		else{$strQuery ="";}
 
 		$sqlQuery = "SELECT SUM(ticket_count) as ticket_count, COUNT(office_id) office_count
 					FROM (
@@ -663,12 +710,56 @@ class BarGraphs{
 	
 	}
 	
-	public static function resolvedBySuperTag($timespan="",$movingaverage="",$type=""){
+	public static function resolvedBySuperTagUsername($timespan=''){
+	
+		global $db;
+		
+		$sqlQuery = "SELECT u.last_name, u.first_name, u.id rentjuice_user_id, COUNT(*) as user_count
+					  FROM janak.assistly_cases ca, rentjuice.users u
+					 WHERE ca.rentjuice_user_id = u.id
+					   AND DATE_ADD(DATE(ca.resolved_at), INTERVAL ".$timespan." DAY) > SYSDATE()
+					 GROUP BY rentjuice_user_id
+					 ORDER BY last_name, first_name
+					 ";
+
+		$st = $db->prepare($sqlQuery);
+		$st->execute();
+	
+		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
+	
+	}
+	
+	public static function resolvedBySuperTagOffice($timespan=''){
+	
+		global $db;
+		
+		$sqlQuery = "SELECT o.name, o.id rentjuice_office_id, COUNT(*) ticket_counts
+					  FROM janak.assistly_cases ca, rentjuice.offices o
+					 WHERE ca.rentjuice_office_id = o.id
+					   AND DATE_ADD(DATE(ca.resolved_at), INTERVAL ".$timespan." DAY) > SYSDATE()
+					 GROUP BY rentjuice_office_id
+					 ORDER BY NAME
+					 ";
+
+		$st = $db->prepare($sqlQuery);
+		$st->execute();
+	
+		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
+	
+	}
+	
+	public static function resolvedBySuperTag($timespan="",$movingaverage="",$type="",$office='',$users=''){
 	
 		global $db;
 		
 		if($type != "alltickets"){ 	$strQueryType = "AND channel = '".$type."'";  }
 		else{ 	$strQueryType =""; 	}
+		
+		if($office != "all"){ 	$strQueryOffice = "AND c.rentjuice_office_id = ".$office."";  }
+		else{ 	$strQueryOffice =""; 	}
+		
+		if($users != "all"){ 	$strQueryUsers = "AND c.rentjuice_user_id = ".$users."";  }
+		else{ 	$strQueryUsers =""; 	}
 		
 
 		$sqlQuery = "SELECT tag_days.tag_name,
@@ -678,6 +769,8 @@ class BarGraphs{
 							  FROM janak.assistly_cases c
 							 WHERE c.super_tag = tag_days.tag_name
 							  ".$strQueryType."
+							  ".$strQueryOffice."
+							  ".$strQueryUsers."
 							   AND tag_days.resolved_at <= DATE(resolved_at) AND DATE(resolved_at) <= DATE_ADD(tag_days.resolved_at, INTERVAL ". ($movingaverage - 1) ." DAY) 
 						   ) ticket_count
 					  FROM  
@@ -831,7 +924,10 @@ class BarGraphs{
 						   ca.subject,
 						   u.id user_id,
 						   CONCAT(u.first_name,' ',u.last_name) username,
-						   ca.preview
+						   ca.preview,
+						   channel, 
+						   super_tag,
+						   TIMESTAMPDIFF(MINUTE,first_opened_at,resolved_at) handle_time_total
 					  FROM janak.assistly_cases ca, janak.assistly_customers cu, rentjuice.users u, rentjuice.offices o
 					 WHERE ca.customer_id = cu.id
 					   AND cu.custom_user_id = u.id
@@ -884,7 +980,10 @@ class BarGraphs{
 						   ca.subject,
 						   u.id user_id,
 						   CONCAT(u.first_name,' ',u.last_name) username,
-						   ca.preview
+						   ca.preview,
+						   channel,
+						   ca.super_tag,
+						   TIMESTAMPDIFF(MINUTE,first_opened_at,resolved_at) handle_time_total
 					  FROM janak.assistly_cases ca, janak.assistly_customers cu, rentjuice.users u, rentjuice.offices o
 					 WHERE ca.customer_id = cu.id
 					   AND cu.custom_user_id = u.id
@@ -906,6 +1005,22 @@ class BarGraphs{
 		global $db;
 
 		$sqlQuery = "SELECT * FROM janak.assistly_sync_logfiles
+					 ORDER BY started_at desc
+					 LIMIT 100
+					 ";
+
+		$st = $db->prepare($sqlQuery);
+		$st->execute();
+	
+		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
+	
+	}
+	
+	public static function salesForceSyncStatus(){
+	
+		global $db;
+
+		$sqlQuery = "SELECT * FROM janak.salesforce_sync_logfiles
 					 ORDER BY started_at desc";
 
 		$st = $db->prepare($sqlQuery);
@@ -1152,14 +1267,48 @@ class BarGraphs{
 	
 	
 	
-	public static function salesForceFields($id=''){
+	public static function salesForceFields($name=''){
 	
 		global $db;
+		
+		if(!empty($name)){ $strQuery = "WHERE model_name = '".$name."'"; }
+		else{ $strQuery = ""; }
 
 		$sqlQuery = "SELECT id,model_name, NAME, TYPE, LENGTH, label, calculated, calculated_formula, picklist_values, reference_to, relationship_name
 					  FROM janak.salesforce_model_fields
-					 WHERE model_id = ".$id."
+					 ".$strQuery."
 					 ORDER BY Name
+					";
+
+		$st = $db->prepare($sqlQuery);
+		$st->execute();
+	
+		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
+	
+	}
+	
+	public static function salesForceRelationships($name=''){
+	
+		global $db;
+		
+		if(!empty($name)){ 
+			$strQuery = "WHERE s.parent_object = '".$name."'";
+			$strQuery2 = "WHERE s.child_object = '".$name."'";  
+		}
+		else{ 
+			$strQuery = ""; 
+			$strQuery2 = "";
+		}
+
+		$sqlQuery = "SELECT parent_object parent, child_object child, s.relationship_name, s.parent_field
+					  FROM janak.salesforce_model_relationships s
+					 ".$strQuery."
+					
+					UNION
+					
+					SELECT parent_object parent, child_object child, s.relationship_name, s.parent_field
+					  FROM janak.salesforce_model_relationships s
+					 ".$strQuery2."
 					";
 
 		$st = $db->prepare($sqlQuery);
@@ -1288,12 +1437,8 @@ class BarGraphs{
 	
 		global $db;
 		
-		if($valueLabel !="alltags"){
-			$label=" AND c.super_tag = '".$valueLabel."'";
-		}
-		else{
-			$label="";
-		}
+		if($valueLabel !="alltags"){ $label=" AND c.super_tag = '".$valueLabel."'"; }
+		else{ $label=""; }
 		
 		$sqlQuery = "SELECT
 					   days.created_at,
@@ -1326,16 +1471,10 @@ class BarGraphs{
 		global $db;
 		
 		if(!empty($value)){
-			if($value != "alltime"){
-				$strQuery = "WHERE DATE_ADD(c.created_at, INTERVAL ".$value." DAY) >= SYSDATE()";
-			}
-			else{
-				$strQuery ="";
-			}
+			if($value != "alltime"){ $strQuery = "WHERE DATE_ADD(c.created_at, INTERVAL ".$value." DAY) >= SYSDATE()"; }
+			else{ $strQuery =""; }
 		}
-		else{
-			$strQuery = "WHERE DATE_ADD(c.created_at, INTERVAL 7 DAY) >= SYSDATE()";
-		}
+		else{ $strQuery = "WHERE DATE_ADD(c.created_at, INTERVAL 7 DAY) >= SYSDATE()"; }
 	
 		$sqlQuery = "SELECT COUNT(*) super_tag_count, super_tag
 					  FROM janak.assistly_cases c
@@ -1355,16 +1494,10 @@ class BarGraphs{
 		global $db;
 		
 		if(!empty($value)){
-			if($value != "alltime"){
-				$strQuery = "WHERE DATE_ADD(created_at, INTERVAL ".$value." DAY) >= SYSDATE()";
-			}
-			else{
-				$strQuery ="";
-			}
+			if($value != "alltime"){ $strQuery = "WHERE DATE_ADD(created_at, INTERVAL ".$value." DAY) >= SYSDATE()"; }
+			else{ $strQuery =""; }
 		}
-		else{
-			$strQuery = "WHERE DATE_ADD(created_at, INTERVAL 28 DAY) >= SYSDATE()";
-		}
+		else{ $strQuery = "WHERE DATE_ADD(created_at, INTERVAL 28 DAY) >= SYSDATE()"; }
 
 		$sqlQuery = "SELECT c.super_tag, COUNT(*) as count_tag
 					 FROM janak.assistly_cases c
@@ -1372,6 +1505,411 @@ class BarGraphs{
 					 GROUP BY 1
 					 ORDER BY 2 DESC
 					 ";
+
+		$st = $db->prepare($sqlQuery);
+		$st->execute();
+	
+		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
+	
+	}
+	
+	public static function duplicateAccounts(){
+	
+		global $db;
+
+		$sqlQuery = "SELECT c1.id customer_id, c1.name, c1.sforce_acct_id, c1.created_on, c1.status, c1.*
+						  FROM rentjuice.customers c1,
+							   (
+								SELECT CAST(sforce_acct_id AS BINARY) sforce_acct_id, COUNT(*)
+								  FROM rentjuice.customers
+								 WHERE sforce_acct_id IS NOT NULL
+								 GROUP BY 1
+								 HAVING COUNT(*) > 1
+								 ORDER BY COUNT(*) DESC
+							   ) c2
+						 WHERE c1.sforce_acct_id = c2.sforce_acct_id
+						ORDER BY c1.sforce_acct_id
+						";
+
+		$st = $db->prepare($sqlQuery);
+		$st->execute();
+	
+		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
+	
+	}
+	
+	public static function badSalesforceID($status='',$show=''){
+	
+		global $db;
+		
+		if($status == 'exclude') { $strQuery1= 'AND o.status <> "free"'; }
+		else{ $strQuery1=''; }
+		if($show = 'no'){ $strQuery2='AND (so.id IS NOT NULL OR sl.id IS NOT NULL)';}
+		else{ $strQuery2=''; }
+
+		$sqlQuery = 'SELECT o.sforce_acct_id, o.id, o.created_on, o.name,
+						   CONCAT(IF(ISNULL(so.id),"","Salesforce ID is a Opportunity"),
+								  IF(ISNULL(sl.id),"","Salesforce ID is a Lead"),
+								  IF(ISNULL(sa.id),"","Salesforce ID is an Account")) notes
+					  FROM rentjuice.customers o
+						   LEFT OUTER JOIN
+						   janak.salesforce_opportunities so
+						   ON o.sforce_acct_id = so.id_15
+						   LEFT OUTER JOIN
+						   janak.salesforce_leads sl
+						   ON o.sforce_acct_id = sl.id_15
+						   LEFT OUTER JOIN
+						   janak.salesforce_accounts sa
+						   ON o.sforce_acct_id = sa.id_15
+					 WHERE (so.id IS NOT NULL OR sl.id IS NOT NULL)
+					 '.$strQuery1.' '.$strQuery2.'
+					 ORDER BY o.created_on DESC
+					';
+
+		$st = $db->prepare($sqlQuery);
+		$st->execute();
+	
+		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
+	
+	}
+	
+	public static function noLastName(){
+	
+		global $db;
+
+		$sqlQuery = 'SELECT id user_id, first_name, last_name, TYPE user_type, date_joined
+					   FROM rentjuice.users u
+					  WHERE (last_name = "" OR last_name IS NULL)
+					  ORDER BY id desc
+					';
+
+		$st = $db->prepare($sqlQuery);
+		$st->execute();
+	
+		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
+	
+	}
+	
+	public static function fonalitySalesforce(){
+	
+		global $db;
+
+		$sqlQuery = 'SELECT CONCAT_WS(",",IF(LENGTH(a.id),"Account",NULL),
+                     IF(LENGTH(l.id),"Lead",NULL),
+                     IF(LENGTH(c.id),"Contact",NULL),
+                     IF(LENGTH(o.id),"Opportunity",NULL)) connection_type, COUNT(*) COUNT
+
+					  FROM janak.salesforce_users u, janak.salesforce_fonality_phonecalls f
+						   LEFT OUTER JOIN janak.salesforce_accounts a
+						   ON f.fonality_uae_account_custom = a.id
+						   LEFT OUTER JOIN janak.salesforce_contacts c
+						   ON f.fonality_uae_customontact_custom = c.id
+						   LEFT OUTER JOIN janak.salesforce_leads l
+						   ON f.fonality_uae_lead_custom = l.id      
+						   LEFT OUTER JOIN janak.salesforce_opportunities o
+						   ON f.fonality_uae_opportunity_custom = o.id             
+					 WHERE u.id = f.owner_id
+					 GROUP BY 1
+					 ORDER BY 2 DESC
+					';
+
+		$st = $db->prepare($sqlQuery);
+		$st->execute();
+	
+		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
+	
+	}
+	
+	public static function timeOnPhone($movingaverage = '', $timespan = ''){
+	
+		global $db;
+
+		$sqlQuery = 'SELECT user_days.username,
+					   user_days.created_at,
+				
+					   (
+						SELECT SUM(fonality_uae_duration_custom)/IF(DATEDIFF(SYSDATE(),user_days.created_at) >= '.$movingaverage.', '.$movingaverage.', DATEDIFF(SYSDATE(),user_days.created_at))
+						  FROM janak.salesforce_fonality_phonecalls
+						 WHERE owner_id = user_days.owner_id
+						   AND user_days.created_at <= DATE(created_date) AND DATE(created_date) <= DATE_ADD(user_days.created_at, INTERVAL '.($movingaverage - 1).' DAY) 
+					   ) ticket_count
+				  FROM  
+					   (
+						SELECT *
+						  FROM
+							   (SELECT DISTINCT(owner_id) owner_id, u.name username
+								  FROM janak.salesforce_fonality_phonecalls f, janak.salesforce_users u
+								 WHERE DATE_ADD(f.created_date, INTERVAL '.$timespan.' DAY) > SYSDATE()
+								   AND u.id = f.owner_id
+							   ) users,
+							   (SELECT DATE_SUB(DATE(SYSDATE()),INTERVAL id DAY) created_at
+								  FROM janak.counter_records
+								 WHERE id <= '.$timespan.'
+							   ) days
+					   ) user_days
+				 ORDER BY user_days.created_at, username ASC 
+					';
+
+		$st = $db->prepare($sqlQuery);
+		$st->execute();
+	
+		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
+	
+	}
+	
+	public static function numberOfCalls($movingaverage = '', $timespan = ''){
+	
+		global $db;
+
+		$sqlQuery = 'SELECT user_days.username,
+						   user_days.created_at,
+					
+						   (
+							SELECT COUNT(*)/IF(DATEDIFF(SYSDATE(),user_days.created_at) >= '.$movingaverage.', '.$movingaverage.', DATEDIFF(SYSDATE(),user_days.created_at))
+							  FROM janak.salesforce_fonality_phonecalls
+							 WHERE owner_id = user_days.owner_id
+							   AND user_days.created_at <= DATE(created_date) AND DATE(created_date) <= DATE_ADD(user_days.created_at, INTERVAL '.($movingaverage - 1).' DAY)  
+						   ) ticket_count
+					  FROM   
+						   (
+							SELECT *
+							  FROM
+								   (SELECT DISTINCT(owner_id) owner_id, u.name username
+									  FROM janak.salesforce_fonality_phonecalls f, janak.salesforce_users u
+									 WHERE DATE_ADD(f.created_date, INTERVAL '.$timespan.' DAY) > SYSDATE()
+									   AND u.id = f.owner_id
+								   ) users,
+								   (SELECT DATE_SUB(DATE(SYSDATE()),INTERVAL id DAY) created_at
+									  FROM janak.counter_records
+									 WHERE id <= '.$timespan.'
+								   ) days
+						   ) user_days
+					 ORDER BY user_days.created_at, username ASC ';
+
+		$st = $db->prepare($sqlQuery);
+		$st->execute();
+	
+		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
+	
+	}
+	
+	public static function longestCalls($time=''){
+	
+		global $db;
+
+		$sqlQuery = "SELECT u.name,
+					   fonality_uae_phone_number_custom,
+					   fonality_uae_duration_custom,
+					   a.name account_name,
+					   c.name contact_name,
+					   l.name lead_name,
+					   o.name opportunity_name,
+					   a.id account_id,
+					   c.id contact_id,
+					   l.id lead_id,
+					   o.id opportunity_id
+				  FROM janak.salesforce_users u, janak.salesforce_fonality_phonecalls f
+					   LEFT OUTER JOIN janak.salesforce_accounts a
+					   ON f.fonality_uae_account_custom = a.id
+					   LEFT OUTER JOIN janak.salesforce_contacts c
+					   ON f.fonality_uae_customontact_custom = c.id
+					   LEFT OUTER JOIN janak.salesforce_leads l
+					   ON f.fonality_uae_lead_custom = l.id       
+					   LEFT OUTER JOIN janak.salesforce_opportunities o
+					   ON f.fonality_uae_opportunity_custom = o.id              
+				 WHERE DATE_ADD(f.created_date, INTERVAL ".$time." DAY) > SYSDATE()
+				   AND u.id = f.owner_id
+				 ORDER BY fonality_uae_duration_custom DESC
+				 LIMIT 1000
+				";
+
+		$st = $db->prepare($sqlQuery);
+		$st->execute();
+	
+		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
+	
+	}
+	
+	public static function listingSourcesOvertime($time='',$status=''){
+	
+		global $db;
+		
+		if($status =="active"){ $sqlQuery="l.active = 1 AND "; }
+		if($status =="all"){ $sqlQuery=""; }		
+
+		$sqlQuery = 'SELECT days.created_on,
+					   (
+						SELECT 
+							   COUNT(l.id)/IF(DATEDIFF(SYSDATE(),days.created_on) >= 7, 7, DATEDIFF(SYSDATE(),days.created_on)) feed_sync_count
+						  FROM rentjuice.listings l
+						 WHERE '.$sqlQuery.' l.listing_source IN ("nsync","zif")
+						   AND days.created_on <= DATE(l.created) AND DATE(l.created) <= DATE_ADD(days.created_on, INTERVAL 6 DAY) 
+					   ) feed_sync_count,
+					   (       
+						SELECT 
+							   COUNT(l.id)/IF(DATEDIFF(SYSDATE(),days.created_on) >= 7, 7, DATEDIFF(SYSDATE(),days.created_on)) import_count
+						  FROM rentjuice.listings l
+						 WHERE '.$sqlQuery.' l.listing_source IN ("custom import","ditch","diw","postlets")
+						   AND days.created_on <= DATE(l.created) AND DATE(l.created) <= DATE_ADD(days.created_on, INTERVAL 6 DAY)
+					   ) import_count,
+					   (
+						SELECT 
+							   COUNT(l.id)/IF(DATEDIFF(SYSDATE(),days.created_on) >= 7, 7, DATEDIFF(SYSDATE(),days.created_on)) data_entry_count
+						  FROM rentjuice.listings l
+						 WHERE '.$sqlQuery.' l.listing_source = "data entry"
+						   AND days.created_on <= DATE(l.created) AND DATE(l.created) <= DATE_ADD(days.created_on, INTERVAL 6 DAY) 
+					   ) data_entry_count,
+					   (
+						SELECT 
+							   COUNT(l.id)/IF(DATEDIFF(SYSDATE(),days.created_on) >= 7, 7, DATEDIFF(SYSDATE(),days.created_on)) manual_count
+						  FROM rentjuice.listings l
+						 WHERE '.$sqlQuery.' l.listing_source = "manual"
+						   AND days.created_on <= DATE(l.created) AND DATE(l.created) <= DATE_ADD(days.created_on, INTERVAL 6 DAY)          
+					   ) manual_count
+				  FROM  
+					   (SELECT DATE_SUB(DATE(SYSDATE()),INTERVAL id DAY) created_on
+						  FROM janak.counter_records
+						 WHERE id <= '.$time.') days
+				 ORDER BY days.created_on ';
+
+		$st = $db->prepare($sqlQuery);
+		$st->execute();
+	
+		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
+	
+	}
+	
+	public static function listingsBySource($time=''){
+	
+		global $db;
+
+		$sqlQuery = 'SELECT "feed sync" AS "source", COUNT(l.id) AS count_data
+					  FROM rentjuice.listings l
+					 WHERE l.active = 1
+					   AND l.listing_source IN ("nsync","zif")
+					   AND DATE(l.created) >= DATE_SUB(CURDATE() , INTERVAL '.$time.' DAY)
+					UNION
+					SELECT "import" AS "source", COUNT(l.id) AS count_data
+					  FROM rentjuice.listings l
+					 WHERE l.active = 1
+					   AND l.listing_source IN ("custom import","ditch","diw","postlets")
+					   AND DATE(l.created) >= DATE_SUB(CURDATE() , INTERVAL '.$time.' DAY)
+					UNION
+					SELECT "data entry" AS "source", COUNT(l.id) AS count_data
+					  FROM rentjuice.listings l
+					 WHERE l.active = 1
+					   AND l.listing_source = "data entry"
+					   AND DATE(l.created) >= DATE_SUB(CURDATE() , INTERVAL '.$time.' DAY)
+					UNION
+					SELECT "manual" AS "source", COUNT(l.id) AS count_data
+					  FROM rentjuice.listings l
+					 WHERE l.active = 1
+					   AND l.listing_source = "manual"
+					   AND DATE(l.created) >= DATE_SUB(CURDATE() , INTERVAL '.$time.' DAY) 
+				';
+
+		$st = $db->prepare($sqlQuery);
+		$st->execute();
+	
+		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
+	
+	}
+	
+	public static function ticketsCustomerType($time=''){
+	
+		global $db;
+
+		$sqlQuery = "SELECT day_customer_type.created_on,
+						   day_customer_type.customer_type,
+						   (
+							SELECT 
+								   COUNT(*)/IF(DATEDIFF(SYSDATE(),day_customer_type.created_on) >= 7, 7, DATEDIFF(SYSDATE(),day_customer_type.created_on)) ticket_count
+							  FROM janak.assistly_cases ca
+							 WHERE ca.rentjuice_customer_type = day_customer_type.customer_type
+							   AND day_customer_type.created_on <= DATE(ca.created_at) AND DATE(ca.created_at) <= DATE_ADD(day_customer_type.created_on, INTERVAL 6 DAY) 
+						   ) ticket_count
+					  FROM  
+						   (SELECT *
+							  FROM
+								   (SELECT DATE_SUB(DATE(SYSDATE()),INTERVAL id DAY) created_on
+									  FROM janak.counter_records
+									 WHERE id <= ".$time.") days,
+								   ( SELECT DISTINCT(rentjuice_customer_type) customer_type
+									   FROM janak.assistly_cases
+									  WHERE INSTR(rentjuice_customer_type,'free') <> 0
+										 OR INSTR(rentjuice_customer_type,'paid') <> 0) customer_type
+						   ) day_customer_type                   
+					 ORDER BY day_customer_type.created_on
+				     ";
+
+		$st = $db->prepare($sqlQuery);
+		$st->execute();
+	
+		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
+	
+	}
+	
+	
+	public static function runningTotalByAgent($time=''){
+	
+		global $db;
+
+		$sqlQuery = "SELECT resolved_at,
+					   username,
+					   CASE
+						   WHEN username = 'Simon Kwan' AND HOUR(resolved_at) = 0 THEN (@simon_running_total := 0)   
+						   WHEN username = 'Phillip Spiegel' AND HOUR(resolved_at) = 0 THEN (@phillip_running_total := 0)   
+						   WHEN username = 'Kevin Burriss' AND HOUR(resolved_at) = 0 THEN (@kevin_running_total := 0)   
+						   WHEN username = 'Eric Montero' AND HOUR(resolved_at) = 0 THEN (@eric_running_total := 0)   
+						   WHEN username = 'Jennifer Wong' AND HOUR(resolved_at) = 0 THEN (@jen_running_total := 0)   
+						   WHEN username = 'Ian Long' AND HOUR(resolved_at) = 0 THEN (@ian_running_total := 0)                           
+					   END AS daily_reset,
+					   CASE
+						   WHEN username = 'Simon Kwan' THEN (@simon_running_total := @simon_running_total + ticket_count)
+						   WHEN username = 'Phillip Spiegel' THEN (@phillip_running_total := @phillip_running_total + ticket_count)
+						   WHEN username = 'Kevin Burriss' THEN (@kevin_running_total := @kevin_running_total + ticket_count)
+						   WHEN username = 'Eric Montero' THEN (@eric_running_total := @eric_running_total + ticket_count)
+						   WHEN username = 'Jennifer Wong' THEN (@jen_running_total := @jen_running_total + ticket_count)
+						   WHEN username = 'Ian Long' THEN (@ian_running_total := @ian_running_total + ticket_count)
+						   ELSE 0
+					   END AS running_ticket_count
+				  FROM
+					   (SELECT user_hours.username, user_hours.resolved_at, IFNULL(cases.ticket_count,0) ticket_count
+						  FROM
+							   (SELECT *
+								  FROM
+									   (SELECT username
+										  FROM janak.assistly_cases
+										 WHERE username IS NOT NULL
+										   AND DATE_SUB(SYSDATE(), INTERVAL 168 HOUR) <= resolved_at
+										   AND username IN ('Simon Kwan','Phillip Spiegel','Kevin Burriss','Eric Montero','Jennifer Wong','Ian Long')
+										 GROUP BY 1
+									   ) users,
+									   (SELECT DATE_SUB(DATE_FORMAT(SYSDATE(), '%Y-%m-%d %h:00:00'), INTERVAL id HOUR) resolved_at
+										  FROM janak.counter_records
+										 WHERE id <= ".$time."
+									   ) hours
+							   ) user_hours
+							   LEFT OUTER JOIN
+							   (SELECT username, DATE_FORMAT(resolved_at, '%Y-%m-%d %h:00:00') resolved_at, COUNT(*) ticket_count
+								  FROM janak.assistly_cases ca
+								 WHERE DATE_SUB(SYSDATE(), INTERVAL ".$time." HOUR) <= ca.resolved_at
+								 GROUP BY 1,2
+								 ORDER BY 2
+							   ) cases
+							   ON user_hours.resolved_at = cases.resolved_at AND
+								  user_hours.username = cases.username
+						 ORDER BY user_hours.resolved_at
+					   ) tickets,
+					   (
+						SELECT @simon_running_total := 0,
+							   @phillip_running_total := 0,
+							   @kevin_running_total := 0,
+							   @eric_running_total := 0,
+							   @jen_running_total := 0,
+							   @ian_running_total := 0
+					   ) dummy
+				     ";
 
 		$st = $db->prepare($sqlQuery);
 		$st->execute();

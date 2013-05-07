@@ -282,7 +282,7 @@ $(function () {
 <div id='inline_content' style='padding:10px; background:#fff;'>
 <?php
 	$arrayDate = array('1'=>'7','2'=>'14','3'=>'21','4'=>'28','5'=>'30','6'=>'60','7'=>'90','8'=>'120','9'=>'150','10'=>'180','11'=>'360','12'=>'720');
-	$arrayType = array('1'=>'alltickets','2'=>'email','3'=>'phone call','4'=>'chat','5'=>'tweet','6'=>'qna');
+	$arrayType = array('1'=>'alltickets','2'=>'email','3'=>'phone','4'=>'chat','5'=>'tweet','6'=>'qna');
 	
 	if (array_key_exists($timeFrame,$arrayDate)){
 		$tagTime = $arrayDate[$timeFrame];
@@ -326,8 +326,8 @@ AND DATE_ADD(i.created_at, INTERVAL <?php echo $tagTime; ?> DAY) > SYSDATE()
                GROUP BY 1
            ) users,
              (SELECT DATE_SUB(DATE(SYSDATE()),INTERVAL id DAY) created_at
-                  FROM janak.counter_records
-                 WHERE id <= <?php echo $tagTime; ?>) days
+                FROM janak.counter_records
+               WHERE id <= <?php echo $tagTime; ?>) days
    ) user_days
 ORDER BY created_at, username ASC
 <?php		

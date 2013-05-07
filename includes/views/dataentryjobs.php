@@ -301,10 +301,10 @@ SELECT the_date,
                'filters' AS src
           FROM dataentry.emails e
                INNER JOIN dataentry.threads t ON t.id = e.thread_id
-                      AND e.content_office_id > 0
-                      AND t.created_on > "2012-03-01 00:00:00"
+                  AND e.content_office_id > 0
+                  AND t.created_on > "2012-03-01 00:00:00"
                INNER JOIN rentjuice.offices o ON o.id = t.office_id
-                      AND o.region_id = 2
+                  AND o.region_id = 2
           <?php echo $strQuery2; ?> 
           GROUP BY 1
 
@@ -318,7 +318,7 @@ SELECT the_date,
                'threads_preferred' AS src 
           FROM dataentry.threads t
                INNER JOIN rentjuice.offices o ON o.id = t.office_id
-                      AND o.region_id = 2
+                  AND o.region_id = 2
          WHERE t.preferred = 1
             <?php echo $strQuery; ?> 
          GROUP BY 1
@@ -333,7 +333,7 @@ SELECT the_date,
                'threads_auto' AS src
           FROM dataentry.threads t
                INNER JOIN rentjuice.offices o ON o.id = t.office_id
-                      AND o.region_id = 2
+                  AND o.region_id = 2
          WHERE t.auto_job = 1
             <?php echo $strQuery; ?> 
          GROUP BY 1

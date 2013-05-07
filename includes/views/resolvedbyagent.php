@@ -350,7 +350,7 @@ else{
 <pre>
 <?php
 $arrayDate = array('1'=>'7','2'=>'14','3'=>'21','4'=>'28','5'=>'30','6'=>'60','7'=>'90','8'=>'120','9'=>'150','10'=>'180','11'=>'360','12'=>'720');
-$arrayType = array('1'=>'alltickets','2'=>'email','3'=>'phone call','4'=>'chat','5'=>'tweet','6'=>'qna');
+$arrayType = array('1'=>'alltickets','2'=>'email','3'=>'phone','4'=>'chat','5'=>'tweet','6'=>'qna');
 if (array_key_exists($timeFrame,$arrayDate)){
 	$timespan = $arrayDate[$timeFrame];
 }
@@ -434,7 +434,6 @@ if($tagUsageLabel !="All Tags" && $type == "alltickets" ){
 ?>
 SELECT user_days.username,
        user_days.resolved_at,
-
        (
         SELECT COUNT(*)/IF(DATEDIFF(SYSDATE(),user_days.resolved_at) >= <?php echo $dateMove; ?>, <?php echo $dateMove; ?>, DATEDIFF(SYSDATE(),user_days.resolved_at))
           FROM janak.assistly_cases c, janak.assistly_case_labels cl
@@ -451,13 +450,11 @@ SELECT user_days.username,
                   FROM janak.assistly_cases
                  WHERE username IS NOT NULL
                    AND DATE_ADD(resolved_at, INTERVAL <?php echo $timespan; ?> DAY) > SYSDATE()
-
                  GROUP BY 1
                ) users,
                (SELECT DATE_SUB(DATE(SYSDATE()),INTERVAL id DAY) resolved_at
                   FROM janak.counter_records
                  WHERE id <= <?php echo $timespan; ?>
-
                ) days
        ) user_days
  ORDER BY user_days.resolved_at, username ASC 
@@ -467,7 +464,6 @@ if($tagUsageLabel =="All Tags" && $type == "alltickets" ){
 ?>
 SELECT user_days.username,
        user_days.resolved_at,
-
        (
         SELECT COUNT(*)/IF(DATEDIFF(SYSDATE(),user_days.resolved_at) >= <?php echo $dateMove; ?>, <?php echo $dateMove; ?>, DATEDIFF(SYSDATE(),user_days.resolved_at))
           FROM janak.assistly_cases c
@@ -482,13 +478,11 @@ SELECT user_days.username,
                   FROM janak.assistly_cases
                  WHERE username IS NOT NULL
                    AND DATE_ADD(resolved_at, INTERVAL <?php echo $timespan; ?> DAY) > SYSDATE()
-
                  GROUP BY 1
                ) users,
                (SELECT DATE_SUB(DATE(SYSDATE()),INTERVAL id DAY) resolved_at
                   FROM janak.counter_records
                  WHERE id <= <?php echo $timespan; ?>
-
                ) days
        ) user_days
  ORDER BY user_days.resolved_at, username ASC 

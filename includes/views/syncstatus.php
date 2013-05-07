@@ -5,7 +5,7 @@
 
 
 <div class="body-wrapper">
-		<div class="centered">
+		<div style="width:85%; margin:0 auto;">
 			<div class="main_content_temp">
 
 <?php
@@ -27,7 +27,7 @@
 
 
 <div class="align_center">
-	<div class="manualmerges_title">Data Sync Status</div>	
+	<div class="manualmerges_title">Assistly Data Sync Status</div>	
 </div>
 
 
@@ -37,8 +37,8 @@
 	<thead style="background-color:#f1f1f1">
 		
 		  <tr>
-			<th rowspan="2"><div class="bold center">Started On</div></th>
-			<th rowspan="2"><div class="bold center">Running Time</div></th>
+			<th rowspan="2" width="170px"><div class="bold center">Started On</div></th>
+			<th rowspan="2" width="170px"><div class="bold center">Running Time</div></th>
 			<th rowspan="2"><div class="bold center">Groups</div></th>
 			<th rowspan="2"><div class="bold center">Users</div></th>
 			<th rowspan="2"><div class="bold center">Topics</div></th>
@@ -91,21 +91,25 @@
 									$ref = new DateTime($value->finished_at);
 									$diff = $now->diff($ref);
 									//printf('%d days, %d hours, %d minutes', $diff->d, $diff->h, $diff->i);
-									if($diff->d == 0 && $diff->h == 0 && $diff->i == 0){
+									if($diff->d == 0 && $diff->h == 0 && $diff->i == 0 && $diff->s == 0){
 										echo"N/A";
 									}
 									else{
 										if($diff->d != 0){
 											echo $diff->d;
-											if($diff->d == 1){ echo" day";}else{ echo" days "; }
+											if($diff->d == 1){ echo" day ";}else{ echo" days "; }
 										}
 										if($diff->h != 0){
 											echo $diff->h;
-											if($diff->h == 1){ echo" hour";}else{ echo" hours "; }
+											if($diff->h == 1){ echo" hour ";}else{ echo" hours "; }
 										}
 										if($diff->i != 0){
 											echo $diff->i;
-											if($diff->i == 1){ echo" minute";}else{ echo" minutes "; }
+											if($diff->i == 1){ echo" minute ";}else{ echo" minutes "; }
+										}
+										if($diff->i == 0 && $diff->s != 0){
+											echo $diff->s;
+											if($diff->s == 1){ echo" second ";}else{ echo" seconds "; }
 										}
 									}
 								}
@@ -162,7 +166,7 @@
 	<div id='inline_content' style='padding:10px; background:#fff;'>
 <pre>
 SELECT * FROM janak.assistly_sync_logfiles
-ORDER BY started_at desc
+ ORDER BY started_at desc
 </pre>
 	</div>
 </div>	
@@ -172,6 +176,6 @@ ORDER BY started_at desc
 		</div><!-- centered -->
 </div><!-- body wrapper -->
 <?php 
-	$start = array('start_time'=>$start_time);
+	$start = array('start_time'=>$start_time,'start_width'=>'wide');
 	render('_footer',$start)
 ?>

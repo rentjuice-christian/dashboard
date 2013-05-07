@@ -105,7 +105,7 @@
 if($timeFrame == "alltime"){
 ?>
 SELECT c.super_tag, COUNT(*)
- FROM janak.assistly_cases c
+  FROM janak.assistly_cases c
  GROUP BY 1
  ORDER BY 2 DESC
 <?php
@@ -113,8 +113,8 @@ SELECT c.super_tag, COUNT(*)
 else{
 ?>
 SELECT c.super_tag, COUNT(*)
- FROM janak.assistly_cases c
-WHERE DATE_ADD(created_at, INTERVAL <?php echo $timeFrame; ?> DAY) >= SYSDATE()
+  FROM janak.assistly_cases c
+ WHERE DATE_ADD(created_at, INTERVAL <?php echo $timeFrame; ?> DAY) >= SYSDATE()
  GROUP BY 1
  ORDER BY 2 DESC
 <?php

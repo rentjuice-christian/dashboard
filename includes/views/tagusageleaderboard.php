@@ -103,9 +103,9 @@ if($timeFrame != "alltime")
 {
 ?>
 SELECT label_name, COUNT(*)
- FROM janak.assistly_case_labels cl, janak.assistly_cases c
-WHERE cl.case_id = c.id
-  AND DATE_ADD(created_at, INTERVAL <?php echo $timeFrame; ?> DAY) >= SYSDATE()
+  FROM janak.assistly_case_labels cl, janak.assistly_cases c
+ WHERE cl.case_id = c.id
+   AND DATE_ADD(created_at, INTERVAL <?php echo $timeFrame; ?> DAY) >= SYSDATE()
  GROUP BY 1
  ORDER BY 2 desc
 <?php	
@@ -113,8 +113,8 @@ WHERE cl.case_id = c.id
 else{
 	?>
 SELECT label_name, COUNT(*)
- FROM janak.assistly_case_labels cl, janak.assistly_cases c
-WHERE cl.case_id = c.id
+  FROM janak.assistly_case_labels cl, janak.assistly_cases c
+ WHERE cl.case_id = c.id
  GROUP BY 1
  ORDER BY 2 desc
 <?php

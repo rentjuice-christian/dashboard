@@ -5,6 +5,6 @@ render('_header',array('title'=>'Error'))
 
 ?>
 
-<p><?php echo $message?></p>
+<p>dasda<?php echo $message?></p>
 
 <?php render('_footer')?>

@@ -10,19 +10,13 @@
 	}
 	else{ $tagUsageLabel = 'All Tags'; }
 	
-	if(isset($_REQUEST['timespan'])){
-		$timeFrame = $_REQUEST['timespan'];
-	}
-	else{
-		$timeFrame = '5';
-	}
+	if(isset($_REQUEST['timespan'])){ $timeFrame = $_REQUEST['timespan']; }
+	else{ $timeFrame = '5'; }
 	
 	if(isset($_REQUEST['movingaverage'])){
 			
 		if (!empty($_REQUEST['movingaverage'])){
-			if( $_REQUEST['movingaverage'] < 30 ){
-				$dateMove = $_REQUEST['movingaverage'];
-			}
+			if( $_REQUEST['movingaverage'] < 30 ){	$dateMove = $_REQUEST['movingaverage'];	}
 			else{ $dateMove = "7"; }
 		}
 		else{ $dateMove = "7"; }
@@ -30,13 +24,15 @@
 	}
 	else{ $dateMove = "7"; }
 	
+	if(isset($_REQUEST['type'])){ $ticketType = $_REQUEST['type']; }
+	else{ $ticketType = '1'; }
 	
-	if(isset($_REQUEST['type'])){
-		$ticketType = $_REQUEST['type'];
-	}
-	else{
-		$ticketType = '1';
-	}
+	if(isset($_REQUEST['offices'])){ $officeNameValue = $_REQUEST['offices']; }
+	else{ $officeNameValue = 'all'; }
+	
+	if(isset($_REQUEST['users'])){ $usersNameValue = $_REQUEST['users']; }
+	else{ $usersNameValue = 'all'; }
+	
 	
 		
 ?>
@@ -86,9 +82,7 @@ $(function () {
                     marker: {
                         lineWidth: 1,
                         lineColor: '#666666',
-						<?php //if($timeFrame > 4){ ?>
 						enabled: false,
-						<?php //} ?>
 						states: {
 							hover: {
 								enabled: true,
@@ -215,7 +209,7 @@ $(function () {
 <?php
 	
 	/*echo"<pre>";
-		print_r($result2);
+		print_r($barcontent_users);
 	echo"</pre>";*/
 	
 ?>
@@ -240,6 +234,57 @@ $(function () {
 	
 	<div class="align_right">
 		<input type="hidden" value="resolvedbysupertag" name="page" />
+		<span>Users</span>
+		<select name="users" onchange="submit();" class="select_time" style="width:150px;">
+			<option <?php if($usersNameValue == "all"){ echo "selected"; } else{ echo""; } ?> value="all">All Users</option>
+			<?php
+				$getValueUsers = $barcontent_users;
+				$countDataUsers = count($getValueUsers);
+				if($countDataUsers != 0){
+					
+					foreach($getValueUsers as $value){
+						$userFirstName = trim($value->first_name);
+						$userLastName = trim($value->last_name);
+						$userID = trim($value->rentjuice_user_id);
+						$userCount = trim($value->user_count);
+					
+			?>
+					<option value="<?php echo $userID ; ?>" <?php if($usersNameValue == $userID){ echo "selected"; } else{ echo""; } ?>>
+						<?php echo $userLastName.",".$userFirstName." (".$userCount.")"; ?>
+					</option>
+			<?php				
+						
+					}
+				}
+			?>
+			
+		</select>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<span>Offices</span>
+		<select name="offices" onchange="submit();" class="select_time" style="width:150px;">
+			<option <?php if($officeNameValue == "all"){ echo "selected"; } else{ echo""; } ?> value="all">All Offices</option>
+			<?php
+				$getValueOffice = $barcontent_office;
+				$countDataOffice = count($getValueOffice);
+				if($countDataOffice != 0){
+					
+					foreach($getValueOffice as $value){
+						$officeName = trim($value->name);
+						$officeID = trim($value->rentjuice_office_id);
+						$countOffice = trim($value->ticket_counts);
+						if(!empty($officeName)){
+			?>
+					<option value="<?php echo $officeID ; ?>" <?php if($officeNameValue == $officeID){ echo "selected"; } else{ echo""; } ?>>
+						<?php echo $officeName." (".$countOffice.")"; ?>
+					</option>
+			<?php				
+						}
+					}
+				}
+			?>
+			
+		</select>
+		&nbsp;&nbsp;&nbsp;&nbsp;
 		<span>Moving Average</span>
 		<select name="movingaverage" onchange="submit();" class="select_time">
 			<?php
@@ -304,7 +349,7 @@ else{
 <?php
 
 $arrayDate = array('1'=>'7','2'=>'14','3'=>'21','4'=>'28','5'=>'30','6'=>'60','7'=>'90','8'=>'120','9'=>'150','10'=>'180','11'=>'360','12'=>'720');
-$arrayType = array('1'=>'alltickets','2'=>'email','3'=>'phone call','4'=>'chat','5'=>'tweet','6'=>'qna');
+$arrayType = array('1'=>'alltickets','2'=>'email','3'=>'phone','4'=>'chat','5'=>'tweet','6'=>'qna');
 
 if (array_key_exists($timeFrame,$arrayDate)){
 	$timespan = $arrayDate[$timeFrame];

@@ -8,6 +8,7 @@
 <link type="text/css" href="assets/css/colorbox.css" rel="stylesheet" />
 <link type="text/css" href="assets/css/jquery.dataTables_themeroller.css" rel="stylesheet" />
 <link type="text/css" href="assets/css/jquery-ui-1.8.4.custom.css" rel="stylesheet" />
+<link type="text/css" href="assets/css/slider.css" rel="stylesheet" />
 <script type="text/javascript" src="assets/js/jquery.js"></script>
 <script src="assets/js/highcharts.js"></script>
 <script src="assets/js/exporting.js"></script>
@@ -17,12 +18,17 @@
 <script src="assets/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="assets/js/jquery.qtip-1.0.0-rc3.min.js"></script>
 <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
+<script src="assets/js/slides.jquery.js"></script>
 <script>
 	jQuery(document).ready(function(){
 	
+		jQuery('#cboxOverlay').css("display","block");
+		jQuery('#cboxOverlay').css("opacity","0.7");
+		jQuery('#spinner').show();
+	
 		jQuery(".inline").colorbox({inline:true, width:"80%", height:"80%"});
 	  	jQuery(".inline_notes").colorbox({inline:true, width:"80%", height:"80%"});
-
+	
 		// Clicking the menu
 		$("#topnav a.topnav").click(function() {
 		  	
@@ -39,11 +45,9 @@
 			jQuery('#spinner').css("display","block");
 			
 		});
-
-			
+	
 	});
 	
-
 	jQuery(window).load(function() { 
 	
 		jQuery('#cboxOverlay').css("display","none");
@@ -53,15 +57,15 @@
 	
 	function addCommas(nStr)
 	{
-	  nStr += '';
-	  x = nStr.split('.');
-	  x1 = x[0];
-	  x2 = x.length > 1 ? '.' + x[1] : '';
-	  var rgx = /(\d+)(\d{3})/;
-	  while (rgx.test(x1)) {
-		x1 = x1.replace(rgx, '$1' + ',' + '$2');
-	  }
-	  return x1 + x2;
+		  nStr += '';
+		  x = nStr.split('.');
+		  x1 = x[0];
+		  x2 = x.length > 1 ? '.' + x[1] : '';
+		  var rgx = /(\d+)(\d{3})/;
+		  while (rgx.test(x1)) {
+			x1 = x1.replace(rgx, '$1' + ',' + '$2');
+		  }
+		  return x1 + x2;
 	}
 </script>
 <style>
@@ -112,6 +116,8 @@
 										<li><h2>General</h2></li>
 										<li><a href="index.php?page=turnaroundtimebymarket" class="topnav">Turnaround Time by Market</a></li>
 										<li><a href="index.php?page=totallistingsbymarket" class="topnav">Data Entry Volume by Market</a></li>
+										<li><a href="index.php?page=listingsourcesovertime" class="topnav">Listings Sources Over Time</a></li>
+										<li><a href="index.php?page=listingsbysource" class="topnav">Listings by Sources</a></li>
 									</ul>
 								</div>
 								<div class="row">
@@ -134,11 +140,13 @@
 										<li><a href="index.php?page=dailynewtickets" class="topnav">Daily New Tickets</a></li>
 										<li><a href="index.php?page=onboardingtickets" class="topnav">Onboarding Tickets</a></li>
 										<li><a href="index.php?page=resolvedbyagent" class="topnav">Resolved by Agent</a></li>
+										<li><a href="index.php?page=runningtotalbyagent" class="topnav"> Running Total by Agent</a></li>
 										<li><a href="index.php?page=ticketsinboundbyuser" class="topnav">Top 100 Users</a></li>
 										<li><a href="index.php?page=ticketsinboundbyoffice" class="topnav">Top 100 Office</a></li>
 										<li><a href="index.php?page=byofficetype" class="topnav">By Office Type</a></li>
 										<li><a href="index.php?page=resolutiontime" class="topnav">Resolution Time</a></li>
 										<li><a href="index.php?page=casesbyregion" class="topnav">Incoming Cases by Region</a></li>
+										<li><a href="index.php?page=ticketscustomertype" class="topnav">By Customer Type</a></li>
 										<li><h2>Super Tags</h2></li>
 										<li><a href="index.php?page=supertagsdefinition" class="topnav">Definitions</a></li>
 										<li><a href="index.php?page=resolvedbysupertag" class="topnav">Resolved by Super Tag</a></li>
@@ -155,8 +163,6 @@
 										<li><h2>Interactions</h2></li>
 										<li><a href="index.php?page=interbychannels" class="topnav">By Channel</a></li>
 										<li><a href="index.php?page=interbyagent" class="topnav">By Agent</a></li>
-										<li><h2>Admin</h2></li>
-										<li><a href="index.php?page=syncstatus" class="topnav">Sync Status</a></li>
 									</ul>
 								</div>
 								
@@ -169,6 +175,14 @@
 									<ul>
 										<li><h2>Admin</h2></li>
 										<li><a href="index.php?page=salesforceapimodels" class="topnav">API Models</a></li>
+										<li><a href="index.php?page=fonalitysalesforce" class="topnav">Fonality/Salesforce Connections</a></li>
+										<li><h2>Radmin Link</h2></li>
+										<li><a href="index.php?page=duplicateaccounts" class="topnav">Duplicate Accounts</a></li>
+										<li><a href="index.php?page=nolastname" class="topnav">No Last Names</a></li>
+										<li><a href="index.php?page=badsalesforceid" class="topnav">Bad Salesforce IDs</a></li>
+										<li><h2>Phone</h2></li>
+										<li><a href="index.php?page=timeonphone" class="topnav">Time On Phone</a></li>
+										<li><a href="index.php?page=numberofcalls" class="topnav">Number of Calls</a></li>
 									</ul>
 								</div>
 							</div>
@@ -185,6 +199,11 @@
 										<li><a href="index.php?page=officegrowth" class="topnav">Office Growth</a></li>
 										<li><a href="index.php?page=listingsgrowth" class="topnav">Listings Growth</a></li>
 										<li><a href="index.php?page=usergrowth" class="topnav">User Growth</a></li>
+										<li><h2> Rotating Overviews</h2></li>
+										<li><a href="index.php?page=rotatingoperations" class="topnav">Operations</a></li>
+										<li><h2>Admin</h2></li>
+										<li><a href="index.php?page=syncstatus" class="topnav">Assistly Sync Status</a></li>
+										<li><a href="index.php?page=salesforcesyncstatus" class="topnav">Salesforce Sync Status</a></li>
 									</ul>
 								</div>
 							</div>

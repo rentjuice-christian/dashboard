@@ -49,6 +49,7 @@ class PageController{
 					}
 				}
 				else{ $barcontent['barcontent'] =  BarGraphs::dailyNewTickets('14'); }
+
 			}
 			
 			// Total Listings by Market Page
@@ -172,58 +173,106 @@ class PageController{
 					if (array_key_exists($_REQUEST['dataentryjobs_time'],$arrayDate)){
 				  		$date = $arrayDate[$_REQUEST['dataentryjobs_time']];
 				    }
-					else{
-					 	$date = "1 WEEK";
-					}
+					else{  $date = "1 WEEK"; }
 				
 				}
-				else{
-					$date = "1 WEEK";
-				}
+				else{ $date = "1 WEEK"; }
 				$barcontent['barcontent'] = BarGraphs::dataEntryJobs($date); 
 			}
 			
 			// Tickets Inbound by User Page
 			if($this->page == "ticketsinboundbyuser"){
 			
-				$arrayDate = array('1'=>'1 WEEK','2'=>'2 WEEK','3'=>'3 WEEK','4'=>'4 WEEK','5'=>'2 MONTH','6'=>'3 MONTH','7'=>'4 MONTH','8'=>'alltime');
+				$arrayDate = array('1'=>'7','2'=>'14','3'=>'21','4'=>'28','5'=>'30','6'=>'60','7'=>'90','8'=>'120','9'=>'alltime');
+				$arrayType = array('1'=>'alltickets','2'=>'email','3'=>'phone','4'=>'chat','5'=>'tweet','6'=>'qna');
 				
 				if(isset($_REQUEST['ticketsinboundbyuser_time'])){
 				
-					if (array_key_exists($_REQUEST['ticketsinboundbyuser_time'],$arrayDate)){ $date = $arrayDate[$_REQUEST['ticketsinboundbyuser_time']]; }
-					else{ $date = "4 WEEK";	}
+					if (array_key_exists($_REQUEST['ticketsinboundbyuser_time'],$arrayDate)){ 
+						$date = $arrayDate[$_REQUEST['ticketsinboundbyuser_time']]; 
+					}
+					else{ $date = "28";	}
 				
 				}
-				else{ $date = "4 WEEK"; }
+				else{ $date = "28"; }
+							
+				if(isset($_REQUEST['tickettype'])){
+				
+					if (array_key_exists($_REQUEST['tickettype'],$arrayType)){
+						$type = $arrayType[$_REQUEST['tickettype']];
+					}
+					else{ $type = "alltickets"; }
+				}
+				else{ $type = "alltickets"; }
+				
+				if(isset($_REQUEST['selectsupertag'])){
+				
+					if(!empty($_REQUEST['selectsupertag'])){ $supertag = urldecode($_REQUEST['selectsupertag']); }
+					else{ $supertag = "allsupertags"; }
+				
+				}
+				else{ $supertag = "allsupertags"; }
+				
+				if(isset($_REQUEST['selecttags'])){
+					if (!empty($_REQUEST['selecttags'])){ $tags = urldecode($_REQUEST['selecttags']); }
+					else{ $tags = "alltags"; }
+				}
+				else{ $tags = "alltags"; }	
 				 
-				$barcontent['barcontent'] = BarGraphs::ticketsInboundByUser($date); 
+				$barcontent['barcontent'] = BarGraphs::ticketsInboundByUser($date,$type,$supertag,$tags); 
 				$barcontent['sub_barcontent'] = BarGraphs::ticketsInboundByUserTop20($date);  
 				$barcontent['sub_barcontent2'] = BarGraphs::ticketsInboundByUserOther($date); 
+				$barcontent['sub_selectsupertag'] = BarGraphs::selectSuperTag($date,$type);
+				$barcontent['tag_barcontent'] = BarGraphs::tagUsageFilter($date,$type); // for filtering the label data
 
 			}
 			
 			// Tickets Inbound by User Page
 			if($this->page == "ticketsinboundbyoffice"){
-			
-				$arrayDate = array('1'=>'1 WEEK','2'=>'2 WEEK','3'=>'3 WEEK','4'=>'4 WEEK','5'=>'2 MONTH','6'=>'3 MONTH','7'=>'4 MONTH','8'=>'alltime');
+				
+
+				$arrayDate = array('1'=>'7','2'=>'14','3'=>'21','4'=>'28','5'=>'60','6'=>'90','7'=>'120','8'=>'alltime');
+				$arrayType = array('1'=>'alltickets','2'=>'email','3'=>'phone','4'=>'chat','5'=>'tweet','6'=>'qna');
 				
 				if(isset($_REQUEST['ticketsinboundbyoffice_time'])){
 				
-					if (array_key_exists($_REQUEST['ticketsinboundbyoffice_time'],$arrayDate)){
-				  		$date = $arrayDate[$_REQUEST['ticketsinboundbyoffice_time']];
-				    }
-					else{
-					 	$date = "4 WEEK";
+					if (array_key_exists($_REQUEST['ticketsinboundbyoffice_time'],$arrayDate)){ 
+						$date = $arrayDate[$_REQUEST['ticketsinboundbyoffice_time']]; 
 					}
+					else{ $date = "28";	}
 				
 				}
-				else{
-					$date = "4 WEEK";
+				else{ $date = "28"; }
+							
+				if(isset($_REQUEST['tickettype'])){
+				
+					if (array_key_exists($_REQUEST['tickettype'],$arrayType)){
+						$type = $arrayType[$_REQUEST['tickettype']];
+					}
+					else{ $type = "alltickets"; }
 				}
+				else{ $type = "alltickets"; }
+				
+				if(isset($_REQUEST['selectsupertag'])){
+				
+					if(!empty($_REQUEST['selectsupertag'])){ $supertag = urldecode($_REQUEST['selectsupertag']); }
+					else{ $supertag = "allsupertags"; }
+				
+				}
+				else{ $supertag = "allsupertags"; }
+				
+				if(isset($_REQUEST['selecttags'])){
+					if (!empty($_REQUEST['selecttags'])){ $tags = urldecode($_REQUEST['selecttags']); }
+					else{ $tags = "alltags"; }
+				}
+				else{ $tags = "alltags"; }	
 				 
-				$barcontent['barcontent'] = BarGraphs::ticketsInboundByOffice($date); 
+				$barcontent['barcontent'] = BarGraphs::ticketsInboundByOffice($date,$type,$supertag,$tags); 
 				$barcontent['sub_barcontent'] = BarGraphs::ticketsInboundByOfficeTop20($date);  
 				$barcontent['sub_barcontent2'] = BarGraphs::ticketsInboundByOfficeOther($date); 
+				$barcontent['sub_selectsupertag'] = BarGraphs::selectSuperTag($date,$type);
+				$barcontent['tag_barcontent'] = BarGraphs::tagUsageFilter($date,$type); // for filtering the label data
+
 			}
 			
 		} // end GET
@@ -232,7 +281,7 @@ class PageController{
 		if($this->page == "resolvedbyagent"){
 		
 			$arrayDate = array('1'=>'7','2'=>'14','3'=>'21','4'=>'28','5'=>'30','6'=>'60','7'=>'90','8'=>'120','9'=>'150','10'=>'180','11'=>'360','12'=>'720');
-			$arrayType = array('1'=>'alltickets','2'=>'email','3'=>'phone call','4'=>'chat','5'=>'tweet','6'=>'qna');
+			$arrayType = array('1'=>'alltickets','2'=>'email','3'=>'phone','4'=>'chat','5'=>'tweet','6'=>'qna');
 				
 			if(isset($_REQUEST['tags'])){
 				if (!empty($_REQUEST['tags'])){ $tags = urldecode($_REQUEST['tags']); }
@@ -275,13 +324,14 @@ class PageController{
 			
 			$barcontent['barcontent'] = BarGraphs::resolvedByAgent($timespan,$movingaverage,$type,$tags);
 			$barcontent['sub_barcontent'] = BarGraphs::resolvedByAgent2($timespan,$type,$tags);
-			$barcontent['tag_barcontent'] = BarGraphs::tagUsageFilter($timespan); // for filtering the label data
+			$barcontent['tag_barcontent'] = BarGraphs::tagUsageFilter($timespan,$type); // for filtering the label data
 		}
 				
 		// For ticket search for offices
 		if($this->page == "ticketsearchforoffices"){
 		
 			$arrayDate = array('1'=>'1 WEEK','2'=>'2 WEEK','3'=>'3 WEEK','4'=>'4 WEEK','5'=>'2 MONTH','6'=>'3 MONTH','7'=>'4 MONTH','8'=>'alltime');
+			//$arrayDate = array('1'=>'7','2'=>'14','3'=>'21','4'=>'28','5'=>'30','6'=>'60','7'=>'90','8'=>'120','9'=>'150','10'=>'180','11'=>'360','12'=>'720');
 			
 			if(isset($_REQUEST['officename'])){
 				if(!empty($_REQUEST['officename'])){ 
@@ -335,9 +385,14 @@ class PageController{
 			
 		}
 		
-		// For ticket search for users
+		// For SycStatus
 		if($this->page == "syncstatus"){
 			$barcontent['barcontent'] = BarGraphs::syncStatus();
+		}
+		
+		// For SalesForce syncstatus report
+		if($this->page == "salesforcesyncstatus"){
+			$barcontent['barcontent'] = BarGraphs::salesForceSyncStatus();
 		}
 		
 		// For By Office Type
@@ -495,7 +550,7 @@ class PageController{
 		if($this->page == "interbyagent"){
 		
 			$arrayDate = array('1'=>'7','2'=>'14','3'=>'21','4'=>'28','5'=>'30','6'=>'60','7'=>'90','8'=>'120','9'=>'150','10'=>'180','11'=>'360','12'=>'720');
-			$arrayType = array('1'=>'alltickets','2'=>'email','3'=>'phone call','4'=>'chat','5'=>'tweet','6'=>'qna');
+			$arrayType = array('1'=>'alltickets','2'=>'email','3'=>'phone','4'=>'chat','5'=>'tweet','6'=>'qna');
 		
 			if(isset($_REQUEST['movingaverage'])){
 				if (!empty($_REQUEST['movingaverage'])){
@@ -547,17 +602,17 @@ class PageController{
 		}
 		
 		// For Sales Force Fields
-		if($this->page == "salesforcefields"){
-		
-			if(isset($_REQUEST['model_id'])){
-				if(!empty($_REQUEST['model_id'])){
-					$id = $_REQUEST['model_id'];
+		if($this->page == "salesforcefields"){		
+			if(isset($_REQUEST['model_name'])){
+				if(!empty($_REQUEST['model_name'])){
+					$name = $_REQUEST['model_name'];
 				}
-				else{ $id = "603"; }
+				else{ $name = ""; }
 			}
-			else{ $id = "603"; }
+			else{ $name = ""; }
 			
-			$barcontent['barcontent'] = BarGraphs::salesForceFields($id);
+			$barcontent['barcontent'] = BarGraphs::salesForceFields($name);
+			$barcontent['barcontent_relationship'] = BarGraphs::salesForceRelationships($name);
 		}
 		
 		// For Rentjuice Office Growth
@@ -585,7 +640,7 @@ class PageController{
 		if($this->page == "resolvedbysupertag"){
 		
 			$arrayDate = array('1'=>'7','2'=>'14','3'=>'21','4'=>'28','5'=>'30','6'=>'60','7'=>'90','8'=>'120','9'=>'150','10'=>'180','11'=>'360','12'=>'720');
-			$arrayType = array('1'=>'alltickets','2'=>'email','3'=>'phone call','4'=>'chat','5'=>'tweet','6'=>'qna');
+			$arrayType = array('1'=>'alltickets','2'=>'email','3'=>'phone','4'=>'chat','5'=>'tweet','6'=>'qna');
 				
 				
 			if(isset($_REQUEST['timespan'])){
@@ -621,8 +676,17 @@ class PageController{
 			}
 			else{ $type = "alltickets"; }
 			
+			if(isset($_REQUEST['offices'])){ $officeNameValue = $_REQUEST['offices']; }
+			else{ $officeNameValue = 'all'; }
 			
-			$barcontent['barcontent'] = BarGraphs::resolvedBySuperTag($timespan,$movingaverage,$type);;
+			if(isset($_REQUEST['users'])){ $usersNameValue = $_REQUEST['users']; }
+			else{ $usersNameValue = 'all'; }
+			
+			
+			$barcontent['barcontent'] = BarGraphs::resolvedBySuperTag($timespan,$movingaverage,$type,$officeNameValue,$usersNameValue);
+			$barcontent['barcontent_office'] = BarGraphs::resolvedBySuperTagOffice($timespan);
+			$barcontent['barcontent_users'] = BarGraphs::resolvedBySuperTagUsername($timespan);
+			
 		}
 		
 		// Super Tag Usage over time Page
@@ -677,8 +741,279 @@ class PageController{
 			
 		}
 		
-		$barcontent['start_time'] = $this->start; // pass teh start time valkue into barcontent array
+		// Rotating Operations Page
+		if($this->page == "rotatingoperations"){
+		
+
+			$barcontent['totallistingsbymarket'] = BarGraphs::totalListingsByMarket('7');
+			$barcontent['dataimportovertime'] = BarGraphs::dataImportsOverTime();  
+			$barcontent['dailynewtickets'] = BarGraphs::dailyNewTickets('7');
+			$barcontent['tagusageovertime'] = BarGraphs::tagUsageOvertime('28','Data Entry','7');
+			$barcontent['tagusageovertimebug'] = BarGraphs::tagUsageOvertime('28','Bug','7');
+			$barcontent['tagusageovertimecraiglist'] = BarGraphs::tagUsageOvertime('28','Craigslist','7');
+			$barcontent['tagusageovertimesyndication'] = BarGraphs::tagUsageOvertime('28','Syndication','7');
+			$barcontent['tagusageovertimeonboarding'] = BarGraphs::tagUsageOvertime('28','Onboarding','7');
+			$barcontent['onboardingticketsbystatus'] = BarGraphs::onBoardingTicketsbyStatus('alltime');
+			$barcontent['resolvedbyagent'] = BarGraphs::resolvedByAgent('7','1','alltickets','alltags');
+		}
+		
+		// For Duplicate Accounts
+		if($this->page == "duplicateaccounts"){
+			$barcontent['barcontent'] = BarGraphs::duplicateAccounts();
+		}
+		
+		// For Rentjuice Bad Salesforce ID
+		if($this->page == "badsalesforceid"){
 			
+			if(isset($_REQUEST['account_status'])){
+				if (!empty($_REQUEST['account_status'])){
+					if($_REQUEST['account_status'] == "exclude" || $_REQUEST['account_status'] =="include"){
+						$account_status = $_REQUEST['account_status'];
+					}
+					else{ $account_status = "exclude"; } 
+				}
+				else{
+					$account_status = "exclude";
+				}
+			}
+			else{ $account_status = "exclude"; }
+			
+			if(isset($_REQUEST['show_blank_id'])){
+				if (!empty($_REQUEST['show_blank_id'])){
+					if($_REQUEST['show_blank_id'] == "no" || $_REQUEST['show_blank_id'] =="yes"){
+						$show = $_REQUEST['show_blank_id'];
+					}
+					else{ $show = "no"; } 
+				}
+				else{
+					$show = "no";
+				}
+			}
+			else{ $show = "no"; }
+			
+			$barcontent['barcontent'] = BarGraphs::badSalesforceID($account_status,$show);
+			
+			
+		}
+		
+		// For Rentjuice No Last Names Report
+		if($this->page == "nolastname"){
+			$barcontent['barcontent'] = BarGraphs::noLastName();
+		}
+		
+		// For Rentjuice Fonality/Salesforce Connections
+		if($this->page == "fonalitysalesforce"){
+			$barcontent['barcontent'] = BarGraphs::fonalitySalesforce();
+		}
+		
+		// For Rentjuice Fonality/Salesforce Connections
+		if($this->page == "timeonphone"){
+		
+			$arrayDate = array('1'=>'7','2'=>'14','3'=>'21','4'=>'28','5'=>'30','6'=>'60','7'=>'90','8'=>'120','9'=>'150','10'=>'180','11'=>'360','12'=>'720');
+				
+			if(isset($_REQUEST['timespan'])){
+					if(!empty($_REQUEST['timespan'])){ 
+						if (array_key_exists($_REQUEST['timespan'],$arrayDate)){
+							$timespan = $arrayDate[$_REQUEST['timespan']];
+						}
+						else{ $timespan= "30"; }
+					}
+					else{ $timespan= "30"; }
+			}
+			else{ $timespan= "30"; }
+			
+			if(isset($_REQUEST['movingaverage'])){
+			
+				if (!empty($_REQUEST['movingaverage'])){
+					if( $_REQUEST['movingaverage'] < 30 ){
+						$movingaverage = $_REQUEST['movingaverage'];
+					}
+					else{ $movingaverage = "7";	}
+				}
+				else{ $movingaverage = "7"; }
+				
+			}
+			else{ $movingaverage = "7"; }
+		
+			$barcontent['barcontent'] = BarGraphs::timeOnPhone($movingaverage,$timespan);
+		}
+		
+		// For Rentjuice Number of Calls
+		if($this->page == "numberofcalls"){
+		
+			$arrayDate = array('1'=>'7','2'=>'14','3'=>'21','4'=>'28','5'=>'30','6'=>'60','7'=>'90','8'=>'120','9'=>'150','10'=>'180','11'=>'360','12'=>'720');
+				
+			if(isset($_REQUEST['timespan'])){
+					if(!empty($_REQUEST['timespan'])){ 
+						if (array_key_exists($_REQUEST['timespan'],$arrayDate)){
+							$timespan = $arrayDate[$_REQUEST['timespan']];
+						}
+						else{ $timespan= "30"; }
+					}
+					else{ $timespan= "30"; }
+			}
+			else{ $timespan= "30"; }
+			
+			if(isset($_REQUEST['movingaverage'])){
+			
+				if (!empty($_REQUEST['movingaverage'])){
+					if( $_REQUEST['movingaverage'] < 30 ){
+						$movingaverage = $_REQUEST['movingaverage'];
+					}
+					else{ $movingaverage = "7";	}
+				}
+				else{ $movingaverage = "7"; }
+				
+			}
+			else{ $movingaverage = "7"; }
+		
+			$barcontent['barcontent'] = BarGraphs::numberOfCalls($movingaverage,$timespan);
+		}
+		
+		// For Rentjuice Longest Calls Reports
+		if($this->page == "longestcalls"){
+			
+			$arrayDate = array('1'=>'7','2'=>'14','3'=>'21','4'=>'28','5'=>'30','6'=>'60','7'=>'90','8'=>'120','9'=>'150','10'=>'180','11'=>'360','12'=>'720');
+				
+			if(isset($_REQUEST['timespan'])){
+					if(!empty($_REQUEST['timespan'])){ 
+						if (array_key_exists($_REQUEST['timespan'],$arrayDate)){
+							$timespan = $arrayDate[$_REQUEST['timespan']];
+						}
+						else{ $timespan= "30"; }
+					}
+					else{ $timespan= "30"; }
+			}
+			else{ $timespan= "30"; }
+			
+			$barcontent['barcontent'] = BarGraphs::longestCalls($timespan);
+		}
+		
+		// For Rentjuice Listing Sources Overtime
+		if($this->page == "listingsourcesovertime"){
+			
+			$arrayDate = array('1'=>'7','2'=>'14','3'=>'21','4'=>'28','5'=>'30','6'=>'60','7'=>'90','8'=>'120','9'=>'150','10'=>'180','11'=>'360','12'=>'720');
+			
+			if(isset($_REQUEST['timespan'])){
+				if(!empty($_REQUEST['timespan'])){ 
+					if (array_key_exists($_REQUEST['timespan'],$arrayDate)){
+						$timeSpan = $arrayDate[$_REQUEST['timespan']];
+					}
+					else{ $timeSpan= "7"; }
+				}
+				else{ $timeSpan= "7"; }
+			}
+			else{ $timeSpan= "7"; }
+			
+			if(isset($_REQUEST['status'])){
+				if(!empty($_REQUEST['status'])){
+					if($_REQUEST['status'] == "active" || $_REQUEST['status'] =="all"){ $status=$_REQUEST['status']; }
+					else{ $status="active"; }
+				}
+				else{ $status="active"; }
+			}
+			else{ $status="active"; }
+			
+			$barcontent['barcontent'] = BarGraphs::listingSourcesOvertime($timeSpan,$status);
+		}
+		
+		// For Rentjuice Listing Sources Overtime
+		if($this->page == "listingsbysource"){
+			
+			$arrayDate = array('1'=>'7','2'=>'14','3'=>'21','4'=>'28','5'=>'30','6'=>'60','7'=>'90','8'=>'120','9'=>'150','10'=>'180','11'=>'360','12'=>'720');
+			
+			if(isset($_REQUEST['timespan'])){
+				if(!empty($_REQUEST['timespan'])){ 
+					if (array_key_exists($_REQUEST['timespan'],$arrayDate)){
+						$timeSpan = $arrayDate[$_REQUEST['timespan']];
+					}
+					else{ $timeSpan= "28"; }
+				}
+				else{ $timeSpan= "28"; }
+			}
+			else{ $timeSpan= "28"; }
+			
+			$barcontent['barcontent'] = BarGraphs::listingsBySource($timeSpan);
+		}
+		
+		 //For Rentjuice Tickets Customer type
+		if($this->page == "ticketscustomertype"){
+			
+			$arrayDate = array('1'=>'7','2'=>'14','3'=>'21','4'=>'28','5'=>'30','6'=>'60','7'=>'90','8'=>'120','9'=>'150','10'=>'180','11'=>'360','12'=>'720');
+			
+			if(isset($_REQUEST['timespan'])){
+				if(!empty($_REQUEST['timespan'])){ 
+					if (array_key_exists($_REQUEST['timespan'],$arrayDate)){
+						$timeSpan = $arrayDate[$_REQUEST['timespan']];
+					}
+					else{ $timeSpan= "28"; }
+				}
+				else{ $timeSpan= "28"; }
+			}
+			else{ $timeSpan= "28"; }
+			
+			$barcontent['barcontent'] = BarGraphs::ticketsCustomerType($timeSpan);
+		}
+		
+		 //For Running Total by Agent
+		if($this->page == "runningtotalbyagent"){
+			
+			$arrayDate = array('1'=>'24','2'=>'48','3'=>'72','4'=>'96','5'=>'120','6'=>'144','7'=>'168');
+		
+			if(isset($_REQUEST['timespan'])){ 
+				if (!empty($_REQUEST['timespan'])){
+					if (array_key_exists($_REQUEST['timespan'],$arrayDate)){
+						$timeFrame = $arrayDate[$_REQUEST['timespan']];
+					}
+					else{ $timeFrame = '96'; }
+				}
+				else{ $timeFrame = '96'; }
+			}
+			else{ $timeFrame = '96'; }
+		
+			$barcontent['barcontent'] = BarGraphs::runningTotalByAgent($timeFrame);
+			
+		}
+		
+		if($this->page == "runningtotalbyagent_json"){
+			
+			$arrayDate = array('1'=>'24','2'=>'48','3'=>'72','4'=>'96','5'=>'120','6'=>'144','7'=>'168');
+		
+			if(isset($_REQUEST['timespan'])){ 
+				if (!empty($_REQUEST['timespan'])){
+					if (array_key_exists($_REQUEST['timespan'],$arrayDate)){
+						$timeFrame = $arrayDate[$_REQUEST['timespan']];
+					}
+					else{ $timeFrame = '96'; }
+				}
+				else{ $timeFrame = '96'; }
+			}
+			else{ $timeFrame = '96'; }
+		
+			$barcontent['barcontent'] = BarGraphs::runningTotalByAgent($timeFrame);
+			
+		}
+		
+		if($this->page == "runningtotalbyagent_test"){
+			
+			$arrayDate = array('1'=>'24','2'=>'48','3'=>'72','4'=>'96','5'=>'120','6'=>'144','7'=>'168');
+		
+			if(isset($_REQUEST['timespan'])){ 
+				if (!empty($_REQUEST['timespan'])){
+					if (array_key_exists($_REQUEST['timespan'],$arrayDate)){
+						$timeFrame = $arrayDate[$_REQUEST['timespan']];
+					}
+					else{ $timeFrame = '96'; }
+				}
+				else{ $timeFrame = '96'; }
+			}
+			else{ $timeFrame = '96'; }
+		
+			$barcontent['barcontent'] = BarGraphs::runningTotalByAgent($timeFrame);
+			
+		}
+		
+		$barcontent['start_time'] = $this->start; // pass the start time valkue into barcontent array	
 		render($this->page,$barcontent);
 		
 	}

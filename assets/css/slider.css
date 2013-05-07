@@ -1,0 +1,122 @@
+/* 
+	Resets defualt browser settings
+	reset.css
+*/
+
+.container_border{ border:1px solid #CCCCCC;  }
+#container_slides {
+	width:1170px;
+	/*padding:10px;*/
+	margin:0 auto;
+	position:relative;
+	z-index:0;
+	/*border:1px solid #CCCCCC;*/
+	padding:20px 5px 5px;
+}
+
+/*#frame {
+	position:absolute;
+	z-index:0;
+	width:739px;
+	height:341px;
+	top:-3px;
+	left:-80px;
+}*/
+
+#example {
+	/*width:1012px;
+	height:450px;
+	position:relative;*/
+}
+
+/*
+	Slideshow style
+*/
+
+#slides {
+	/*position:absolute;
+	top:15px;
+	left:4px;
+	z-index:100;*/
+}
+
+/*
+	Slides container
+	Important:
+	Set the width of your slides container
+	If height not specified height will be set by the slide content
+	Set to display none, prevents content flash
+*/
+
+
+.slides_container {
+	width:1170px;
+	height:545px;
+	overflow:hidden;
+	position:relative;
+	display:none;
+	/*border:1px solid #CCCCCC;*/
+}
+
+/*
+	Each slide
+	Important:
+	Set the width of your slides
+	Offeset for the 20px of padding
+	If height not specified height will be set by the slide content
+	Set to display block
+*/
+
+#slides .slide {
+	/*padding:20px;*/
+	width:1170px;
+	height:540px;
+	display:block;
+}
+
+/*
+	Next/prev buttons
+*/
+#slides .next,#slides .prev {
+	position:absolute;
+	top:270px;
+	left:-25px;
+	width:24px;
+	height:43px;
+	display:none;
+	z-index:101;
+}
+
+#slides .next {
+	left:1181px;
+}
+
+/*
+	Pagination
+*/
+
+.pagination {
+	margin:26px auto 0;
+	width:100px;
+}
+
+.pagination li {
+	float:left;
+	margin:0 1px;
+	list-style:none;
+}
+
+.pagination li a {
+	display:block;
+	width:12px;
+	height:0;
+	padding-top:12px;
+	background-image:url(../images/pagination.png);
+	background-position:0 0;
+	float:left;
+	overflow:hidden;
+}
+
+.pagination li.current a {
+	background-position:0 -12px;
+}

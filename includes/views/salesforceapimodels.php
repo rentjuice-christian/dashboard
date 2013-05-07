@@ -5,7 +5,7 @@
 
 
 <div class="body-wrapper">
-		<div style="width:87%; margin:0 auto;">
+		<div style="width:80%; margin:0 auto;">
 			<div class="main_content_temp">
 
 <?php
@@ -38,13 +38,13 @@
 			"sPaginationType": "full_numbers",
 			"bAutoWidth": false,
 			"aoColumns": [
-			 null,
-			 { "sType": "numeric-comma" },
-			{ "sType": "numeric-comma" },
 			  null,
-			  { "bSortable": false },
-			  { "bSortable": false },
-			  { "bSortable": false }
+			  { "sType": "numeric-comma", "bSearchable": false  },
+			  { "sType": "numeric-comma", "bSearchable": false},
+			  { "bSearchable": true },
+			  { "bSortable": false, "bSearchable": false },
+			  { "bSortable": false, "bSearchable": false },
+			  { "bSortable": false, "bSearchable": false }
 			 ], 
 			"iDisplayLength": 100
 		} );
@@ -95,7 +95,7 @@
 
 
 						<td class="align_left"  style="border-left:1px solid #cccccc;">
-							<a href="?page=salesforcefields&model_id=<?php echo $value->id;  ?>"><?php echo $value->NAME;  ?></a>
+							<a href="?page=salesforcefields&model_name=<?php echo $value->NAME;  ?>"><?php echo $value->NAME;  ?></a>
 						</td>
 						<td class="align_right"  style="border-left:1px solid #cccccc;"><?php echo number_format($value->record_count);  ?></td>
 						<td class="align_right"  style="border-left:1px solid #cccccc;"><?php echo number_format($value->field_count);  ?></td>

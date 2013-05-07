@@ -135,7 +135,7 @@ SELECT tag_count, cl.tag_name, t.tag_name super_tag_name
 	
 <pre>
 SELECT tag_name, priority FROM super_tags
-ORDER BY priority
+ ORDER BY priority
 </pre>
 	</div>
 </div>

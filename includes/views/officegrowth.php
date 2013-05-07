@@ -112,14 +112,14 @@ $(function () {
 							echo"name:'".$keyListings."',";
 							echo"data: [";
 							$a = 0;
-								foreach($valueListings as $keyDate => $valueListings ){
+								foreach($valueListings as $keyDate => $valueData ){
 									$a = $a + 1;
 									
 									$arrayValues = explode("-",$keyDate);
 									$getmonth = $arrayValues[1] - 1;
 									$reindex = $arrayValues[0].",".$getmonth.",01";
 									
-									echo "[Date.UTC(".$reindex."),".$valueListings."]"; 
+									echo "[Date.UTC(".$reindex."),".$valueData."]"; 
 									
 									if($a != $countListings2){ echo",";}			
 								}

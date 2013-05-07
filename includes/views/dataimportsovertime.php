@@ -13,7 +13,7 @@
 				echo"</pre>";*/
 			?>
 			
-			<script type="text/javascript">
+<script type="text/javascript">
 
 $(function () {
 
@@ -108,13 +108,12 @@ $(function () {
 <div id='inline_content' style='padding:10px; background:#fff;'>
 <pre>
 SELECT LEFT(o.created_on,7), COUNT(DISTINCT l.office_id)
-FROM rentjuice.offices o INNER JOIN rentjuice.listings l ON l.office_id = o.id
-WHERE (l.import_reference_id IS NOT NULL AND import_reference_id != '')
-AND o.name NOT LIKE "%OLD DE ACCOUNT%"
-AND o.dataentry = 0
-AND o.id != 4463
-GROUP BY 1
-ORDER BY 1
+  FROM rentjuice.offices o INNER JOIN rentjuice.listings l ON l.office_id = o.id
+ WHERE (l.import_reference_id IS NOT NULL AND import_reference_id != '')
+   AND o.name NOT LIKE "%OLD DE ACCOUNT%"
+   AND o.dataentry = 0
+ GROUP BY 1
+ ORDER BY 1
 </pre>
 </div>
 </div>

@@ -267,43 +267,38 @@ $(function () {
 <?php
 if($tagUsageLabel !="All Tags"){
 ?>
-SELECT
-   days.created_at,
-   (
-    SELECT COUNT(*)/IF(DATEDIFF(SYSDATE(),days.created_at) >= <?php echo $dateMove; ?>, <?php echo $dateMove; ?>, DATEDIFF(SYSDATE(),days.created_at))
-      FROM janak.assistly_case_labels cl, janak.assistly_cases c
-     WHERE days.created_at <= DATE(c.created_at) AND DATE(c.created_at) <= DATE_ADD(days.created_at, INTERVAL <?php echo ($dateMove - 1); ?> DAY)         
-       AND cl.case_id = c.id
-       AND label_name = '<?php echo  $tagUsageLabel; ?>'
-    ) ticket_count
-FROM
-
-      (SELECT DATE_SUB(DATE(SYSDATE()),INTERVAL id DAY) created_at
-           FROM janak.counter_records
-        WHERE id <= <?php echo $tagTime; ?>) days
-
-ORDER BY days.created_at
+SELECT days.created_at,
+       (
+        SELECT COUNT(*)/IF(DATEDIFF(SYSDATE(),days.created_at) >= <?php echo $dateMove; ?>, <?php echo $dateMove; ?>, DATEDIFF(SYSDATE(),days.created_at))
+          FROM janak.assistly_cases c
+         WHERE days.created_at <= DATE(c.created_at) AND DATE(c.created_at) <= DATE_ADD(days.created_at, INTERVAL <?php echo ($dateMove - 1); ?> DAY)
+         AND c.super_tag = '<?php echo  $tagUsageLabel; ?>'
+       ) ticket_count
+  FROM
+       (SELECT DATE_SUB(DATE(SYSDATE()),INTERVAL id DAY) created_at
+          FROM janak.counter_records
+         WHERE id <= <?php echo $tagTime; ?>) days
+ ORDER BY days.created_at 
 <?php 
 }
 else{
 ?>
-SELECT
-   days.created_at,
-   (
-    SELECT COUNT(*)/IF(DATEDIFF(SYSDATE(),days.created_at) >= <?php echo $dateMove; ?>, <?php echo $dateMove; ?>, DATEDIFF(SYSDATE(),days.created_at))
-     WHERE days.created_at <= DATE(c.created_at) AND DATE(c.created_at) <= DATE_ADD(days.created_at, INTERVAL <?php echo ($dateMove - 1); ?> DAY)         
-      FROM janak.assistly_cases c
-    ) ticket_count
-FROM
-
-      (SELECT DATE_SUB(DATE(SYSDATE()),INTERVAL id DAY) created_at
-           FROM janak.counter_records
-        WHERE id <= <?php echo $tagTime; ?>) days
-
-ORDER BY days.created_at
-<?php 
+SELECT days.created_at,
+       (
+        SELECT COUNT(*)/IF(DATEDIFF(SYSDATE(),days.created_at) >= <?php echo $dateMove; ?>, <?php echo $dateMove; ?>, DATEDIFF(SYSDATE(),days.created_at))
+          FROM janak.assistly_cases c
+         WHERE days.created_at <= DATE(c.created_at) AND DATE(c.created_at) <= DATE_ADD(days.created_at, INTERVAL <?php echo ($dateMove - 1); ?> DAY)
+       ) ticket_count
+  FROM
+       (SELECT DATE_SUB(DATE(SYSDATE()),INTERVAL id DAY) created_at
+          FROM janak.counter_records
+         WHERE id <= <?php echo $tagTime; ?>) days
+ ORDER BY days.created_at
+ <?php 
 }
 ?>
+
+
 </pre>
 	</div>
 </div>

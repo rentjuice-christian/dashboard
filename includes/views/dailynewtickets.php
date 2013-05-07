@@ -194,33 +194,33 @@ $(function () {
 	if($timeFrame == '7'){
 	?>
 SELECT DATE(created_at) as created_at, COUNT(*) as average_tickets
-FROM janak.assistly_cases
-WHERE DATE_ADD(created_at, INTERVAL 7 DAY) >= SYSDATE()
-GROUP BY 1
-ORDER BY 1
+  FROM janak.assistly_cases
+ WHERE DATE_ADD(created_at, INTERVAL 7 DAY) >= SYSDATE()
+ GROUP BY 1
+ ORDER BY 1
 	<?php
 	}
 	else if($timeFrame == '14'){
 	?>
 SELECT DATE(created_at) as created_at, COUNT(*) as average_tickets
-FROM janak.assistly_cases
-WHERE DATE_ADD(created_at, INTERVAL 14 DAY) >= SYSDATE()
-GROUP BY 1
-ORDER BY 1
+  FROM janak.assistly_cases
+ WHERE DATE_ADD(created_at, INTERVAL 14 DAY) >= SYSDATE()
+ GROUP BY 1
+ ORDER BY 1
 	<?php
 	}
 	else{
 	?>
 
 SELECT all_data.created_at,
-  (SELECT COUNT(*)/COUNT(DISTINCT(DATE(created_at)))
-     FROM janak.assistly_cases
-    WHERE all_data.created_at <= DATE(created_at) AND DATE(created_at) <= DATE_ADD(all_data.created_at, INTERVAL 7 DAY)) average_tickets
-FROM
-(SELECT DATE(created_at) created_at, COUNT(*)
-FROM janak.assistly_cases
-GROUP BY 1
-ORDER BY 1 ) all_data
+      (SELECT COUNT(*)/COUNT(DISTINCT(DATE(created_at)))
+        FROM janak.assistly_cases
+       WHERE all_data.created_at <= DATE(created_at) AND DATE(created_at) <= DATE_ADD(all_data.created_at, INTERVAL 7 DAY)) average_tickets
+  FROM
+      (SELECT DATE(created_at) created_at, COUNT(*)
+        FROM janak.assistly_cases
+ GROUP BY 1
+ ORDER BY 1 ) all_data
 
 	<?php
 	}

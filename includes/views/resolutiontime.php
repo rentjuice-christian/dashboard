@@ -249,18 +249,17 @@ SELECT days.created_at,
        (
         SELECT AVG(daily_resolution_time) moving_average
           FROM (
-                SELECT AVG(TIMESTAMPDIFF(MINUTE, created_at, resolved_at)/60) daily_resolution_time, <?php echo $groupBy;  ?>    
+                SELECT AVG(TIMESTAMPDIFF(MINUTE, created_at, resolved_at)/60) daily_resolution_time, <?php echo $groupBy;  ?>   
                   FROM janak.assistly_cases
                  GROUP BY DATE(<?php echo $groupBy;  ?>)
                ) daily_times
-          WHERE days.created_at <= DATE(<?php echo $groupBy;  ?> ) AND DATE(<?php echo $groupBy;  ?> ) <= DATE_ADD(days.created_at, INTERVAL <?php echo $dateMove;  ?> DAY)                        
+         WHERE days.created_at <= DATE(<?php echo $groupBy;  ?> ) AND DATE(<?php echo $groupBy;  ?> ) <= DATE_ADD(days.created_at, INTERVAL <?php echo $dateMove;  ?> DAY)                       
        ) hours_to_resolve
   FROM
-             (SELECT DATE_SUB(DATE(SYSDATE()),INTERVAL id DAY) created_at
-                  FROM janak.counter_records
-                 WHERE id <= <?php echo $tagTime;  ?>) days
+       (SELECT DATE_SUB(DATE(SYSDATE()),INTERVAL id DAY) created_at
+          FROM janak.counter_records
+         WHERE id <= <?php echo $tagTime;  ?>) days
  ORDER BY days.created_at DESC
-
 </pre>
 </div>
 </div>

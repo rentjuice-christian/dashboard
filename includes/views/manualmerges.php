@@ -128,23 +128,24 @@
 	<a class='inline' href="#inline_content"><img src="assets/images/show_query.png" alt="show query" /></a>
 </div>
 <div style="display:none">
-	<div id='inline_content' style='padding:10px; background:#fff;'>
-	<pre>
+<div id='inline_content' style='padding:10px; background:#fff;'>
+<pre>
 SELECT COUNT(thread_id), SUM(had_manual_merge), NAME, office_id
-FROM (
-SELECT t.id AS thread_id, IF(a.id, 1, 0) AS had_manual_merge, o.name AS NAME, o.id office_id
-FROM dataentry.emails e
-INNER JOIN dataentry.threads t ON t.id = e.thread_id AND
-e.content_office_id > 0 AND DATE_ADD(t.created_on, INTERVAL <?php echo $timeFrame; ?> WEEK) > SYSDATE()
-LEFT OUTER JOIN dataentry.activities a ON a.thread_id = t.id AND
-a.action LIKE '%merged into this thread'
-INNER JOIN rentjuice.offices o ON t.office_id = o.id
-) AS TMP
-GROUP BY 3
+  FROM (
+        SELECT t.id AS thread_id, IF(a.id, 1, 0) AS had_manual_merge, o.name AS NAME, o.id office_id
+          FROM dataentry.emails e
+               INNER JOIN dataentry.threads t ON t.id = e.thread_id
+                 AND e.content_office_id > 0
+                 AND DATE_ADD(t.created_on, INTERVAL  <?php echo $timeFrame; ?> WEEK) > SYSDATE()
+               LEFT OUTER JOIN dataentry.activities a ON a.thread_id = t.id
+                 AND a.action LIKE '%merged into this thread'
+               INNER JOIN rentjuice.offices o ON t.office_id = o.id
+        ) AS TMP
+ GROUP BY 3
 HAVING SUM(had_manual_merge) > 0
-ORDER BY 2 desc	
-	</pre>
-	</div>
+ ORDER BY 2 desc    
+</pre>
+</div>
 </div>
 
 		

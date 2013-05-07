@@ -104,12 +104,12 @@ SELECT label_name, COUNT(*),
        SUM(IF(c.case_status_type = 'Open',1,0)) OPEN,
        SUM(IF(c.case_status_type = 'Pending',1,0)) pending,
        SUM(IF(c.case_status_type = 'Resolved',1,0)) resolved
- FROM janak.assistly_case_labels cl, janak.assistly_cases c
-WHERE cl.label_name IN ('Database', 'Data Import', 'Feeds', 'Forms', 'Merge', 'Offices', 'Onboarding', 'PM Onboarding', 'Training', 'Webinar')
-  AND cl.case_id = c.id
-  AND DATE_ADD(c.created_at, INTERVAL <?php echo $timeFrame ; ?> DAY) >= SYSDATE()
-GROUP BY 1
-ORDER BY 2 desc
+  FROM janak.assistly_case_labels cl, janak.assistly_cases c
+ WHERE cl.label_name IN ('Database', 'Data Import', 'Feeds', 'Forms', 'Merge', 'Offices', 'Onboarding', 'PM Onboarding', 'Training', 'Webinar')
+   AND cl.case_id = c.id
+   AND DATE_ADD(c.created_at, INTERVAL <?php echo $timeFrame ; ?> DAY) >= SYSDATE()
+ GROUP BY 1
+ ORDER BY 2 desc
 <?php
 	}
 	else{
@@ -120,11 +120,11 @@ SELECT label_name, COUNT(*),
        SUM(IF(c.case_status_type = 'Open',1,0)) OPEN,
        SUM(IF(c.case_status_type = 'Pending',1,0)) pending,
        SUM(IF(c.case_status_type = 'Resolved',1,0)) resolved
- FROM janak.assistly_case_labels cl, janak.assistly_cases c
-WHERE cl.label_name IN ('Database', 'Data Import', 'Feeds', 'Forms', 'Merge', 'Offices', 'Onboarding', 'PM Onboarding', 'Training', 'Webinar')
-  AND cl.case_id = c.id
-GROUP BY 1
-ORDER BY 2 desc
+  FROM janak.assistly_case_labels cl, janak.assistly_cases c
+ WHERE cl.label_name IN ('Database', 'Data Import', 'Feeds', 'Forms', 'Merge', 'Offices', 'Onboarding', 'PM Onboarding', 'Training', 'Webinar')
+   AND cl.case_id = c.id
+ GROUP BY 1
+ ORDER BY 2 desc
 
 <?php
 	}
