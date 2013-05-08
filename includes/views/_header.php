@@ -135,7 +135,7 @@
 								<div class="row">
 									<ul>
 										<li><h2>Tickets</h2></li>
-										<!--<li><a href="index.php?page=ticketsbyweekday" class="topnav">Tickets by Weekday</a></li>-->
+										<li><a href="index.php?page=ticketsbyweekday" class="topnav">Tickets by Weekday</a></li>
 										<li><a href="index.php?page=ticketsbymonth" class="topnav">Tickets by Month</a></li>
 										<li><a href="index.php?page=dailynewtickets" class="topnav">Daily New Tickets</a></li>
 										<li><a href="index.php?page=onboardingtickets" class="topnav">Onboarding Tickets</a></li>
