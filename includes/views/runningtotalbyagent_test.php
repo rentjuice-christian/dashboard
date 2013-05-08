@@ -42,7 +42,7 @@ function function_name() {
 			$(".querying").fadeIn();	
         }
 		if (count == 15) { }
-		if (count == 12) { $(".querying").fadeOut(); }
+		if (count == 13) { $(".querying").fadeOut(); }
 		
         count--;
     }, 1000);
@@ -194,7 +194,7 @@ function function_name() {
 	<div class="right"><a class='inline' href="#inline_content"><img src="assets/images/show_query.png" alt="show query" /></a></div>
 	<div class="left">
 		<span class="countdown"></span>
-		<span class="querying">&nbsp;&nbsp;&nbsp;&nbsp;(Querying most recent data)</span>
+		<span class="querying" style="display:none;">&nbsp;&nbsp;&nbsp;&nbsp;(Querying most recent data)</span>
 	</div>
 	<div class="clear"></div>
 </div>
