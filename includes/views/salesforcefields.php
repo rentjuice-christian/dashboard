@@ -1,5 +1,5 @@
 <?php 
-	render('_header');
+	render('_header',array('title'=>$title)); 
 	date_default_timezone_set('America/New_York');
 ?>
 <div class="body-wrapper">
@@ -30,7 +30,7 @@
 ?>
 
 <div class="align_center">
-	<div class="manualmerges_title"> Account Model Details </div>	
+	<div class="manualmerges_title"> <?php echo $title; ?></div>	
 </div>
 
 <div style="width:70%; margin:0 auto;">

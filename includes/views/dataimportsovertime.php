@@ -1,8 +1,8 @@
-<?php render('_header')?>
+<?php render('_header',array('title'=>$title));  ?>
 
 <div class="body-wrapper">
 		<div class="centered">
-			<div class="manualmerges_title align_center">Data Imports Over Time</div>
+			<div class="manualmerges_title align_center"><?php echo $title; ?></div>
 			<div class="align_center">Data Import over time. We assume a data import has occurred if there is at least one listing with an import_reference_id</div>
 			<br />
 			<div class="main_content_temp">

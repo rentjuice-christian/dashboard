@@ -1,4 +1,4 @@
-<?php render('_header')?>
+<?php render('_header',array('title'=>$title));  ?>
 
 <div class="body-wrapper">
 		<div class="centered">
@@ -15,7 +15,7 @@
 
 <div>
 	<div class="align_center">
-		<div class="manualmerges_title">No Last Names Report</div>
+		<div class="manualmerges_title"><?php echo $title; ?></div>
 	
 	</div>
 	<script type="text/javascript" charset="utf-8">

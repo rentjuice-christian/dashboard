@@ -1,4 +1,4 @@
-<?php render('_header')?>
+<?php render('_header',array('title'=>$title))?>
 
 <div class="body-wrapper">
 		<div class="centered">
@@ -25,7 +25,7 @@
 		
 	});
 </script>
-<div class="manualmerges_title align_center">Super Tag Definitions </div>
+<div class="manualmerges_title align_center"><?php echo $title; ?> </div>
 <div class="group">
 	<div class="column480 left">
 		
@@ -69,7 +69,7 @@
 
 	</div><!-- end column left -->
 	<div class="column480 right">
-		<div class="title2 align_center">Super Tag Priorities</div>
+		<div class="title2 align_center"><?php echo $title; ?></div>
 		
 		<table cellpadding="0" cellspacing="0" border="0" class="display" id="table2" width="100%">
 			<thead>

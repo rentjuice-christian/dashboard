@@ -1,4 +1,4 @@
-<?php render('_header')?>
+<?php render('_header',array('title'=>$title));  ?>
 <?php
 	
 
@@ -184,7 +184,7 @@ $(function () {
 ?>
 
 <div class="align_center">
-	<div class="manualmerges_title">Time on Phone</div>
+	<div class="manualmerges_title"><?php echo $title; ?></div>
 </div>
 
 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" class="form_select" id="form_submit" >

@@ -1,4 +1,4 @@
-<?php render('_header')?>
+<?php render('_header',array('title'=>$title));  ?>
 
 <div class="body-wrapper">
 		<div class="centered">
@@ -148,7 +148,7 @@ $(function () {
 ?>
 
 <div class="align_center">
-	<div class="manualmerges_title">Office growth in RentJuice over time</div>
+	<div class="manualmerges_title"> <?php echo $title; ?> </div>
 </div>
 
 <?php if(count($barcontent) == 0){ ?>

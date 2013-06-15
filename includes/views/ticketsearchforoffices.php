@@ -1,4 +1,4 @@
-<?php render('_header')?>
+<?php render('_header',array('title'=>$title))?>
 <?php
 
 $arrayDate = array('1'=>'1 WEEK','2'=>'2 WEEK','3'=>'3 WEEK','4'=>'4 WEEK','5'=>'2 MONTH','6'=>'3 MONTH','7'=>'4 MONTH','8'=>'alltime');
@@ -41,7 +41,7 @@ else{
 		<div class="centered">
 			
 	<div class="align_center">
-		<div class="manualmerges_title">Ticket Search for Offices</div>
+		<div class="manualmerges_title"><?php echo $title; ?></div>
 	</div>
 
 

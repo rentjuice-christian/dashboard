@@ -1,8 +1,8 @@
-<?php render('_header')?>
+<?php render('_header',array('title'=>$title));  ?>
 
 <div class="body-wrapper">
 		<div class="centered">
-			<div class="manualmerges_title align_center"> Listings Imported Over Time</div>
+			<div class="manualmerges_title align_center"> <?php echo $title; ?> </div>
 			<div class="align_center">Number of listings imported each Month.</div>
 			<div class="align_center">November 2010 has been removed to make the graph more useful</div>
 			<div style="font-size:11px;" class="align_center">Note: This may contain a lot of junk listings that never go active in our system</div>

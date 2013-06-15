@@ -1,4 +1,4 @@
-<?php render('_header')?>
+<?php render('_header',array('title'=>$title))?>
 
 <div class="body-wrapper">
 		<div class="centered">
@@ -84,7 +84,7 @@ $(function () {
 </script>
 
 <div class="align_center">
-	<div class="manualmerges_title"> Tickets by Weekday (All Time)</div>
+	<div class="manualmerges_title"> <?php echo $title; ?></div>
 	
 </div>
 

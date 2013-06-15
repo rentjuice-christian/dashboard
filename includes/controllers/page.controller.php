@@ -25,14 +25,17 @@ class PageController{
 				if(isset($_REQUEST['hours'])){ $hours = $_REQUEST['hours']; } 
 				else { $hours = 72; }
 				$barcontent['barcontent'] = BarGraphs::graphsQueueLength($hours);
+				$barcontent['title'] = "Data Entry QA Queue";
 			}
 			// Tickets by Weekday Page
 			if($this->page == "ticketsbyweekday"){
 				$barcontent['barcontent'] = BarGraphs::ticketsByWeekDay();
+				$barcontent['title'] = "Tickets by Weekday (All Time)";
 			}
 			// Tickets by Month Page
 			if($this->page == "ticketsbymonth"){
 				$barcontent['barcontent'] = BarGraphs::ticketsByMonth();
+				$barcontent['title'] = "Tickets by Month";
 			}
 			// Daily New Tickets Page
 			if($this->page == "dailynewtickets"){
@@ -49,7 +52,8 @@ class PageController{
 					}
 				}
 				else{ $barcontent['barcontent'] =  BarGraphs::dailyNewTickets('14'); }
-
+				
+				$barcontent['title'] = "Daily New Tickets";
 			}
 			
 			// Total Listings by Market Page
@@ -68,7 +72,8 @@ class PageController{
 				}
 				else{ $timeFrame2 = "14"; }
 				
-				$barcontent['barcontent'] = BarGraphs::totalListingsByMarket($timeFrame2); 
+				$barcontent['barcontent'] = BarGraphs::totalListingsByMarket($timeFrame2);
+				$barcontent['title'] = "Data Entry Volume by Market";
 				
 			}
 			
@@ -88,23 +93,34 @@ class PageController{
 				else{ $timeFrame2 = "14"; }
 				
 				$barcontent['barcontent'] = BarGraphs::totalListingsByMarket($timeFrame2); 
-				
+				$barcontent['title'] = "Turnaround Time by Market";
+		
 			}
 			
 			//Manual Merges Page
 			if($this->page == "manualmerges"){
-				if(isset($_REQUEST['manualmerges_time'])){	
-					$barcontent['barcontent'] = BarGraphs::manualMergesReport($_REQUEST['manualmerges_time']); 
+			
+				$manualMergesTime = "";
+			
+				if(!empty($_REQUEST['manualmerges_time'])){
+					
+					if($_REQUEST['manualmerges_time'] > 0 && $_REQUEST['manualmerges_time'] < 5){
+						$manualMergesTime = $_REQUEST['manualmerges_time'];
+					}
+					else{ $manualMergesTime  = 2; }
+					
 				}
-				else{
-					$barcontent['barcontent'] = BarGraphs::manualMergesReport('2');
-				}
+				else{ $manualMergesTime  = 2; }
+			
+				$barcontent['barcontent'] = BarGraphs::manualMergesReport($manualMergesTime);
+				$barcontent['title'] = "Manual Merges";
 			}
 			
 			// Tag Usage Leader Board Page
 			if($this->page == "tagusageleaderboard"){
 				if(isset($_REQUEST['leaderboard_time'])){ $barcontent['barcontent'] = BarGraphs::tagUsageLeaderBoard($_REQUEST['leaderboard_time']); }
 				else{ $barcontent['barcontent'] = BarGraphs::tagUsageLeaderBoard('28'); }
+				$barcontent['title'] = "Tag Usage Leaderboard";
 			}
 			
 			// Tage Usage Overtime Page
@@ -143,6 +159,7 @@ class PageController{
 				
 				$barcontent['barcontent'] = BarGraphs::tagUsageOvertime($tagTime,$tagLabel,$dateMove);
 				$barcontent['sub_barcontent'] = BarGraphs::tagUsageFilter($tagTime); // for filtering the label data
+				$barcontent['title'] = "Tag Usage Over Time";
 				
 			}
 			
@@ -150,17 +167,20 @@ class PageController{
 			if($this->page == "onboardingtickets"){
 				if(isset($_REQUEST['onboarding_tickets'])){ $barcontent['barcontent'] = BarGraphs::onBoardingTicketsbyStatus($_REQUEST['onboarding_tickets']); }
 				else{ $barcontent['barcontent'] = BarGraphs::onBoardingTicketsbyStatus('28'); }
+				$barcontent['title'] = "Onboarding Tickets by Status";
 				
 			}
 			
 			// Page for the Data Imports Over Time
 			if($this->page == "dataimportsovertime"){
-				$barcontent['barcontent'] = BarGraphs::dataImportsOverTime(); 
+				$barcontent['barcontent'] = BarGraphs::dataImportsOverTime();
+				$barcontent['title'] = "Data Imports Over Time";
 			}
 			
 			// Page for the Data Imports Over Time
 			if($this->page == "listingsimportedovertime"){
-				$barcontent['barcontent'] = BarGraphs::listingsImportedOverTime(); 
+				$barcontent['barcontent'] = BarGraphs::listingsImportedOverTime();
+				$barcontent['title'] = "Listings Imported Over Time";
 			}
 			
 			// Page for the Data Entry Jobs
@@ -177,7 +197,8 @@ class PageController{
 				
 				}
 				else{ $date = "1 WEEK"; }
-				$barcontent['barcontent'] = BarGraphs::dataEntryJobs($date); 
+				$barcontent['barcontent'] = BarGraphs::dataEntryJobs($date);
+				$barcontent['title'] = "Data Entry Jobs";
 			}
 			
 			// Tickets Inbound by User Page
@@ -224,6 +245,7 @@ class PageController{
 				$barcontent['sub_barcontent2'] = BarGraphs::ticketsInboundByUserOther($date); 
 				$barcontent['sub_selectsupertag'] = BarGraphs::selectSuperTag($date,$type);
 				$barcontent['tag_barcontent'] = BarGraphs::tagUsageFilter($date,$type); // for filtering the label data
+				$barcontent['title'] = "Tickets Inbound for Top 100 Users";
 
 			}
 			
@@ -272,6 +294,7 @@ class PageController{
 				$barcontent['sub_barcontent2'] = BarGraphs::ticketsInboundByOfficeOther($date); 
 				$barcontent['sub_selectsupertag'] = BarGraphs::selectSuperTag($date,$type);
 				$barcontent['tag_barcontent'] = BarGraphs::tagUsageFilter($date,$type); // for filtering the label data
+				$barcontent['title'] = "Tickets Inbound for Top 100 Offices";
 
 			}
 			
@@ -325,6 +348,7 @@ class PageController{
 			$barcontent['barcontent'] = BarGraphs::resolvedByAgent($timespan,$movingaverage,$type,$tags);
 			$barcontent['sub_barcontent'] = BarGraphs::resolvedByAgent2($timespan,$type,$tags);
 			$barcontent['tag_barcontent'] = BarGraphs::tagUsageFilter($timespan,$type); // for filtering the label data
+			$barcontent['title'] = "Resolved by Agent";
 		}
 				
 		// For ticket search for offices
@@ -353,6 +377,7 @@ class PageController{
 			
 			$barcontent['barcontent'] = BarGraphs::ticketSearchForOffices($date);
 			$barcontent['sub_barcontent'] = BarGraphs::ticketSearchForOffices2($value,$date);
+			$barcontent['title'] = "Ticket Search for Offices";
 			
 		}
 		
@@ -382,17 +407,20 @@ class PageController{
 			
 			$barcontent['barcontent'] = BarGraphs::ticketSearchForUsers($date);
 			$barcontent['sub_barcontent'] = BarGraphs::ticketSearchForUsers2($value,$date);
+			$barcontent['title'] = "Ticket Search for Users";
 			
 		}
 		
 		// For SycStatus
 		if($this->page == "syncstatus"){
 			$barcontent['barcontent'] = BarGraphs::syncStatus();
+			$barcontent['title'] = "Assistly Data Sync Status";
 		}
 		
 		// For SalesForce syncstatus report
 		if($this->page == "salesforcesyncstatus"){
 			$barcontent['barcontent'] = BarGraphs::salesForceSyncStatus();
+			$barcontent['title'] = "Salesforce Data Sync Status";
 		}
 		
 		// For By Office Type
@@ -423,6 +451,8 @@ class PageController{
 			else{ $timeSpan= "28"; }
 			
 			$barcontent['barcontent'] = BarGraphs::byOfficeType($movingAverage,$timeSpan);
+			$barcontent['title'] = "Incoming Tickets by Office Type";
+			
 		}
 		
 		// For Resolution Time
@@ -471,6 +501,7 @@ class PageController{
 			
 			
 			$barcontent['barcontent'] = BarGraphs::resolutionTime($movingAverage,$timeSpan,$groupBy);
+			$barcontent['title'] = "Average time to Resolve a Ticket";
 
 		}
 		
@@ -513,6 +544,7 @@ class PageController{
 			else{ $region= "5"; }
 			
 			$barcontent['barcontent'] = BarGraphs::casesByRegion($movingAverage,$timeSpan,$region);
+			$barcontent['title'] = "Incoming Cases by Region";
 
 		}
 		
@@ -544,6 +576,7 @@ class PageController{
 			else{ $timeSpan= "28"; }
 			
 			$barcontent['barcontent'] = BarGraphs::interByChannels($movingAverage,$timeSpan);
+			$barcontent['title'] = "Interactions by Channel";
 		}
 		
 		// For Interactions by Agent Report
@@ -594,11 +627,13 @@ class PageController{
 			else{ $direction ="all"; }
 			
 			$barcontent['barcontent'] = BarGraphs::interByAgent($movingAverage,$timeSpan,$type,$direction);
+			$barcontent['title'] = "Interactions by Agent";
 		}
 		
 		// For Sales Force Api Models
 		if($this->page == "salesforceapimodels"){
 			$barcontent['barcontent'] = BarGraphs::salesForceApiModels();
+			$barcontent['title'] = "Salesforce API Models";
 		}
 		
 		// For Sales Force Fields
@@ -613,27 +648,32 @@ class PageController{
 			
 			$barcontent['barcontent'] = BarGraphs::salesForceFields($name);
 			$barcontent['barcontent_relationship'] = BarGraphs::salesForceRelationships($name);
+			$barcontent['title'] = "Account Model Details";
 		}
 		
 		// For Rentjuice Office Growth
 		if($this->page == "officegrowth"){
 			$barcontent['barcontent'] = BarGraphs::officeGrowth();
+			$barcontent['title'] = "Office growth in RentJuice over time";
 		}
 		
 		// For Rentjuice Listings Growth
 		if($this->page == "listingsgrowth"){
 			$barcontent['barcontent'] = BarGraphs::listingsGrowth();
+			$barcontent['title'] = "Listings growth in Rentjuice over time";
 		}
 		
 		// For Rentjuice User Growth
 		if($this->page == "usergrowth"){
 			$barcontent['barcontent'] = BarGraphs::userGrowth();
+			$barcontent['title'] = "User growth in RentJuice over time";
 		}
 		
 		// For Rentjuice Super Tags Definition
 		if($this->page == "supertagsdefinition"){
 			$barcontent['barcontent'] = BarGraphs::superTagsDefinition();
 			$barcontent['sub_barcontent'] = BarGraphs::superTagPriorities();
+			$barcontent['title'] = "Super Tag Priorities";
 		}
 		
 		// For Rentjuice Super Tags Definition
@@ -686,6 +726,7 @@ class PageController{
 			$barcontent['barcontent'] = BarGraphs::resolvedBySuperTag($timespan,$movingaverage,$type,$officeNameValue,$usersNameValue);
 			$barcontent['barcontent_office'] = BarGraphs::resolvedBySuperTagOffice($timespan);
 			$barcontent['barcontent_users'] = BarGraphs::resolvedBySuperTagUsername($timespan);
+			$barcontent['title'] = "Resolved by Super Tag";
 			
 		}
 		
@@ -726,6 +767,7 @@ class PageController{
 			
 			$barcontent['barcontent'] = BarGraphs::superTagUsageOvertime($tagTime,$tagLabel,$dateMove);
 			$barcontent['sub_barcontent'] = BarGraphs::superTagUsageFilter($tagTime); // for filtering the label data
+			$barcontent['title'] = "Super Tag Usage Over Time";
 			
 		}
 		
@@ -738,6 +780,7 @@ class PageController{
 			else{ $leaderTime ="28"; }
 			
 			$barcontent['barcontent'] = BarGraphs::superTagUsageLeader($leaderTime);
+			$barcontent['title'] = "Super Tag Usage Leaderboard";
 			
 		}
 		
@@ -760,6 +803,7 @@ class PageController{
 		// For Duplicate Accounts
 		if($this->page == "duplicateaccounts"){
 			$barcontent['barcontent'] = BarGraphs::duplicateAccounts();
+			$barcontent['title'] = "Duplicate Accounts Report";
 		}
 		
 		// For Rentjuice Bad Salesforce ID
@@ -792,18 +836,20 @@ class PageController{
 			else{ $show = "no"; }
 			
 			$barcontent['barcontent'] = BarGraphs::badSalesforceID($account_status,$show);
-			
+			$barcontent['title'] = "Bad Salesforce IDs";
 			
 		}
 		
 		// For Rentjuice No Last Names Report
 		if($this->page == "nolastname"){
 			$barcontent['barcontent'] = BarGraphs::noLastName();
+			$barcontent['title'] = "No Last Names Report";
 		}
 		
 		// For Rentjuice Fonality/Salesforce Connections
 		if($this->page == "fonalitysalesforce"){
 			$barcontent['barcontent'] = BarGraphs::fonalitySalesforce();
+			$barcontent['title'] = "Connections between Fonality and Salesforce";
 		}
 		
 		// For Rentjuice Fonality/Salesforce Connections
@@ -836,6 +882,7 @@ class PageController{
 			else{ $movingaverage = "7"; }
 		
 			$barcontent['barcontent'] = BarGraphs::timeOnPhone($movingaverage,$timespan);
+			$barcontent['title'] = "Time on Phone";
 		}
 		
 		// For Rentjuice Number of Calls
@@ -868,6 +915,7 @@ class PageController{
 			else{ $movingaverage = "7"; }
 		
 			$barcontent['barcontent'] = BarGraphs::numberOfCalls($movingaverage,$timespan);
+			$barcontent['title'] = "Number of Calls";
 		}
 		
 		// For Rentjuice Longest Calls Reports
@@ -915,6 +963,7 @@ class PageController{
 			else{ $status="active"; }
 			
 			$barcontent['barcontent'] = BarGraphs::listingSourcesOvertime($timeSpan,$status);
+			$barcontent['title'] = "Listing Sources Overtime";
 		}
 		
 		// For Rentjuice Listing Sources Overtime
@@ -934,6 +983,8 @@ class PageController{
 			else{ $timeSpan= "28"; }
 			
 			$barcontent['barcontent'] = BarGraphs::listingsBySource($timeSpan);
+			$barcontent['title'] = "Listings by Source";
+			
 		}
 		
 		 //For Rentjuice Tickets Customer type
@@ -953,6 +1004,7 @@ class PageController{
 			else{ $timeSpan= "28"; }
 			
 			$barcontent['barcontent'] = BarGraphs::ticketsCustomerType($timeSpan);
+			$barcontent['title'] = "Tickets by Customer Type";
 		}
 		
 		 //For Running Total by Agent
@@ -972,6 +1024,7 @@ class PageController{
 			else{ $timeFrame = '96'; }
 		
 			$barcontent['barcontent'] = BarGraphs::runningTotalByAgent($timeFrame);
+			$barcontent['title'] = "Running Total by Agent";
 			
 		}
 		

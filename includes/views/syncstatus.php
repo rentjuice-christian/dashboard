@@ -1,5 +1,5 @@
 <?php 
-	render('_header');
+	render('_header',array('title'=>$title));
 	date_default_timezone_set('America/New_York');
 ?>
 
@@ -27,7 +27,7 @@
 
 
 <div class="align_center">
-	<div class="manualmerges_title">Assistly Data Sync Status</div>	
+	<div class="manualmerges_title">  <?php echo $title; ?></div>	
 </div>
 
 

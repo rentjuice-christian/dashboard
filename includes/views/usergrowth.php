@@ -1,4 +1,4 @@
-<?php render('_header')?>
+<?php render('_header',array('title'=>$title));  ?>
 
 <div class="body-wrapper">
 		<div class="centered">
@@ -149,7 +149,7 @@ $(function () {
 	echo"</pre>";	*/
 ?>
 <div class="align_center">
-	<div class="manualmerges_title"> User growth in RentJuice over time</div>
+	<div class="manualmerges_title"> <?php echo $title; ?> </div>
 	
 </div>
 

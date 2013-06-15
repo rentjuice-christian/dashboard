@@ -1,14 +1,13 @@
-<?php render('_header')?>
+<?php render('_header',array('title'=>$title))?>
 <?php
 
 	$timeFrame = "";
-	
+
 	if(isset($_REQUEST['leaderboard_time']) && !empty($_REQUEST['leaderboard_time'])){ 
-		$timeFrame = $_REQUEST['leaderboard_time'];
+		if($_REQUEST['leaderboard_time'] == 'alltime'){ $timeFrame = "12";  }
+		else{ $timeFrame = $_REQUEST['leaderboard_time'];  }
 	}
-	else{
-		$timeFrame = '28';
-	}
+	else{ $timeFrame = '28'; }
 		
 ?>
 <div class="body-wrapper">
@@ -26,7 +25,7 @@
 
 <div>
 	<div class="align_center">
-		<div class="manualmerges_title">Super Tag Usage Leaderboard</div>
+		<div class="manualmerges_title"><?php echo $title; ?></div>
 	
 	</div>
 	<script type="text/javascript" charset="utf-8">
@@ -49,7 +48,7 @@
 			<option value="14" <?php if($timeFrame == '14'){ echo'selected'; }else{ echo''; }  ?>>2 Weeks</option>
 			<option value="21" <?php if($timeFrame == '21'){ echo'selected'; }else{ echo''; }  ?>>3 Weeks</option>
 			<option value="28" <?php if($timeFrame == '28'){ echo'selected'; }else{ echo''; }  ?>>4 Weeks</option>
-			<option value="alltime" <?php if($timeFrame == 'alltime'){ echo'selected'; }else{ echo''; }  ?>>All Time</option>
+			<option value="alltime" <?php if($timeFrame == '12'){ echo'selected'; }else{ echo''; }  ?>>All Time</option>
 		</select>
 	</div>
 </form>

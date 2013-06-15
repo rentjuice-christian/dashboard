@@ -1,4 +1,4 @@
-<?php render('_header')?>
+<?php render('_header',array('title'=>$title))?>
 
 <div class="body-wrapper">
 		<div class="centered">
@@ -105,7 +105,7 @@ $(function () {
 </script>
 
 <div class="align_center">
-	<div class="manualmerges_title"> Tickets by Month </div>
+	<div class="manualmerges_title"> <?php echo $title; ?> </div>
 </div>
 
 <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>

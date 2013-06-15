@@ -1,14 +1,17 @@
-<?php render('_header')?>
+<?php render('_header',array('title'=>$title))?>
 <?php
 
 	$timeFrame = "";
 	
-	if(isset($_REQUEST['manualmerges_time'])){
-		$timeFrame = $_REQUEST['manualmerges_time'];
+	if(!empty($_REQUEST['manualmerges_time'])){
+					
+		if($_REQUEST['manualmerges_time'] > 0 && $_REQUEST['manualmerges_time'] < 5){
+			$timeFrame = $_REQUEST['manualmerges_time'];
+		}
+		else{ $timeFrame  = 2; }
+		
 	}
-	else{
-		$timeFrame = '2';
-	}
+	else{ $timeFrame  = 2; }
 		
 ?>
 <div class="body-wrapper">
@@ -26,7 +29,7 @@
 
 <div><!-- class="manualmerges_holder"-->
 	<div class="align_center">
-		<div class="manualmerges_title">Manual Merges</div>
+		<div class="manualmerges_title"><?php echo $title; ?></div>
 		
 		
 		<?php

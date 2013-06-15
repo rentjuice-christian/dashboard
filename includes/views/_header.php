@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title> Rentjuice - Dashboard </title>
+<title> Zillow Rentals - <?php echo formatTitle($title)?> </title>
+<link rel="icon" type="image/png" href="assets/images/favicon.ico" />
 <link type="text/css" href="assets/css/mega_menu.css" rel="stylesheet" />
 <link type="text/css" href="assets/css/styles.css" rel="stylesheet" />
 <link type="text/css" href="assets/css/colorbox.css" rel="stylesheet" />

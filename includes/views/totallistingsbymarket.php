@@ -1,4 +1,4 @@
-<?php render('_header')?>
+<?php render('_header',array('title'=>$title))?>
 <?php
 
 	$timeFrame = "";
@@ -165,7 +165,7 @@ $(function () {
 </script>
 
 <div class="align_center">
-	<div class="manualmerges_title">Data Entry Volume by Market</div>
+	<div class="manualmerges_title"><?php echo $title; ?></div>
 	
 </div>
 

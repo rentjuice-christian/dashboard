@@ -1,4 +1,4 @@
-<?php render('_header')?>
+<?php render('_header',array('title'=>'Dashboard'))?>
 
 <div class="body-wrapper">
 		<div class="centered">

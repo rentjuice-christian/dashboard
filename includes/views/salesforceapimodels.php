@@ -1,5 +1,5 @@
 <?php 
-	render('_header');
+	render('_header',array('title'=>$title));
 	date_default_timezone_set('America/New_York');
 ?>
 
@@ -53,12 +53,9 @@
 
 
 <div class="align_center">
-	<div class="manualmerges_title"> Salesforce API Models </div>	
+	<div class="manualmerges_title"> <?php echo $title; ?> </div>	
 </div>
 
-
-
-	
 	<table cellpadding="0" cellspacing="0" border="0" class="display syncTable" id="example" width="100%">
 	<thead style="background-color:#f1f1f1">
 		

@@ -1,4 +1,4 @@
-<?php render('_header')?>
+<?php render('_header',array('title'=>$title));  ?>
 <?php
 
 	if(isset($_REQUEST['account_status'])){
@@ -44,7 +44,7 @@
 
 <div>
 	<div class="align_center">
-		<div class="manualmerges_title">Bad Salesforce IDs</div>
+		<div class="manualmerges_title"><?php echo $title; ?></div>
 	
 	</div>
 	<script type="text/javascript" charset="utf-8">

@@ -1,4 +1,4 @@
-<?php render('_header')?>
+<?php render('_header',array('title'=>$title))?>
 <?php
 	
 	$arrayDate = array('1'=>'24','2'=>'48','3'=>'72','4'=>'96','5'=>'120','6'=>'144','7'=>'168');
@@ -173,7 +173,7 @@ $(function () {
 
 
 <div class="align_center">
-	<div class="manualmerges_title">Running Total by Agent</div>
+	<div class="manualmerges_title"><?php echo $title; ?></div>
 </div>
 
 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" class="form_select" id="form_submit" >

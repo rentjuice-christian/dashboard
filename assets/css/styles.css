@@ -106,6 +106,7 @@ h3 span {
 		font-size: 14px; 
 		margin-bottom:10px; 
 	}
+	#ticketsinboundbyuser{ font-size:12px; }
 	/*Rotating Reports*/
 	.rotating_reports_botttom .display_graph{ border:0; background-color:transparent;  width:120px; }
 	.rotating_reports_botttom .refresh_graph{ border:0; background-color:transparent;  width:120px; }

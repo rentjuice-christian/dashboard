@@ -1,4 +1,4 @@
-<?php render('_header')?>
+<?php render('_header',array('title'=>$title))?>
 <?php
 	$getValue = $barcontent;
 	$getValueSuperTag = $sub_selectsupertag;
@@ -45,7 +45,7 @@
 
 
 	<div class="align_center">
-		<div class="manualmerges_title">Tickets Inbound for Top 100 Offices</div>
+		<div class="manualmerges_title"><?php echo $title; ?></div>
 	</div>
 	<div style="margin-top:10px; padding:5px 0; border-top:1px solid #CCCCCC;">
 		<div class="align_left left">
@@ -56,12 +56,31 @@
 			</div>
 			<div>
 				The top <b><?php echo  $sub_barcontent[0]->office_count; ?> </b> offices accounted for 
-				<b><?php echo  floor($sub_barcontent[0]->ticket_count / ($sub_barcontent[0]->ticket_count + $sub_barcontent2[0]->ticket_count) * 100); ?>% </b>
+				<b>
+					<?php 
+						
+						if($sub_barcontent[0]->ticket_count != 0 && $sub_barcontent2[0]->ticket_count != 0 ){
+							echo  floor($sub_barcontent[0]->ticket_count / ($sub_barcontent[0]->ticket_count + $sub_barcontent2[0]->ticket_count) * 100);
+						}
+						else{ echo "0"; }
+						
+					?>% 
+				</b>
 				of our tickets
 			</div>
 			<div>
 				 The other <b><?php  echo  $sub_barcontent2[0]->office_count; ?> </b>
-				 offices accounted for <b><?php echo  floor($sub_barcontent2[0]->ticket_count / ($sub_barcontent[0]->ticket_count + $sub_barcontent2[0]->ticket_count) * 100); ?>% </b>
+				 offices accounted for 
+				 <b>
+				 	<?php 
+
+						if($sub_barcontent[0]->ticket_count != 0 && $sub_barcontent2[0]->ticket_count != 0 ){
+							echo  floor($sub_barcontent2[0]->ticket_count / ($sub_barcontent[0]->ticket_count + $sub_barcontent2[0]->ticket_count) * 100);
+						}
+						else{ echo "0"; }
+						
+					?>% 
+				</b>
 				 of our tickets
 			</div>
 		</div>

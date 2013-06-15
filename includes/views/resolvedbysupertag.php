@@ -1,4 +1,4 @@
-<?php render('_header')?>
+<?php render('_header',array('title'=>$title))?>
 <?php
 	
 	$tagUsageLabel = "";
@@ -215,7 +215,7 @@ $(function () {
 ?>
 
 <div class="align_center">
-	<div class="manualmerges_title">Resolved by Super Tag</div>
+	<div class="manualmerges_title"><?php echo $title; ?></div>
 </div>
 
 <script type="text/javascript" charset="utf-8">

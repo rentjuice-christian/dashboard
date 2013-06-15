@@ -1,4 +1,4 @@
-<?php render('_header')?>
+<?php render('_header',array('title'=>$title))?>
 
 <?php
 	if(isset($_REQUEST['timespan'])){
@@ -160,7 +160,7 @@ $(function () {
 ?>
 
 <div class="align_center">
-	<div class="manualmerges_title"> Tickets by Customer Type </div>
+	<div class="manualmerges_title"> <?php echo $title; ?> </div>
 </div>
 
 <div class="align_right">

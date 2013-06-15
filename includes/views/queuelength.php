@@ -1,4 +1,4 @@
-<?php render('_header')?>
+<?php render('_header',array('title'=>$title))?>
 <?php
 	// get the post hours data
 	$hoursPost = '';
@@ -153,7 +153,7 @@ echo"</pre>";*/
 ?>
 
 <div class="align_center">
-	<div class="manualmerges_title">Data Entry QA Queue</div>
+	<div class="manualmerges_title"><?php echo $title; ?></div>
 </div>
 
 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" class="form_select" id="form_submit">

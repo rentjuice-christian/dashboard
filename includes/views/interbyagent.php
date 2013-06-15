@@ -1,4 +1,4 @@
-<?php render('_header')?>
+<?php render('_header',array('title'=>$title))?>
 <?php
 
 	$timeFrame = "";
@@ -213,7 +213,7 @@ $(function () {
 	echo"</pre>";*/	
 ?>
 <div class="align_center">
-	<div class="manualmerges_title">Interactions by Agent</div>
+	<div class="manualmerges_title"><?php echo $title; ?></div>
 </div>
 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" class="form_select" id="form_submit">
 	<div class="align_right">

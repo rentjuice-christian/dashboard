@@ -1,4 +1,4 @@
-<?php render('_header')?>
+<?php render('_header',array('title'=>$title))?>
 <?php
 
 	$tagUsageLabel = "";
@@ -111,7 +111,7 @@ $(function () {
 			<?php if($timeFrame == '9'){ ?> , tickInterval:30 * 24 * 3600 * 1000 <?php } ?>  
 			<?php if($timeFrame == '10'){ ?> , tickInterval:30 * 24 * 3600 * 1000 <?php } ?> 
 			<?php if($timeFrame == '11'){ ?> , tickInterval:60 * 24 * 3600 * 1000 <?php } ?>  
-			<?php if($timeFrame == '12'){ ?> , tickInterval:60 * 24 * 3600 * 1000 <?php } ?>   
+			<?php if($timeFrame == '12'){ ?> , tickInterval:90 * 24 * 3600 * 1000 <?php } ?>   
 
         },
 		yAxis: {
@@ -173,7 +173,7 @@ $(function () {
 //	echo"</pre>";
 ?>
 <div class="align_center">
-	<div class="manualmerges_title">Tag Usage Over Time</div>
+	<div class="manualmerges_title"><?php echo $title; ?></div>
 </div>
 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" class="form_select" id="form_submit" >
 	<div class="align_right">
