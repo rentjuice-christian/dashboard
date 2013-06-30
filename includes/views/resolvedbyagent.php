@@ -1,4 +1,4 @@
-<?php render('_header',array('title'=>$title))?>
+<?php render('_header',array('title'=>'Resolved by Agent'))?>
 <?php
 	
 	$tagUsageLabel = "";
@@ -37,22 +37,6 @@
 
 $(function () {
 
-	//var isLoading = false,
-//    $button = $('.select_time');
-//    $button.change(function() {
-//        if (!isLoading) {
-//            chart.showLoading();
-//        } else {
-//            chart.hideLoading();
-//        }
-//        isLoading = !isLoading;
-//    });
-//	//chart initialization
-//	Highcharts.setOptions({
-//		lang: {
-//			loading: 'Waiting for Data'
-//		}
-//	});
 	// create the chart
     var chart = new Highcharts.Chart({
         chart: {
@@ -202,15 +186,14 @@ $(function () {
 </script>
 
 <?php
-	
-	/*echo"<pre>";
-		print_r($result2);
-	echo"</pre>";*/
-	
+ if(!empty($error_message)){
+	render('error',array('error_message'=>$error_message));
+ }
+ else{
 ?>
 
 <div class="align_center">
-	<div class="manualmerges_title"><?php echo $title; ?></div>
+	<div class="manualmerges_title">Resolved by Agent</div>
 </div>
 
 <script type="text/javascript" charset="utf-8">
@@ -294,52 +277,52 @@ $(function () {
 </form>
 
 
-
-
-<?php if($countListings == 0){ ?>
-	<div style="min-width: 400px; height: 250px; padding-top:150px; margin: 10px auto 0; text-align:center; font-size:24px; border:1px solid #CCCCCC">No Available Data</div>
-<?php 
-}
-else{
-?>
+	<?php if($countListings == 0){ ?>
+		<div style="min-width: 400px; height: 250px; padding-top:150px; margin: 10px auto 0; text-align:center; font-size:24px; border:1px solid #CCCCCC">No Available Data</div>
+	<?php 
+	}
+	else{
+	?>
 	<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
-
-<table cellpadding="0" cellspacing="0" border="0" class="display" id="example" width="100%">
-	<thead>
-		<tr>
-			<th><div class="bold">Agent Name</div></th>
-			<th><div class="bold">Total Counts for Tickets</div></th>
-		</tr>
-	</thead>
-	<tbody>
 	
-	<?php
-			$getValue2 = $sub_barcontent;
-			$countData2 = count($getValue2);
-			
-			if($countData2 != 0){
-				$i = 0;
-				foreach($getValue2 as $value){
-				$i = $i + 1;
-				 if($i%2 == 0){ $class = 'even';  }
-				 else{ $class = 'odd'; }
-
-				?>
-			<tr class="<?php echo $class; ?>">
-				<td style="border-left:1px solid #cccccc; border-bottom:1px solid #cccccc;">
-						<?php echo $value->username; ?>
-				</td>
-				<td class="center"  style="border-left:1px solid #cccccc;border-right:1px solid #cccccc; border-bottom:1px solid #cccccc; "><?php echo $value->countData; ?></td>
+	<table cellpadding="0" cellspacing="0" border="0" class="display" id="example" width="100%">
+		<thead>
+			<tr>
+				<th><div class="bold">Agent Name</div></th>
+				<th><div class="bold">Total Counts for Tickets</div></th>
 			</tr>
-				<?php
+		</thead>
+		<tbody>
+		
+		<?php
+				$getValue2 = $sub_barcontent;
+				$countData2 = count($getValue2);
+				
+				if($countData2 != 0){
+					$i = 0;
+					foreach($getValue2 as $value){
+					$i = $i + 1;
+					 if($i%2 == 0){ $class = 'even';  }
+					 else{ $class = 'odd'; }
+	
+					?>
+				<tr class="<?php echo $class; ?>">
+					<td style="border-left:1px solid #cccccc; border-bottom:1px solid #cccccc;">
+							<?php echo $value->username; ?>
+					</td>
+					<td class="center"  style="border-left:1px solid #cccccc;border-right:1px solid #cccccc; border-bottom:1px solid #cccccc; "><?php echo $value->countData; ?></td>
+				</tr>
+					<?php
+					}
+					$i++;
 				}
-				$i++;
-			}
-		?>
+			?>
+	
+		</tbody>
+		<tfoot>
+	</table>
+	<?php } ?>
 
-	</tbody>
-	<tfoot>
-</table>
 <?php } ?>
 
 <div class="align_right show_query">

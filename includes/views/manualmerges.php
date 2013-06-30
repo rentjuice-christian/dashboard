@@ -1,4 +1,4 @@
-<?php render('_header',array('title'=>$title))?>
+<?php render('_header',array('title'=>'Manual Merges'))?>
 <?php
 
 	$timeFrame = "";
@@ -15,23 +15,24 @@
 		
 ?>
 <div class="body-wrapper">
-		<div class="centered">
-			<div class="main_content_temp">
-
+	<div class="centered">
+		<div class="main_content_temp">
+		
+		<div class="align_center">
+			<div class="manualmerges_title">Manual Merges</div>
+		</div>
 
 <?php
-	/*echo"<pre>";
-		print_r($barcontent);
-		//print_r($newOptions);
-	echo"</pre>";*/
+ if(!empty($error_message)){
+	render('error',array('error_message'=>$error_message));
+ }
+ else{
 ?>
 
 
-<div><!-- class="manualmerges_holder"-->
+
 	<div class="align_center">
-		<div class="manualmerges_title"><?php echo $title; ?></div>
-		
-		
+
 		<?php
 			$getValue = $barcontent;
 			$totalThreads = 0;
@@ -43,7 +44,7 @@
 					$manualMerges += $value->summerge;
 				}
 			}
-			$sumMerges = $manualMerges / $totalThreads;  
+			if($manualMerges != 0 && $totalThreads !=0){ $sumMerges = $manualMerges / $totalThreads;  }
 		?>
 	</div>
 	<script type="text/javascript" charset="utf-8">
@@ -126,6 +127,7 @@
 	<tfoot>
 </table>
 
+<?php } ?>
 
 <div class="align_right show_query">
 	<a class='inline' href="#inline_content"><img src="assets/images/show_query.png" alt="show query" /></a>
@@ -151,11 +153,9 @@ HAVING SUM(had_manual_merge) > 0
 </div>
 </div>
 
-		
-</div><!-- manual merges holder -->
 
-			</div>		
-		</div>
+		</div>		
+	</div>
 </div>
 <?php 
 	$start = array('start_time'=>$start_time);

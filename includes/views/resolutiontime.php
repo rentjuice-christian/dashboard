@@ -1,4 +1,4 @@
-<?php render('_header',array('title'=>$title))?>
+<?php render('_header',array('title'=>'Average time to Resolve a Ticket'))?>
 <?php
 
 	$timeFrame = "";
@@ -47,24 +47,6 @@
 <script type="text/javascript">
 
 $(function () {
-
-	//var isLoading = false,
-//    $button = $('.select_time');
-//    $button.change(function() {
-//        if (!isLoading) {
-//            chart.showLoading();
-//        } else {
-//            chart.hideLoading();
-//        }
-//        isLoading = !isLoading;
-//    });
-//	//chart initialization
-//	Highcharts.setOptions({
-//		lang: {
-//			loading: 'Waiting for Data'
-//		}
-//	});
-
 	// create the chart
     var chart = new Highcharts.Chart({
         chart: {
@@ -167,13 +149,14 @@ $(function () {
 
 </script>
 
-<?php		
-	/*echo"<pre>";
-		print_r($barcontent);
-	echo"</pre>";	*/
+<?php
+ if(!empty($error_message)){
+	render('error',array('error_message'=>$error_message));
+ }
+ else{
 ?>
 <div class="align_center">
-	<div class="manualmerges_title"><?php echo $title; ?> </div>
+	<div class="manualmerges_title">Average time to Resolve a Ticket</div>
 </div>
 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" class="form_select" id="form_submit" >
 	<div class="align_right">
@@ -216,12 +199,12 @@ $(function () {
 	</div>
 </form>
 
+	<?php if(count($barcontent) == 0){ ?>
+		<div class="content_noavail">No Available Data</div>
+	<?php }else{ ?>
+		<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+	<?php } ?>
 
-
-<?php if(count($barcontent) == 0){ ?>
-	<div class="content_noavail">No Available Data</div>
-<?php }else{ ?>
-	<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
 <?php } ?>
 
 <div class="align_right show_query">

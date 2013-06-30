@@ -1,18 +1,13 @@
 <?php 
-	render('_header',array('title'=>$title));
+	render('_header',array('title'=>'Salesforce Data Sync Status'));
 	date_default_timezone_set('America/New_York');
 ?>
 
 
 <div class="body-wrapper">
-		<div class="centered">
-			<div class="main_content_temp">
+	<div class="centered">
+		<div class="main_content_temp">
 
-<?php
-	/*echo"<pre>";
-		print_r($barcontent);
-	echo"</pre>";*/
-?>
 
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
@@ -25,9 +20,15 @@
 	} );
 </script>
 
+<?php
+ if(!empty($error_message)){
+	render('error',array('error_message'=>$error_message));
+ }
+ else{
+?>
 
 <div class="align_center">
-	<div class="manualmerges_title"><?php echo $title; ?></div>	
+	<div class="manualmerges_title">Salesforce Data Sync Status</div>	
 </div>
 
 	<table cellpadding="0" cellspacing="0" border="0" class="display syncTable" id="example" width="100%">
@@ -140,6 +141,8 @@
 	</tbody>
 	<tfoot>
 </table>
+
+<?php } ?>
 		
 <div class="align_right show_query">
 	<a class='inline' href="#inline_content"><img src="assets/images/show_query.png" alt="show query" /></a>

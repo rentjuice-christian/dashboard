@@ -1,4 +1,4 @@
-<?php render('_header',array('title'=>$title))?>
+<?php render('_header',array('title'=>'Ticket Search for Users'))?>
 <?php
 
 $arrayDate = array('1'=>'1 WEEK','2'=>'2 WEEK','3'=>'3 WEEK','4'=>'4 WEEK','5'=>'2 MONTH','6'=>'3 MONTH','7'=>'4 MONTH','8'=>'alltime');
@@ -25,20 +25,8 @@ else{ $date = "alltime"; $date2 = "alltime"; }
 
 ?>
 
-<?php
-	/*echo"<pre>";
-		print_r($barcontent);
-	echo"</pre>";*/
-	
-?>
-
 <div class="body-wrapper">
-		<div class="centered">
-			
-	<div class="align_center">
-		<div class="manualmerges_title"><?php echo $title; ?> </div>
-	</div>
-
+	<div class="centered">
 
 <script>
 	function fixedEncodeURIComponent (str) {
@@ -111,6 +99,17 @@ else{ $date = "alltime"; $date2 = "alltime"; }
 		
     });
 </script>
+
+<?php
+ if(!empty($error_message)){
+	render('error',array('error_message'=>$error_message));
+ }
+ else{
+?>
+
+	<div class="align_center">
+		<div class="manualmerges_title">Ticket Search for Users</div>
+	</div>
 
 	<div style="padding:10px 0;border-top:1px solid #cccccc;">
 		<div class="left">
@@ -250,9 +249,10 @@ else{ $date = "alltime"; $date2 = "alltime"; }
 	</tbody>
 
 </table>
-<div class="align_right show_query">
-	<a class='inline' href="#inline_content"><img src="assets/images/show_query.png" alt="show query" /></a>
-</div>
+
+<?php } ?>
+
+<div class="align_right show_query"><a class='inline' href="#inline_content"><img src="assets/images/show_query.png" alt="show query" /></a></div>
 
 
 

@@ -1,4 +1,4 @@
-<?php render('_header',array('title'=>$title))?>
+<?php render('_header',array('title'=>'Tickets Inbound for Top 100 Offices'))?>
 <?php
 	$getValue = $barcontent;
 	$getValueSuperTag = $sub_selectsupertag;
@@ -30,22 +30,61 @@
 	
 ?>
 <div class="body-wrapper">
-		<div class="centered">
+	<div class="centered">
+	
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function() {
+			$('#ticketsinboundbyuser').dataTable( {
+				"bJQueryUI": true,
+				"sPaginationType": "full_numbers",
+				"bSort":false,
+				"iDisplayLength": 100
+			} );
 			
+		   $('#ticketsinboundbyuser a.tooltip').each(function()
+		   {
+			  $(this).qtip({
+					content: $(this).find('.preview'),
+					show: { delay: 0 },
+					position: {
+						corner: {
+							tooltip: 'topMiddle',
+							target: 'bottomMiddle'
+						}
+					},
+					style: {
+						tip: true, // Give it a speech bubble tip with automatic corner detection
+						name: 'dark'
+					}
+			  });
+			 $(this).qtip({
+					content: $(this).find('.resolvedby'),
+					show: { delay: 0 },
+					position: {
+						corner: {
+							tooltip: 'topMiddle',
+							target: 'bottomMiddle'
+						}
+					},
+					style: {
+						tip: true, // Give it a speech bubble tip with automatic corner detection
+						name: 'dark'
+					}
+			  });
+	   });
+			
+		} );
+</script>	
+
 <?php
-	/*echo"<pre>";
-		echo"<div>Results for Query 1</div>";
-		print_r($sub_barcontent);
-		echo"<div>Results for Query 2</div>";
-		print_r($sub_barcontent2);
-		//print_r($barcontent);
-		//print_r($newOptions);
-	echo"</pre>";*/
-?>
-
-
+ if(!empty($error_message)){
+	render('error',array('error_message'=>$error_message));
+ }
+ else{
+?>	
+	
 	<div class="align_center">
-		<div class="manualmerges_title"><?php echo $title; ?></div>
+		<div class="manualmerges_title">Tickets Inbound for Top 100 Offices</div>
 	</div>
 	<div style="margin-top:10px; padding:5px 0; border-top:1px solid #CCCCCC;">
 		<div class="align_left left">
@@ -165,50 +204,7 @@
 		</div>
 		<div class="clear"></div>
 	</div>
-
-<script type="text/javascript" charset="utf-8">
-		$(document).ready(function() {
-			$('#ticketsinboundbyuser').dataTable( {
-				"bJQueryUI": true,
-				"sPaginationType": "full_numbers",
-				"bSort":false,
-				"iDisplayLength": 100
-			} );
-			
-		   $('#ticketsinboundbyuser a.tooltip').each(function()
-		   {
-			  $(this).qtip({
-					content: $(this).find('.preview'),
-					show: { delay: 0 },
-					position: {
-						corner: {
-							tooltip: 'topMiddle',
-							target: 'bottomMiddle'
-						}
-					},
-					style: {
-						tip: true, // Give it a speech bubble tip with automatic corner detection
-						name: 'dark'
-					}
-			  });
-			 $(this).qtip({
-					content: $(this).find('.resolvedby'),
-					show: { delay: 0 },
-					position: {
-						corner: {
-							tooltip: 'topMiddle',
-							target: 'bottomMiddle'
-						}
-					},
-					style: {
-						tip: true, // Give it a speech bubble tip with automatic corner detection
-						name: 'dark'
-					}
-			  });
-	   });
-			
-		} );
-</script>
+	
 <div style="margin:0 auto; width:65%">
 <table cellpadding="0" cellspacing="0" border="0" class="display" id="ticketsinboundbyuser" width="100%">
 	<thead>
@@ -291,11 +287,14 @@
 	
 </table>
 
-<div class="align_right show_query">
-	<a class='inline' href="#inline_content"><img src="assets/images/show_query.png" alt="show query" /></a>
 </div>
 
+<?php } ?>
+
+<div style="margin:0 auto; width:65%">
+	<div class="align_right show_query"><a class='inline' href="#inline_content"><img src="assets/images/show_query.png" alt="show query" /></a></div>
 </div>
+
 
 <div style="display:none">
 	<div id='inline_content' style='padding:10px; background:#fff;'>

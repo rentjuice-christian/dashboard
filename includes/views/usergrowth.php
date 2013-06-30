@@ -1,8 +1,8 @@
-<?php render('_header',array('title'=>$title));  ?>
+<?php render('_header',array('title'=>'User growth in RentJuice over time'));  ?>
 
 <div class="body-wrapper">
-		<div class="centered">
-			<div class="main_content_temp">
+	<div class="centered">
+		<div class="main_content_temp">
 
 <script type="text/javascript">
 
@@ -143,15 +143,16 @@ $(function () {
 
 </script>
 
-<?php		
-	/*echo"<pre>";
-		print_r($barcontent);
-	echo"</pre>";	*/
-?>
 <div class="align_center">
-	<div class="manualmerges_title"> <?php echo $title; ?> </div>
-	
+	<div class="manualmerges_title">User growth in RentJuice over time</div>
 </div>
+
+<?php
+ if(!empty($error_message)){
+	render('error',array('error_message'=>$error_message));
+ }
+ else{
+?>
 
 <?php if(count($barcontent) == 0){ ?>
 	<div class="content_noavail">No Available Data</div>
@@ -159,9 +160,10 @@ $(function () {
 	<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
 <?php } ?>
 
-<div class="align_right show_query">
-	<a class='inline' href="#inline_content"><img src="assets/images/show_query.png" alt="show query" /></a>
-</div>
+<?php } ?>
+
+<div class="align_right show_query"><a class='inline' href="#inline_content"><img src="assets/images/show_query.png" alt="show query" /></a></div>
+
 <div style="display:none">
 <div id='inline_content' style='padding:10px; background:#fff;'>
 <pre>

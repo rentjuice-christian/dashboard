@@ -1,4 +1,4 @@
-<?php render('_header',array('title'=>$title))?>
+<?php render('_header',array('title'=>'Tickets by Weekday (All Time)'))?>
 
 <div class="body-wrapper">
 		<div class="centered">
@@ -83,12 +83,21 @@ $(function () {
 
 </script>
 
+<?php
+ if(!empty($error_message)){
+	render('error',array('error_message'=>$error_message));
+ }
+ else{
+?>
+
 <div class="align_center">
-	<div class="manualmerges_title"> <?php echo $title; ?></div>
-	
+	<div class="manualmerges_title">Tickets by Weekday (All Time)</div>
 </div>
 
 <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+
+<?php } ?>
+
 <div class="align_right show_query">
 	<a class='inline' href="#inline_content"><img src="assets/images/show_query.png" alt="show query" /></a>
 </div>

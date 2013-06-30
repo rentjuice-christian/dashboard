@@ -1,18 +1,8 @@
-<?php render('_header',array('title'=>$title));  ?>
+<?php render('_header',array('title'=>'Data Imports Over Time'));  ?>
 
 <div class="body-wrapper">
 		<div class="centered">
-			<div class="manualmerges_title align_center"><?php echo $title; ?></div>
-			<div class="align_center">Data Import over time. We assume a data import has occurred if there is at least one listing with an import_reference_id</div>
-			<br />
-			<div class="main_content_temp">
-			
-			<?php
-				/*echo"<pre>";
-				print_r($barcontent);
-				echo"</pre>";*/
-			?>
-			
+
 <script type="text/javascript">
 
 $(function () {
@@ -98,9 +88,23 @@ $(function () {
 
 </script>
 
+<?php
+ if(!empty($error_message)){
+	render('error',array('error_message'=>$error_message));
+ }
+ else{
+?>
+
+	<div class="manualmerges_title align_center">Data Imports Over Time</div>
+	<div class="align_center">Data Import over time. We assume a data import has occurred if there is at least one listing with an import_reference_id</div>
+	<br />
+	<div class="main_content_temp">
+		<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+	</div>	
+
+<?php } ?>
 
 
-<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
 <div class="align_right show_query">
 	<a class='inline' href="#inline_content"><img src="assets/images/show_query.png" alt="show query" /></a>
 </div>
@@ -118,9 +122,8 @@ SELECT LEFT(o.created_on,7), COUNT(DISTINCT l.office_id)
 </div>
 </div>
 
-			</div>
 			
-		</div>
+	</div>
 </div>
 <?php 
 	$start = array('start_time'=>$start_time);

@@ -1,14 +1,6 @@
-<?php render('_header',array('title'=>$title));  ?>
+<?php render('_header',array('title'=>'Listings Imported Over Time'));  ?>
 
-<div class="body-wrapper">
-		<div class="centered">
-			<div class="manualmerges_title align_center"> <?php echo $title; ?> </div>
-			<div class="align_center">Number of listings imported each Month.</div>
-			<div class="align_center">November 2010 has been removed to make the graph more useful</div>
-			<div style="font-size:11px;" class="align_center">Note: This may contain a lot of junk listings that never go active in our system</div>
-			<br />
-			<div class="main_content_temp">
-			
+		
 						
 <script type="text/javascript">
 
@@ -138,13 +130,26 @@ $(function () {
 
 </script>
 
-<?php
-	/*echo"<pre>";
-		print_r($result);
-	echo"</pre>";*/
-?>
+<div class="body-wrapper">
+	<div class="centered">
+		<div class="main_content_temp">
 
-<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+<?php
+ if(!empty($error_message)){
+	render('error',array('error_message'=>$error_message));
+ }
+ else{
+?>		
+	<div class="manualmerges_title align_center">Listings Imported Over Time</div>
+	<div class="align_center">Number of listings imported each Month.</div>
+	<div class="align_center">November 2010 has been removed to make the graph more useful</div>
+	<div style="font-size:11px;" class="align_center">Note: This may contain a lot of junk listings that never go active in our system</div>
+	<br />
+
+	<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+
+<?php } ?>
+
 <div class="align_right show_query">
 	<a class='inline' href="#inline_content"><img src="assets/images/show_query.png" alt="show query" /></a>
 </div>
@@ -169,9 +174,8 @@ SELECT LEFT(o.created_on,7) MONTH,
 </div>
 </div>
 
-			</div>
-			
-		</div>
+		</div>		
+	</div>
 </div>
 <?php 
 	$start = array('start_time'=>$start_time);

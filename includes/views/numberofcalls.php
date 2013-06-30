@@ -1,4 +1,4 @@
-<?php render('_header',array('title'=>$title));  ?>
+<?php render('_header',array('title'=>'Number of Calls'));  ?>
 <?php
 	
 
@@ -176,15 +176,14 @@ $(function () {
 </script>
 
 <?php
-	
-	/*echo"<pre>";
-		print_r($barcontent);
-	echo"</pre>";*/
-	
+ if(!empty($error_message)){
+	render('error',array('error_message'=>$error_message));
+ }
+ else{
 ?>
 
 <div class="align_center">
-	<div class="manualmerges_title"><?php echo $title; ?></div>
+	<div class="manualmerges_title">Number of Calls</div>
 </div>
 
 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" class="form_select" id="form_submit" >
@@ -224,15 +223,16 @@ $(function () {
 </form>
 
 
+	<?php if($countListings == 0){ ?>
+		<div style="min-width: 400px; height: 250px; padding-top:150px; margin: 10px auto 0; text-align:center; font-size:24px; border:1px solid #CCCCCC">No Available Data</div>
+	<?php 
+	}
+	else{
+	?>
+		<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+	
+	<?php } ?>
 
-
-<?php if($countListings == 0){ ?>
-	<div style="min-width: 400px; height: 250px; padding-top:150px; margin: 10px auto 0; text-align:center; font-size:24px; border:1px solid #CCCCCC">No Available Data</div>
-<?php 
-}
-else{
-?>
-	<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
 
 <?php } ?>
 

@@ -1,12 +1,8 @@
-<?php render('_header',array('title'=>$title))?>
+<?php render('_header',array('title'=>'Super Tag Priorities'))?>
 
 <div class="body-wrapper">
 		<div class="centered">
-<?php
-	/*echo"<pre>";
-		print_r($sub_barcontent);
-	echo"</pre>";*/
-?>
+
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 		$('#table1').dataTable( {
@@ -25,7 +21,15 @@
 		
 	});
 </script>
-<div class="manualmerges_title align_center"><?php echo $title; ?> </div>
+
+<?php
+ if(!empty($error_message)){
+	render('error',array('error_message'=>$error_message));
+ }
+ else{
+?>
+
+<div class="manualmerges_title align_center">Super Tag Priorities</div>
 <div class="group">
 	<div class="column480 left">
 		
@@ -106,6 +110,8 @@
 		</table>
 	</div>
 </div>
+
+<?php } ?>
 
 <div class="align_right show_query">
 	<a class='inline' href="#inline_content"><img src="assets/images/show_query.png" alt="show query" /></a>

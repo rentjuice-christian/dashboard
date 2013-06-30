@@ -1,4 +1,4 @@
-<ul></ul><?php render('_header',array('title'=>$title))?>
+<ul></ul><?php render('_header',array('title'=>'Tickets Inbound for Top 100 Users'))?>
 <?php
 	$getValue = $barcontent;
 	$getValueSuperTag = $sub_selectsupertag;
@@ -31,15 +31,9 @@
 ?>
 <div class="body-wrapper">
 		<div class="centered">
-			
-<?php
-	/*echo"<pre>";
-		print_r($barcontent);
-	echo"</pre>";*/
-?>
 
 <div class="align_center">
-	<div class="manualmerges_title"><?php echo $title; ?></div>
+	<div class="manualmerges_title">Tickets Inbound for Top 100 Users</div>
 </div>
 <div style="margin-top:10px; padding:5px 0; border-top:1px solid #CCCCCC;">
 	<div class="align_left left">

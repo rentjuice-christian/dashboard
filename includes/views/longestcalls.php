@@ -1,4 +1,4 @@
-<?php render('_header')?>
+<?php render('_header',array('title'=>'Longest Calls'));  ?>
 <?php
 
 	if(isset($_REQUEST['timespan'])){$timeFrame = $_REQUEST['timespan'];}
@@ -6,15 +6,15 @@
 		
 ?>
 <div class="body-wrapper">
-		<div style="margin:0 auto; width:50%;">
-			
+	<div style="margin:0 auto; width:50%;">
 
 <?php
-	/*echo"<pre>";
-		print_r($barcontent);
-		//print_r($newOptions);
-	echo"</pre>";*/
+ if(!empty($error_message)){
+	render('error',array('error_message'=>$error_message));
+ }
+ else{
 ?>
+			
 <div class="align_center">
 	<div class="manualmerges_title">Longest Calls</div>
 </div>
@@ -114,6 +114,9 @@
 	</tbody>
 	<tfoot>
 </table>
+
+<?php } ?>
+
 
 <div class="align_right show_query"> <a class='inline' href="#inline_content"><img src="assets/images/show_query.png" alt="show query" /></a></div>
 <div style="display:none">

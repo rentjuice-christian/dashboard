@@ -1,4 +1,4 @@
-<?php render('_header',array('title'=>$title))?>
+<?php render('_header',array('title'=>'Listing Sources Overtime'))?>
 
 <?php
 	if(isset($_REQUEST['timespan'])){
@@ -21,8 +21,8 @@
 ?>
 
 <div class="body-wrapper">
-		<div class="centered">
-			<div class="main_content_temp">
+	<div class="centered">
+		<div class="main_content_temp">
 			
 <script type="text/javascript">
 
@@ -178,49 +178,53 @@ $(function () {
 </script>
 
 
-<?php		
-	/*echo"<pre>";
-		print_r($barcontent);
-	echo"</pre>";*/
+<?php
+ if(!empty($error_message)){
+	render('error',array('error_message'=>$error_message));
+ }
+ else{
 ?>
 
-<div class="align_center">
-	<div class="manualmerges_title"><?php echo $title; ?></div>
-</div>
-
-<div class="align_right">
+	<div class="align_center">
+		<div class="manualmerges_title">Listing Sources Overtime</div>
+	</div>
 	
-	<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" class="form_select" id="form_submit" >
-		<input type="hidden" value="listingsourcesovertime" name="page" />
-		<span>Select Time Frame: </span>
-		<select name="timespan" onchange="submit();" class="select_time">
-			<option value="1" <?php if($timeFrame == '1'){ echo'selected'; }else{ echo''; }  ?>>1 Week</option>
-			<option value="2" <?php if($timeFrame == '2'){ echo'selected'; }else{ echo''; }  ?>>2 Weeks</option>
-			<option value="3" <?php if($timeFrame == '3'){ echo'selected'; }else{ echo''; }  ?>>3 Weeks</option>
-			<option value="4" <?php if($timeFrame == '4'){ echo'selected'; }else{ echo''; }  ?>>4 Weeks</option>
-			<option value="5" <?php if($timeFrame == '5'){ echo'selected'; }else{ echo''; }  ?>>1 Month</option>
-			<option value="6" <?php if($timeFrame == '6'){ echo'selected'; }else{ echo''; }  ?>>2 Months</option>
-			<option value="7" <?php if($timeFrame == '7'){ echo'selected'; }else{ echo''; }  ?>>3 Months</option>
-			<option value="8" <?php if($timeFrame == '8'){ echo'selected'; }else{ echo''; }  ?>>4 Months</option>
-			<option value="9" <?php if($timeFrame == '9'){ echo'selected'; }else{ echo''; }  ?>>5 Months</option>
-			<option value="10" <?php if($timeFrame == '10'){ echo'selected'; }else{ echo''; }  ?>>6 Months</option>
-			<option value="11" <?php if($timeFrame == '11'){ echo'selected'; }else{ echo''; }  ?>>1 Year</option>
-			<option value="12" <?php if($timeFrame == '12'){ echo'selected'; }else{ echo''; }  ?>>2 Years</option>
-		</select>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<span>Status: </span>
-		<select name="status" onchange="submit();" class="select_time">
-			<option value="all" <?php if($status == "all"){ echo "selected";} else{ echo ""; } ?>>All Listings</option>
-			<option value="active" <?php if($status == "active"){ echo "selected";} else{ echo ""; } ?>>Active Listings</option>
-		</select>
-	</form>
-</div>
+	<div class="align_right">
+		
+		<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" class="form_select" id="form_submit" >
+			<input type="hidden" value="listingsourcesovertime" name="page" />
+			<span>Select Time Frame: </span>
+			<select name="timespan" onchange="submit();" class="select_time">
+				<option value="1" <?php if($timeFrame == '1'){ echo'selected'; }else{ echo''; }  ?>>1 Week</option>
+				<option value="2" <?php if($timeFrame == '2'){ echo'selected'; }else{ echo''; }  ?>>2 Weeks</option>
+				<option value="3" <?php if($timeFrame == '3'){ echo'selected'; }else{ echo''; }  ?>>3 Weeks</option>
+				<option value="4" <?php if($timeFrame == '4'){ echo'selected'; }else{ echo''; }  ?>>4 Weeks</option>
+				<option value="5" <?php if($timeFrame == '5'){ echo'selected'; }else{ echo''; }  ?>>1 Month</option>
+				<option value="6" <?php if($timeFrame == '6'){ echo'selected'; }else{ echo''; }  ?>>2 Months</option>
+				<option value="7" <?php if($timeFrame == '7'){ echo'selected'; }else{ echo''; }  ?>>3 Months</option>
+				<option value="8" <?php if($timeFrame == '8'){ echo'selected'; }else{ echo''; }  ?>>4 Months</option>
+				<option value="9" <?php if($timeFrame == '9'){ echo'selected'; }else{ echo''; }  ?>>5 Months</option>
+				<option value="10" <?php if($timeFrame == '10'){ echo'selected'; }else{ echo''; }  ?>>6 Months</option>
+				<option value="11" <?php if($timeFrame == '11'){ echo'selected'; }else{ echo''; }  ?>>1 Year</option>
+				<option value="12" <?php if($timeFrame == '12'){ echo'selected'; }else{ echo''; }  ?>>2 Years</option>
+			</select>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<span>Status: </span>
+			<select name="status" onchange="submit();" class="select_time">
+				<option value="all" <?php if($status == "all"){ echo "selected";} else{ echo ""; } ?>>All Listings</option>
+				<option value="active" <?php if($status == "active"){ echo "selected";} else{ echo ""; } ?>>Active Listings</option>
+			</select>
+		</form>
+	</div>
+	
+	<?php if(count($barcontent) == 0){ ?>
+		<div class="content_noavail">No Available Data</div>
+	<?php }else{ ?>
+		<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+	<?php } ?>
 
-<?php if(count($barcontent) == 0){ ?>
-	<div class="content_noavail">No Available Data</div>
-<?php }else{ ?>
-	<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
 <?php } ?>
+
 <div class="align_right show_query">
 	<a class='inline' href="#inline_content"><img src="assets/images/show_query.png" alt="show query" /></a>
 </div>

@@ -1,21 +1,18 @@
-<?php render('_header',array('title'=>$title));  ?>
+<?php render('_header',array('title'=>'Duplicate Accounts Report'));  ?>
 
 <div class="body-wrapper">
 		<div class="centered">
 			<div class="main_content_temp">
 
-
 <?php
-	/*echo"<pre>";
-		print_r($barcontent);
-		//print_r($newOptions);
-	echo"</pre>";*/
+ if(!empty($error_message)){
+	render('error',array('error_message'=>$error_message));
+ }
+ else{
 ?>
 
-
-<div>
 	<div class="align_center">
-		<div class="manualmerges_title"><?php echo $title; ?></div>
+		<div class="manualmerges_title">Duplicate Accounts Report</div>
 	
 	</div>
 	<script type="text/javascript" charset="utf-8">
@@ -95,6 +92,8 @@
 	<tfoot>
 </table>
 
+<?php } ?>
+
 <div class="align_right show_query">
 	<a class='inline' href="#inline_content"><img src="assets/images/show_query.png" alt="show query" /></a>
 </div>
@@ -120,10 +119,10 @@ SELECT c1.id customer_id, c1.name, c1.sforce_acct_id, c1.created_on, c1.status, 
 </div>
 
 		
-</div><!-- manual merges holder -->
 
-			</div>		
-		</div>
+
+		</div>		
+	</div>
 </div>
 <?php 
 	$start = array('start_time'=>$start_time);

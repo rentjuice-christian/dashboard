@@ -1,4 +1,4 @@
-<?php render('_header',array('title'=>$title))?>
+<?php render('_header',array('title'=>'Running Total by Agent'))?>
 <?php
 	
 	$arrayDate = array('1'=>'24','2'=>'48','3'=>'72','4'=>'96','5'=>'120','6'=>'144','7'=>'168');
@@ -165,15 +165,16 @@ $(function () {
 
 </script>
 
-<?php		
-	echo"<pre>";
-		print_r($barcontentjson);
-	echo"</pre>";
+
+<?php
+ if(!empty($error_message)){
+	render('error',array('error_message'=>$error_message));
+ }
+ else{
 ?>
 
-
 <div class="align_center">
-	<div class="manualmerges_title"><?php echo $title; ?></div>
+	<div class="manualmerges_title">Running Total by Agent</div>
 </div>
 
 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" class="form_select" id="form_submit" >
@@ -194,11 +195,15 @@ $(function () {
 	</div>
 </form>
 
-<?php if(count($barcontent) == 0){ ?>
-	<div class="content_noavail">No Available Data</div>
-<?php }else{ ?>
-	<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+	<?php if(count($barcontent) == 0){ ?>
+		<div class="content_noavail">No Available Data</div>
+	<?php }else{ ?>
+		<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+	<?php } ?>
+
+
 <?php } ?>
+
 <div class="align_right show_query">
 	<a class='inline' href="#inline_content"><img src="assets/images/show_query.png" alt="show query" /></a>
 </div>

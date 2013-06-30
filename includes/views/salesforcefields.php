@@ -1,5 +1,5 @@
 <?php 
-	render('_header',array('title'=>$title)); 
+	render('_header',array('title'=>'Account Model Details'); 
 	date_default_timezone_set('America/New_York');
 ?>
 <div class="body-wrapper">
@@ -24,13 +24,14 @@
 </script>
 
 <?php
-	/*echo"<pre>";
-		print_r($barcontent_relationship);
-	echo"</pre>";*/
+ if(!empty($error_message)){
+	render('error',array('error_message'=>$error_message));
+ }
+ else{
 ?>
 
 <div class="align_center">
-	<div class="manualmerges_title"> <?php echo $title; ?></div>	
+	<div class="manualmerges_title">Account Model Details</div>	
 </div>
 
 <div style="width:70%; margin:0 auto;">
@@ -226,7 +227,7 @@
 	
 </table>
 
-
+<?php } ?>
 
 <div class="align_right show_query">
 	<a class='inline' href="#inline_content"><img src="assets/images/show_query.png" alt="show query" /></a>

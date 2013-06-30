@@ -1,4 +1,4 @@
-<?php render('_header',array('title'=>$title))?>
+<?php render('_header',array('title'=>'Super Tag Usage Leaderboard'))?>
 <?php
 
 	$timeFrame = "";
@@ -14,18 +14,15 @@
 		<div class="centered">
 			<div class="main_content_temp">
 
-
 <?php
-	/*echo"<pre>";
-		print_r($barcontent);
-		//print_r($newOptions);
-	echo"</pre>";*/
+ if(!empty($error_message)){
+	render('error',array('error_message'=>$error_message));
+ }
+ else{
 ?>
 
-
-<div>
 	<div class="align_center">
-		<div class="manualmerges_title"><?php echo $title; ?></div>
+		<div class="manualmerges_title">Super Tag Usage Leaderboard</div>
 	
 	</div>
 	<script type="text/javascript" charset="utf-8">
@@ -93,6 +90,8 @@
 	<tfoot>
 </table>
 
+<?php } ?>
+
 <div class="align_right show_query">
 	<a class='inline' href="#inline_content"><img src="assets/images/show_query.png" alt="show query" /></a>
 </div>
@@ -125,10 +124,10 @@ SELECT c.super_tag, COUNT(*)
 </div>
 
 		
-</div><!-- manual merges holder -->
 
-			</div>		
-		</div>
+
+		</div>		
+	</div>
 </div>
 <?php 
 	$start = array('start_time'=>$start_time);

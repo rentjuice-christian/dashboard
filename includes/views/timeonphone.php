@@ -1,4 +1,4 @@
-<?php render('_header',array('title'=>$title));  ?>
+<?php render('_header',array('title'=>'Time on Phone'));  ?>
 <?php
 	
 
@@ -176,15 +176,14 @@ $(function () {
 </script>
 
 <?php
-	
-	/*echo"<pre>";
-		print_r($barcontent);
-	echo"</pre>";*/
-	
+ if(!empty($error_message)){
+	render('error',array('error_message'=>$error_message));
+ }
+ else{
 ?>
 
 <div class="align_center">
-	<div class="manualmerges_title"><?php echo $title; ?></div>
+	<div class="manualmerges_title">Time on Phone</div>
 </div>
 
 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" class="form_select" id="form_submit" >
@@ -230,15 +229,11 @@ $(function () {
 	<div style="min-width: 400px; height: 250px; padding-top:150px; margin: 10px auto 0; text-align:center; font-size:24px; border:1px solid #CCCCCC">No Available Data</div>
 <?php 
 }
-else{
-?>
-	<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+else{ ?> <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div> <?php } ?>
 
 <?php } ?>
 
-<div class="align_right show_query">
-	<a class='inline' href="#inline_content"><img src="assets/images/show_query.png" alt="show query" /></a>
-</div>
+<div class="align_right show_query"><a class='inline' href="#inline_content"><img src="assets/images/show_query.png" alt="show query" /></a></div>
 <div style="display:none">
 <div id='inline_content' style='padding:10px; background:#fff;'>
 <pre>

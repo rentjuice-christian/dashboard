@@ -1,4 +1,4 @@
-<?php render('_header',array('title'=>$title))?>
+<?php render('_header',array('title'=>'Incoming Cases by Region'))?>
 <?php
 	$timeFrame = "";
 	$dateMove = "";
@@ -50,17 +50,6 @@
 
 $(function () {
 
-	//var isLoading = false,
-//    $button = $('.select_time');
-//    $button.change(function() {
-//        if (!isLoading) { chart.showLoading(); } 
-//		else { chart.hideLoading();  }
-//        isLoading = !isLoading;
-//    });
-//	//chart initialization
-//	Highcharts.setOptions({
-//		lang: {	loading: 'Waiting for Data' }
-//	});
 	// create the chart
     var chart = new Highcharts.Chart({
         chart: {
@@ -197,15 +186,14 @@ $(function () {
 </script>
 
 <?php
-	
-	/*echo"<pre>";
-		print_r($result2);
-	echo"</pre>";*/
-	
+ if(!empty($error_message)){
+	render('error',array('error_message'=>$error_message));
+ }
+ else{
 ?>
 
 <div class="align_center">
-	<div class="manualmerges_title"><?php echo $title; ?> </div>
+	<div class="manualmerges_title">Incoming Cases by Region</div>
 
 </div>
 
@@ -255,17 +243,14 @@ $(function () {
 	</div>
 </form>
 
+	<?php if($countListings == 0){ ?>
+		<div style="min-width: 400px; height: 250px; padding-top:150px; margin: 10px auto 0; text-align:center; font-size:24px; border:1px solid #CCCCCC">No Available Data</div>
+	<?php 
+	}
+	else{ ?> <div id="container" style="min-width: 400px; height: 550px; margin: 0 auto"></div> <?php } ?>
 
-
-
-<?php if($countListings == 0){ ?>
-	<div style="min-width: 400px; height: 250px; padding-top:150px; margin: 10px auto 0; text-align:center; font-size:24px; border:1px solid #CCCCCC">No Available Data</div>
-<?php 
-}
-else{
-?>
-	<div id="container" style="min-width: 400px; height: 550px; margin: 0 auto"></div>
 <?php } ?>
+
 <div class="align_right show_query">
 	<a class='inline' href="#inline_content"><img src="assets/images/show_query.png" alt="show query" /></a>
 </div>

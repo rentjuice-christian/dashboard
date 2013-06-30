@@ -1,4 +1,4 @@
-<?php render('_header',array('title'=>$title))?>
+<?php render('_header',array('title'=>'Tag Usage Over Time'))?>
 <?php
 
 	$tagUsageLabel = "";
@@ -45,22 +45,7 @@
 
 $(function () {
 
-	//var isLoading = false,
-//    $button = $('.select_time');
-//    $button.change(function() {
-//        if (!isLoading) {
-//            chart.showLoading();
-//        } else {
-//            chart.hideLoading();
-//        }
-//        isLoading = !isLoading;
-//    });
-//	//chart initialization
-//	Highcharts.setOptions({
-//		lang: {
-//			loading: 'Waiting for Data'
-//		}
-//	});
+
 	// create the chart
     var chart = new Highcharts.Chart({
         chart: {
@@ -167,13 +152,9 @@ $(function () {
 
 </script>
 
-<?php
-	//echo"<pre>";
-//		print_r($result);
-//	echo"</pre>";
-?>
+
 <div class="align_center">
-	<div class="manualmerges_title"><?php echo $title; ?></div>
+	<div class="manualmerges_title">Tag Usage Over Time</div>
 </div>
 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" class="form_select" id="form_submit" >
 	<div class="align_right">

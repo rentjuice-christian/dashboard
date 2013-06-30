@@ -1,4 +1,4 @@
-<?php render('_header',array('title'=>$title))?>
+<?php render('_header',array('title'=>'Data Entry QA Queue'))?>
 <?php
 	// get the post hours data
 	$hoursPost = '';
@@ -33,28 +33,10 @@
 		<div class="centered">
 			<div class="main_content_temp">
 			
-			<script type="text/javascript">
+<script type="text/javascript">
 
 $(function () {
 
-	//var isLoading = false,
-//    $button = $('.select_hours');
-//    $button.change(function() {
-//        if (!isLoading) {
-//            chart.showLoading();
-//        } else {
-//            chart.hideLoading();
-//        }
-//        isLoading = !isLoading;
-//    });
-//	//chart initialization
-//	
-//	Highcharts.setOptions({
-//		lang: {
-//			loading: 'Waiting for Data'
-//		}
-//	});
-	
 	// create the chart
     var chart = new Highcharts.Chart({
         chart: {
@@ -146,32 +128,38 @@ $(function () {
 
 </script>
 
+<div class="align_center">
+	<div class="manualmerges_title">Data Entry QA Queue</div>
+</div>
+
 <?php
-/*echo"<pre>";
-print_r($barcontent);
-echo"</pre>";*/
+ if(!empty($error_message)){
+	render('error',array('error_message'=>$error_message));
+ }
+ else{
+?>
+	<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" class="form_select" id="form_submit">
+	<div class="align_right">
+		<input type="hidden" value="queuelength" name="page" />
+		<span>Select Hours: </span>
+		<select name="hours" onchange="submit();" class="select_hours">
+			<option value="24" <?php if($hoursPost == 24){ echo'selected'; }else{ echo''; }  ?>>24 hours</option>
+			<option value="48" <?php if($hoursPost == 48){ echo'selected'; }else{ echo''; }  ?>>48 hours</option>
+			<option value="72" <?php if($hoursPost == 72){ echo'selected'; }else{ echo''; }  ?> >72 hours</option>
+			<option value="168" <?php if($hoursPost == 168){ echo'selected'; }else{ echo''; }  ?>>1 week</option>
+			<option value="336" <?php if($hoursPost == 336){ echo'selected'; }else{ echo''; }  ?>>2 weeks</option>
+			<option value="504" <?php if($hoursPost == 504){ echo'selected'; }else{ echo''; }  ?>>3 weeks</option>
+			<option value="672" <?php if($hoursPost == 672){ echo'selected'; }else{ echo''; }  ?>>4 weeks</option>
+		</select>
+	</div>
+	</form>
+	
+	<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+
+<?php
+ }
 ?>
 
-<div class="align_center">
-	<div class="manualmerges_title"><?php echo $title; ?></div>
-</div>
-
-<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" class="form_select" id="form_submit">
-<div class="align_right">
-	<input type="hidden" value="queuelength" name="page" />
-	<span>Select Hours: </span>
-	<select name="hours" onchange="submit();" class="select_hours">
-		<option value="24" <?php if($hoursPost == 24){ echo'selected'; }else{ echo''; }  ?>>24 hours</option>
-		<option value="48" <?php if($hoursPost == 48){ echo'selected'; }else{ echo''; }  ?>>48 hours</option>
-		<option value="72" <?php if($hoursPost == 72){ echo'selected'; }else{ echo''; }  ?> >72 hours</option>
-		<option value="168" <?php if($hoursPost == 168){ echo'selected'; }else{ echo''; }  ?>>1 week</option>
-		<option value="336" <?php if($hoursPost == 336){ echo'selected'; }else{ echo''; }  ?>>2 weeks</option>
-		<option value="504" <?php if($hoursPost == 504){ echo'selected'; }else{ echo''; }  ?>>3 weeks</option>
-		<option value="672" <?php if($hoursPost == 672){ echo'selected'; }else{ echo''; }  ?>>4 weeks</option>
-	</select>
-</div>
-</form>
-<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
 <div class="align_right show_query">
 	<a class='inline' href="#inline_content"><img src="assets/images/show_query.png" alt="show query" /></a>
 </div>

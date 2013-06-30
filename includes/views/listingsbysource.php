@@ -1,4 +1,4 @@
-<?php render('_header',array('title'=>$title))?>
+<?php render('_header',array('title'=>'Listings by Source'))?>
 
 <?php
 	$timeFrame = "";
@@ -15,8 +15,8 @@
 ?>
 
 <div class="body-wrapper">
-		<div class="centered">
-			<div class="main_content_temp">
+	<div class="centered">
+		<div class="main_content_temp">
 			
 <script type="text/javascript">
 
@@ -81,14 +81,15 @@ $(function () {
 
 </script>
 
-<?php
-/*echo"<pre>";
-print_r($barcontent);
-echo"</pre>";*/
-?>
 
+<?php
+ if(!empty($error_message)){
+	render('error',array('error_message'=>$error_message));
+ }
+ else{
+?>
 <div class="align_center">
-	<div class="manualmerges_title"><?php echo $title; ?></div>
+	<div class="manualmerges_title">Listings by Source</div>
 </div>
 
 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" class="form_select" id="form_submit" >
@@ -113,6 +114,9 @@ echo"</pre>";*/
 </form>
 
 <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+
+<?php } ?>
+
 <div class="align_right show_query">
 	<a class='inline' href="#inline_content"><img src="assets/images/show_query.png" alt="show query" /></a>
 </div>
