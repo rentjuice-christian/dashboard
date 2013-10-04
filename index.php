@@ -29,10 +29,13 @@ try {
 	
 }
 catch(Exception $e) {
-
+	
 	// Display the error page using the "render()" helper function:
 	//render('error',array('error_message'=>$e->getMessage()));
+	
 	render($_GET['page'],array('error_message'=>$e->getMessage(),'title'=>$title));
+	
+	
 	
 }
 

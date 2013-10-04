@@ -35,7 +35,17 @@
 			}
 		
 		?>
+		<div>
+			<?php
+				if(!empty($GLOBALS["dbsource"])){
+			?>
+				This report generated from <?php echo $GLOBALS["dbsource"]; ?>.
+			<?php
+				}
+			?>
 		</div>
+		</div>
+		
 	</div>
 	<div class="footer-wrapper">
 		<div class="centered">

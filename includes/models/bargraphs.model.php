@@ -8,6 +8,8 @@ class BarGraphs{
 	public static function graphsQueueLength($value=''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = "SELECT h AS the_hour,
 					  SUM(IF(ts.de_qa_started, 1, 0)) AS num_in_de_qa_at_hour
@@ -36,24 +38,49 @@ class BarGraphs{
 					 GROUP BY hours.h
 					 ORDER BY hours.h ASC";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
-	
+			try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
+		
+		//$st = $db->prepare($sqlQuery);
+		//$st->execute();
+
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
+		
 	
 	}
 	
 	public static function ticketsByWeekDay(){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = "SELECT WEEKDAY(created_at) as weekday, DAYNAME(created_at) as dayname, COUNT(*) as count
 					 FROM janak.assistly_cases
 					 GROUP BY 1
 					 ORDER BY 1";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+			$st = $db->prepare($sqlQuery);
+			$st->execute();
+			$dbsource = "New Database";
+		}
+		catch (PDOException $e) {
+			$st = $db_old->prepare($sqlQuery);
+			$st->execute();
+			$dbsource = "Old Database";
+		}
+
+		/*$st = $db->prepare($sqlQuery);
+		$st->execute();*/
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -61,14 +88,24 @@ class BarGraphs{
 	public static function ticketsByMonth(){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = "SELECT YEAR(created_at) as year, MONTH(created_at) as month, MONTHNAME(created_at) as monthname, COUNT(*) as count
 					 FROM janak.assistly_cases
 					 GROUP BY 1,2
 					 ORDER BY 1";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -77,6 +114,8 @@ class BarGraphs{
 	public static function dailyNewTicketsAllTime(){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = "SELECT all_data.created_at,
 					  (SELECT COUNT(*)/COUNT(DISTINCT(DATE(created_at)))
@@ -89,8 +128,16 @@ class BarGraphs{
 					ORDER BY 1 ) all_data
 					";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -99,6 +146,8 @@ class BarGraphs{
 	public static function dailyNewTickets($value=''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = "SELECT DATE(created_at) as created_at, COUNT(*) as average_tickets
 					 FROM janak.assistly_cases
@@ -107,8 +156,16 @@ class BarGraphs{
 					 ORDER BY 1
 					";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -117,6 +174,8 @@ class BarGraphs{
 	public static function totalListingsByMarket($value=''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		if($value != "alltime"){
 			$strQuery = "AND DATE(t.applied_on) >= DATE_SUB(CURDATE() , INTERVAL ".$value." DAY)";
@@ -149,8 +208,16 @@ class BarGraphs{
 						DAY(t.applied_on) ASC , o.region_id ASC
 					 ";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -158,6 +225,8 @@ class BarGraphs{
 	public static function manualMergesReport($value=''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		if($value == ""){
 			$strQuery = "AND DATE_ADD(t.created_on, INTERVAL 2 WEEK) > SYSDATE()";
@@ -186,8 +255,16 @@ class BarGraphs{
 						ORDER BY 2 desc
 					 ";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -196,6 +273,8 @@ class BarGraphs{
 	public static function tagUsageLeaderBoard($value=''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		if(!empty($value)){
 			if($value != "alltime"){
@@ -217,8 +296,16 @@ class BarGraphs{
 						 ORDER BY 2 desc
 					 ";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -227,6 +314,8 @@ class BarGraphs{
 	public static function tagUsageFilter($value='',$tickettype=''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		if(!empty($value)){
 			if($value != "alltime"){$strQuery = "AND DATE_ADD(created_at, INTERVAL ".$value." DAY) >= SYSDATE()"; }
@@ -253,8 +342,16 @@ class BarGraphs{
 					 
 					";
 					 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -263,6 +360,8 @@ class BarGraphs{
 	public static function tagUsageOvertime($valueTime='',$valueLabel='',$valueMove = ''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		if($valueLabel !="alltags"){
 			$moveString1="FROM janak.assistly_case_labels cl, janak.assistly_cases c";
@@ -289,8 +388,16 @@ class BarGraphs{
 					 ORDER BY days.created_at";
 
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -299,6 +406,8 @@ class BarGraphs{
 	public static function onBoardingTicketsbyStatus($value=''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		if(!empty($value)){
 			if($value != "alltime"){
@@ -326,8 +435,16 @@ class BarGraphs{
 					 ORDER BY 2 desc
 					 ";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -336,6 +453,8 @@ class BarGraphs{
 	public static function dataImportsOverTime(){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = "SELECT LEFT(o.created_on,7) as createdon, COUNT(DISTINCT l.office_id) as countoffice
 						FROM rentjuice.offices o INNER JOIN rentjuice.listings l ON l.office_id = o.id
@@ -347,8 +466,16 @@ class BarGraphs{
 						ORDER BY 1
 					 ";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -357,6 +484,8 @@ class BarGraphs{
 	public static function listingsImportedOverTime(){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = "SELECT LEFT(o.created_on,7) as MONTH,
 						   IF(l.active = 1,'Active Listings', 'Inactive Listings') as listing_status,
@@ -374,8 +503,16 @@ class BarGraphs{
 					 ";
 
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -384,6 +521,8 @@ class BarGraphs{
 	public static function dataEntryJobs($value = ''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		if(!empty($value)){
 			if($value != "alltime"){
@@ -471,8 +610,16 @@ class BarGraphs{
 					 GROUP BY the_date
 					 ";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -481,6 +628,8 @@ class BarGraphs{
 	public static function selectSuperTag($date='',$tickettype=''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		$strTicketType = "";
 		
@@ -509,8 +658,16 @@ class BarGraphs{
 					 ORDER BY super_tag
 					 ";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -519,6 +676,8 @@ class BarGraphs{
 	public static function ticketsInboundByUser($date='',$tickettype='',$supertag='',$tags=''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		if($date != "alltime"){ $strDate = " AND DATE_ADD(ca.created_at, INTERVAL ".$date." DAY) >= SYSDATE()"; }
 		else{ $strDate =""; }
@@ -549,8 +708,16 @@ class BarGraphs{
 					 LIMIT 100
 					 ";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -559,6 +726,8 @@ class BarGraphs{
 	public static function ticketsInboundByUserTop20($value=''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		if($value != "alltime"){ $strQuery = "AND DATE_ADD(ca.created_at, INTERVAL ".$value." DAY) >= SYSDATE()"; }
 		else{ $strQuery =""; }
@@ -576,8 +745,16 @@ class BarGraphs{
 						LIMIT 20) a
 					 ";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -586,6 +763,8 @@ class BarGraphs{
 	public static function ticketsInboundByUserOther($value=''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		if($value != "alltime"){ $strQuery = "AND DATE_ADD(ca.created_at, INTERVAL ".$value." DAY) >= SYSDATE()"; }
 		else{ $strQuery =""; }
@@ -604,8 +783,16 @@ class BarGraphs{
 					LIMIT 1000000 OFFSET 20 ) a
 					 ";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -615,6 +802,8 @@ class BarGraphs{
 	public static function ticketsInboundByOffice($date='',$tickettype='',$supertag='',$tags=''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		if($date != "alltime"){ $strDate = " AND DATE_ADD(ca.created_at, INTERVAL ".$date." DAY) >= SYSDATE()"; }
 		else{ $strDate =""; }
@@ -645,8 +834,16 @@ class BarGraphs{
 					LIMIT 100
 					 ";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -655,6 +852,8 @@ class BarGraphs{
 	public static function ticketsInboundByOfficeTop20($value=''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 
 		if($value != "alltime"){$strQuery = "AND DATE_ADD(ca.created_at, INTERVAL ".$value." DAY) >= SYSDATE()";}
@@ -675,8 +874,16 @@ class BarGraphs{
 					LIMIT 20) a
 					 ";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -685,6 +892,8 @@ class BarGraphs{
 	public static function ticketsInboundByOfficeOther($value=''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		if($value != "alltime"){$strQuery = "AND DATE_ADD(ca.created_at, INTERVAL ".$value." DAY) >= SYSDATE()";}
 		else{$strQuery ="";}
@@ -703,8 +912,16 @@ class BarGraphs{
 					LIMIT 1000000 offset 20) a
 					 ";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -713,6 +930,8 @@ class BarGraphs{
 	public static function resolvedBySuperTagUsername($timespan=''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		$sqlQuery = "SELECT u.last_name, u.first_name, u.id rentjuice_user_id, COUNT(*) as user_count
 					  FROM janak.assistly_cases ca, rentjuice.users u
@@ -722,8 +941,16 @@ class BarGraphs{
 					 ORDER BY last_name, first_name
 					 ";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -732,6 +959,8 @@ class BarGraphs{
 	public static function resolvedBySuperTagOffice($timespan=''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		$sqlQuery = "SELECT o.name, o.id rentjuice_office_id, COUNT(*) ticket_counts
 					  FROM janak.assistly_cases ca, rentjuice.offices o
@@ -741,8 +970,16 @@ class BarGraphs{
 					 ORDER BY NAME
 					 ";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -751,6 +988,8 @@ class BarGraphs{
 	public static function resolvedBySuperTag($timespan="",$movingaverage="",$type="",$office='',$users=''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		if($type != "alltickets"){ 	$strQueryType = "AND channel = '".$type."'";  }
 		else{ 	$strQueryType =""; 	}
@@ -787,8 +1026,16 @@ class BarGraphs{
 						   ) tag_days
 					 ORDER BY tag_days.resolved_at, tag_days.tag_name ASC ";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -797,6 +1044,8 @@ class BarGraphs{
 	public static function resolvedByAgent($timespan="",$movingaverage="",$type="",$tags=""){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 	
 		
 		if($type != "alltickets"){ 	$strQueryType = "AND channel = '".$type."'";  }
@@ -839,8 +1088,16 @@ class BarGraphs{
 				   ) user_days
 			 ORDER BY user_days.resolved_at, username ASC";
 					 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -849,6 +1106,8 @@ class BarGraphs{
 	public static function resolvedByAgent2($timespan="",$type="",$tags=""){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		if($timespan != "alltime"){
 			$strQueryTime = "AND DATE_ADD(resolved_at, INTERVAL ".$timespan." DAY) > SYSDATE()";
@@ -880,8 +1139,16 @@ class BarGraphs{
 					 ORDER BY 2 DESC
 					 ";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -890,6 +1157,8 @@ class BarGraphs{
 	public static function ticketSearchForOffices($date = ""){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		if($date != "alltime"){ $strQuery = "AND DATE_ADD(ca.created_at, INTERVAL ".$date.") >= SYSDATE()"; }
 		else{ $strQuery ="";}
@@ -904,8 +1173,16 @@ class BarGraphs{
 					 ORDER BY 1
 					 ";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -914,6 +1191,8 @@ class BarGraphs{
 	public static function ticketSearchForOffices2($value="", $date=""){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		if($date != "alltime"){ $strQuery = "AND DATE_ADD(ca.created_at, INTERVAL ".$date.") >= SYSDATE()"; }
 		else{ $strQuery ="";}
@@ -936,8 +1215,16 @@ class BarGraphs{
 					   ".$strQuery."
 					 ORDER BY ca.created_at DESC";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -946,6 +1233,8 @@ class BarGraphs{
 	public static function ticketSearchForUsers($date=""){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		if($date != "alltime"){ $strQuery = "AND DATE_ADD(ca.created_at, INTERVAL ".$date.") >= SYSDATE()"; }
 		else{ $strQuery =""; }
@@ -960,8 +1249,16 @@ class BarGraphs{
 					 ORDER BY 1
 					 ";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -970,6 +1267,8 @@ class BarGraphs{
 	public static function ticketSearchForUsers2($value="",$date=""){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		if($date != "alltime"){ $strQuery = "AND DATE_ADD(ca.created_at, INTERVAL ".$date.") >= SYSDATE()"; }
 		else{ $strQuery =""; }
@@ -993,8 +1292,16 @@ class BarGraphs{
 					 ORDER BY ca.created_at DESC
 					 ";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1003,14 +1310,24 @@ class BarGraphs{
 	public static function syncStatus(){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = "SELECT * FROM janak.assistly_sync_logfiles
 					 ORDER BY started_at desc
 					 LIMIT 100
 					 ";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1019,12 +1336,22 @@ class BarGraphs{
 	public static function salesForceSyncStatus(){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = "SELECT * FROM janak.salesforce_sync_logfiles
 					 ORDER BY started_at desc";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1033,6 +1360,8 @@ class BarGraphs{
 	public static function byOfficeType($move="",$time=""){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = "SELECT office_type_days.office_type,
 					   office_type_days.created_at,
@@ -1062,8 +1391,16 @@ class BarGraphs{
 					   ) office_type_days
 				 ORDER BY office_type_days.created_at, office_type_days.office_type";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1072,6 +1409,8 @@ class BarGraphs{
 	public static function resolutionTime($movingAverage = '',$timeSpan = '',$groupBy = ''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = "SELECT days.created_at,
 
@@ -1096,8 +1435,16 @@ class BarGraphs{
 				 ORDER BY days.created_at ASC
 				";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1106,6 +1453,8 @@ class BarGraphs{
 	public static function casesByRegion($movingAverage = '',$timeSpan = '',$region = ''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		$strQuery="";
 		
@@ -1161,8 +1510,16 @@ class BarGraphs{
 
 				";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1171,6 +1528,8 @@ class BarGraphs{
 	public static function interByChannels($move="",$time=""){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = "SELECT
 					   channel_days.created_at,
@@ -1196,8 +1555,16 @@ class BarGraphs{
 					   ) channel_days
 					   ORDER BY channel_days.created_at";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1206,6 +1573,8 @@ class BarGraphs{
 	public static function interByAgent($move="",$time="",$type="",$direction = ""){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		if($type != "alltickets"){ 	$strQueryType = "AND i.channel = '".$type."'";  }
 		else{ 	$strQueryType =""; 	}
@@ -1243,8 +1612,16 @@ class BarGraphs{
 					   ) user_days
 					ORDER BY created_at, username ASC";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1253,13 +1630,23 @@ class BarGraphs{
 	public static function salesForceApiModels(){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = "SELECT id, NAME, record_count, field_count, label, queryable, child_relationships, FIELDS
 					  FROM janak.salesforce_models
 					 ORDER BY NAME";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1270,6 +1657,8 @@ class BarGraphs{
 	public static function salesForceFields($name=''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		if(!empty($name)){ $strQuery = "WHERE model_name = '".$name."'"; }
 		else{ $strQuery = ""; }
@@ -1280,8 +1669,16 @@ class BarGraphs{
 					 ORDER BY Name
 					";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1290,6 +1687,8 @@ class BarGraphs{
 	public static function salesForceRelationships($name=''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		if(!empty($name)){ 
 			$strQuery = "WHERE s.parent_object = '".$name."'";
@@ -1311,8 +1710,16 @@ class BarGraphs{
 					 ".$strQuery2."
 					";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1321,6 +1728,8 @@ class BarGraphs{
 	public static function officeGrowth(){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = "SELECT t.created,
 						   (@agency_running_total := @agency_running_total + t.agency_count) AS agency_running_total,
@@ -1336,8 +1745,16 @@ class BarGraphs{
 						   ) t, (SELECT @agency_running_total := 0 AS dummy, @landlord_running_total := 0 AS dummy2) dummy
 					";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1346,6 +1763,8 @@ class BarGraphs{
 	public static function listingsGrowth(){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = "SELECT t.created,
 						   (@agency_running_total := @agency_running_total + t.agency_count) AS agency_running_total,
@@ -1362,8 +1781,16 @@ class BarGraphs{
 						   ) t, (SELECT @agency_running_total := 0 AS dummy, @landlord_running_total := 0 AS dummy2) dummy
 					";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1372,6 +1799,8 @@ class BarGraphs{
 	public static function userGrowth(){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = "SELECT t.created,
 						   (@agency_running_total := @agency_running_total + t.agency_count) AS agency_running_total,
@@ -1388,8 +1817,16 @@ class BarGraphs{
 						   ) t, (SELECT @agency_running_total := 0 AS dummy, @landlord_running_total := 0 AS dummy2) dummy
 					";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1398,6 +1835,8 @@ class BarGraphs{
 	public static function superTagsDefinition(){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = "SELECT tag_count, cl.tag_name, t.tag_name super_tag_name
 					  FROM ( 
@@ -1413,8 +1852,16 @@ class BarGraphs{
 					  
 					 ORDER BY cl.tag_count desc";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1423,11 +1870,21 @@ class BarGraphs{
 	public static function superTagPriorities(){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = "SELECT tag_name, priority FROM janak.super_tags ORDER BY priority";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1436,6 +1893,8 @@ class BarGraphs{
 	public static function superTagUsageOvertime($valueTime='',$valueLabel='',$valueMove = ''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		if($valueLabel !="alltags"){ $label=" AND c.super_tag = '".$valueLabel."'"; }
 		else{ $label=""; }
@@ -1459,8 +1918,16 @@ class BarGraphs{
 					ORDER BY days.created_at";
 	
 						
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1469,6 +1936,8 @@ class BarGraphs{
 	public static function superTagUsageFilter($value=''){
 
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		if(!empty($value)){
 			if($value != "alltime"){ $strQuery = "WHERE DATE_ADD(c.created_at, INTERVAL ".$value." DAY) >= SYSDATE()"; }
@@ -1482,8 +1951,16 @@ class BarGraphs{
 					 GROUP BY super_tag
 					 ORDER BY super_tag";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1492,6 +1969,8 @@ class BarGraphs{
 	public static function superTagUsageLeader($value=''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		if(!empty($value)){
 			if($value != "alltime"){ $strQuery = "WHERE DATE_ADD(created_at, INTERVAL ".$value." DAY) >= SYSDATE()"; }
@@ -1506,8 +1985,16 @@ class BarGraphs{
 					 ORDER BY 2 DESC
 					 ";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1516,6 +2003,8 @@ class BarGraphs{
 	public static function duplicateAccounts(){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = "SELECT c1.id customer_id, c1.name, c1.sforce_acct_id, c1.created_on, c1.status, c1.*
 						  FROM rentjuice.customers c1,
@@ -1531,8 +2020,16 @@ class BarGraphs{
 						ORDER BY c1.sforce_acct_id
 						";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1541,6 +2038,8 @@ class BarGraphs{
 	public static function badSalesforceID($status='',$show=''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		if($status == 'exclude') { $strQuery1= 'AND o.status <> "free"'; }
 		else{ $strQuery1=''; }
@@ -1566,8 +2065,16 @@ class BarGraphs{
 					 ORDER BY o.created_on DESC
 					';
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1576,6 +2083,8 @@ class BarGraphs{
 	public static function noLastName(){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = 'SELECT id user_id, first_name, last_name, TYPE user_type, date_joined
 					   FROM rentjuice.users u
@@ -1583,8 +2092,16 @@ class BarGraphs{
 					  ORDER BY id desc
 					';
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1593,6 +2110,8 @@ class BarGraphs{
 	public static function fonalitySalesforce(){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = 'SELECT CONCAT_WS(",",IF(LENGTH(a.id),"Account",NULL),
                      IF(LENGTH(l.id),"Lead",NULL),
@@ -1613,8 +2132,16 @@ class BarGraphs{
 					 ORDER BY 2 DESC
 					';
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1623,6 +2150,8 @@ class BarGraphs{
 	public static function timeOnPhone($movingaverage = '', $timespan = ''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = 'SELECT user_days.username,
 					   user_days.created_at,
@@ -1650,8 +2179,16 @@ class BarGraphs{
 				 ORDER BY user_days.created_at, username ASC 
 					';
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1660,6 +2197,8 @@ class BarGraphs{
 	public static function numberOfCalls($movingaverage = '', $timespan = ''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = 'SELECT user_days.username,
 						   user_days.created_at,
@@ -1686,8 +2225,16 @@ class BarGraphs{
 						   ) user_days
 					 ORDER BY user_days.created_at, username ASC ';
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1696,6 +2243,8 @@ class BarGraphs{
 	public static function longestCalls($time=''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = "SELECT u.name,
 					   fonality_uae_phone_number_custom,
@@ -1723,8 +2272,16 @@ class BarGraphs{
 				 LIMIT 1000
 				";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1733,6 +2290,8 @@ class BarGraphs{
 	public static function listingSourcesOvertime($time='',$status=''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 		
 		if($status =="active"){ $sqlQuery="l.active = 1 AND "; }
 		if($status =="all"){ $sqlQuery=""; }		
@@ -1772,8 +2331,16 @@ class BarGraphs{
 						 WHERE id <= '.$time.') days
 				 ORDER BY days.created_on ';
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1782,6 +2349,8 @@ class BarGraphs{
 	public static function listingsBySource($time=''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = 'SELECT "feed sync" AS "source", COUNT(l.id) AS count_data
 					  FROM rentjuice.listings l
@@ -1808,8 +2377,16 @@ class BarGraphs{
 					   AND DATE(l.created) >= DATE_SUB(CURDATE() , INTERVAL '.$time.' DAY) 
 				';
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1818,6 +2395,8 @@ class BarGraphs{
 	public static function ticketsCustomerType($time=''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = "SELECT day_customer_type.created_on,
 						   day_customer_type.customer_type,
@@ -1842,8 +2421,16 @@ class BarGraphs{
 					 ORDER BY day_customer_type.created_on
 				     ";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
@@ -1853,6 +2440,8 @@ class BarGraphs{
 	public static function runningTotalByAgent($time=''){
 	
 		global $db;
+		global $db_old;
+		global $dbsource;
 
 		$sqlQuery = "SELECT resolved_at,
 					   username,
@@ -1911,8 +2500,16 @@ class BarGraphs{
 					   ) dummy
 				     ";
 
-		$st = $db->prepare($sqlQuery);
-		$st->execute();
+		try {
+				$st = $db->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "New Database";
+			}
+			catch (PDOException $e) {
+				$st = $db_old->prepare($sqlQuery);
+				$st->execute();
+				$dbsource = "Old Database";
+			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
 	
