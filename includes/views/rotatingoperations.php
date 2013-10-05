@@ -1,4 +1,5 @@
-<?php render('_header')?>
+<?php render('_header',array('title'=>'Rotating Graphs'));  ?>
+
 
 <?php
 	// for the Display Values

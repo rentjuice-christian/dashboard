@@ -41,12 +41,12 @@ class BarGraphs{
 			try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 		
 		//$st = $db->prepare($sqlQuery);
@@ -71,12 +71,12 @@ class BarGraphs{
 		try {
 			$st = $db->prepare($sqlQuery);
 			$st->execute();
-			$dbsource = "New Database";
+			$dbsource = "RJ Analytics Database";
 		}
 		catch (PDOException $e) {
 			$st = $db_old->prepare($sqlQuery);
 			$st->execute();
-			$dbsource = "Old Database";
+			$dbsource = "Slave Ops Database";
 		}
 
 		/*$st = $db->prepare($sqlQuery);
@@ -99,12 +99,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -131,12 +131,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -159,12 +159,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -211,12 +211,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -258,12 +258,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -299,12 +299,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -345,12 +345,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -391,12 +391,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -438,12 +438,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -469,12 +469,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -506,12 +506,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -613,12 +613,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -661,12 +661,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -711,12 +711,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -748,12 +748,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -786,12 +786,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -837,12 +837,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -877,12 +877,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -915,12 +915,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -944,12 +944,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -973,12 +973,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -1029,12 +1029,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -1091,12 +1091,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -1142,12 +1142,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -1176,12 +1176,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -1218,12 +1218,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -1252,12 +1252,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -1295,12 +1295,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -1321,12 +1321,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -1345,12 +1345,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -1394,12 +1394,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -1438,12 +1438,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -1513,12 +1513,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -1558,12 +1558,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -1615,12 +1615,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -1640,12 +1640,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -1672,12 +1672,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -1713,12 +1713,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -1748,12 +1748,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -1784,12 +1784,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -1820,12 +1820,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -1855,12 +1855,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -1878,12 +1878,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -1921,12 +1921,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -1954,12 +1954,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -1988,12 +1988,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -2023,12 +2023,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -2068,12 +2068,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -2095,12 +2095,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -2135,12 +2135,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -2182,12 +2182,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -2228,12 +2228,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -2275,12 +2275,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -2334,12 +2334,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -2380,12 +2380,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -2424,12 +2424,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
@@ -2503,12 +2503,12 @@ class BarGraphs{
 		try {
 				$st = $db->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "New Database";
+				$dbsource = "RJ Analytics Database";
 			}
 			catch (PDOException $e) {
 				$st = $db_old->prepare($sqlQuery);
 				$st->execute();
-				$dbsource = "Old Database";
+				$dbsource = "Slave Ops Database";
 			}
 	
 		return $st->fetchAll(PDO::FETCH_CLASS, "BarGraphs");
